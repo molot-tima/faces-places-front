@@ -1,0 +1,54 @@
+@startuml
+skinparam rectangle {
+  BackgroundColor #F8F8F8
+  BorderColor #555
+  RoundCorner 20
+}
+
+title Navigation Map – Leisure Discovery App (Updated)
+
+rectangle "Authorization Screen\n\n<<actions>>\n• Log in\n• Sign up" as AUTH
+
+rectangle "Main Screen\n\n<<actions>>\n• Open settings\n• Search by name\n• Open test\n• View selections\n• View favorites" as MAIN
+
+rectangle "Settings\n\n<<actions>>\n• Change preferences\n• Save settings" as SETTINGS
+
+rectangle "Places List\n(Non-personalized)\n\n<<actions>>\n• Open card" as LIST
+
+rectangle "Test\n\n<<actions>>\n• Start test\n• Resume test" as TEST
+
+rectangle "Personalized Selection\n\n<<actions>>\n• Open card\n• Remove card\n• Add to favorites" as PERS
+
+rectangle "Card\n\n<<actions>>\n• Back to list\n• Open booking\n• Add to favorites\n• Remove from favorites" as CARD
+
+rectangle "Favorites\n\n<<actions>>\n• Open card\n• Remove from favorites" as FAV
+
+rectangle "Booking\n(External Service)" as BOOK
+
+AUTH --> MAIN
+
+MAIN --> SETTINGS
+SETTINGS --> MAIN
+
+MAIN --> LIST
+LIST --> CARD
+CARD --> LIST
+
+MAIN --> TEST
+TEST --> MAIN
+
+TEST --> PERS
+PERS --> TEST
+
+PERS --> CARD
+CARD --> PERS
+
+MAIN --> FAV
+FAV --> MAIN
+
+FAV --> CARD
+CARD --> FAV
+
+CARD --> BOOK
+BOOK --> CARD
+@enduml
