@@ -1,0 +1,53 @@
+@startuml
+title Activity Diagram – Leisure Selection App
+
+start
+
+:Open app;
+
+if (Authorized?) then (No)
+  :Authorization Screen;
+  :Login / Register;
+endif
+
+:Main Screen;
+
+fork
+  :Open Settings;
+  :Change preferences;
+  :Return to Main;
+fork again
+  :Search places by name;
+  :Open Places List;
+  :Open Card;
+fork again
+  :View selections;
+  :Open Places List;
+  :Open Card;
+fork again
+  :Start Test;
+  :Pass Test;
+  :Get Personalized Selection;
+  :Open Card;
+fork again
+  :Open Favorites;
+  :Select saved place;
+  :Open Card;
+end fork
+
+:Card Screen;
+
+if (Add to favorites?) then (Yes)
+  :Save to Favorites;
+endif
+
+if (Book place?) then (Yes)
+  :Go to Booking;
+  :External Booking Service;
+  :Return to Card;
+endif
+
+:Return to Main;
+
+stop
+@enduml
