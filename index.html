@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faces & Places - Главная</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="page has-bottom-nav">
+    <div class="container">
+
+      <!-- Header -->
+      <header class="page-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <span>Faces & Places</span>
+        </div>
+        <a href="settings.html" class="btn btn-ghost btn-icon-sm">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </a>
+      </header>
+
+      <div class="page-content">
+
+        <!-- Greeting -->
+        <section class="section">
+          <h1 class="heading-3 mb-sm">Привет, Алексей!</h1>
+          <p class="text-muted">Куда отправимся сегодня?</p>
+        </section>
+
+        <!-- Search -->
+        <section class="section">
+          <a href="places.html" class="search-bar">
+            <span class="icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+            </span>
+            <input type="text" placeholder="Поиск мест..." readonly>
+          </a>
+        </section>
+
+        <!-- CTA: Take the test -->
+        <section class="section">
+          <a href="test.html" class="card" style="background: var(--gradient-primary); color: white;">
+            <div class="p-lg">
+              <div class="flex items-center gap-md mb-md">
+                <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="heading-4" style="color: white;">Пройдите тест</h3>
+                  <p style="opacity: 0.9;">Получите персональные рекомендации</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-sm" style="opacity: 0.9;">
+                <span>5 минут</span>
+                <span>•</span>
+                <span>10 вопросов</span>
+              </div>
+            </div>
+          </a>
+        </section>
+
+        <!-- Popular Categories -->
+        <section class="section">
+          <div class="section-header">
+            <h2 class="section-title">Категории</h2>
+            <a href="places.html" class="section-link">Все</a>
+          </div>
+          <div class="grid grid-3 gap-md">
+            <a href="places.html" class="card text-center p-md">
+              <div style="font-size: 32px; margin-bottom: var(--space-sm);">🍽️</div>
+              <span class="text-sm">Рестораны</span>
+            </a>
+            <a href="places.html" class="card text-center p-md">
+              <div style="font-size: 32px; margin-bottom: var(--space-sm);">🎭</div>
+              <span class="text-sm">Культура</span>
+            </a>
+            <a href="places.html" class="card text-center p-md">
+              <div style="font-size: 32px; margin-bottom: var(--space-sm);">🌳</div>
+              <span class="text-sm">Природа</span>
+            </a>
+            <a href="places.html" class="card text-center p-md">
+              <div style="font-size: 32px; margin-bottom: var(--space-sm);">🎮</div>
+              <span class="text-sm">Развлечения</span>
+            </a>
+            <a href="places.html" class="card text-center p-md">
+              <div style="font-size: 32px; margin-bottom: var(--space-sm);">💆</div>
+              <span class="text-sm">Спа & Релакс</span>
+            </a>
+            <a href="places.html" class="card text-center p-md">
+              <div style="font-size: 32px; margin-bottom: var(--space-sm);">🏃</div>
+              <span class="text-sm">Спорт</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- For You Section -->
+        <section class="section">
+          <div class="section-header">
+            <h2 class="section-title">Для вас</h2>
+            <a href="selection.html" class="section-link">Все рекомендации</a>
+          </div>
+          <div class="list">
+            <a href="card.html" class="card card-horizontal">
+              <div class="card-image">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">Арт-кафе "Муза"</h3>
+                <p class="card-subtitle">Кафе • 1.2 км</p>
+                <div class="tags mt-sm">
+                  <span class="tag tag-accent text-xs">Для вас</span>
+                </div>
+              </div>
+            </a>
+            <a href="card.html" class="card card-horizontal">
+              <div class="card-image">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">Парк "Зелёная роща"</h3>
+                <p class="card-subtitle">Парк • 2.5 км</p>
+                <div class="tags mt-sm">
+                  <span class="tag tag-teal text-xs">Природа</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- Popular Places -->
+        <section class="section">
+          <div class="section-header">
+            <h2 class="section-title">Популярное</h2>
+            <a href="places.html" class="section-link">Все места</a>
+          </div>
+          <div class="flex gap-md" style="overflow-x: auto; margin: 0 calc(var(--space-md) * -1); padding: 0 var(--space-md);">
+            <a href="card.html" class="card" style="min-width: 200px; flex-shrink: 0;">
+              <div class="card-image" style="height: 120px;">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                <button class="card-favorite btn btn-ghost btn-icon-sm" style="color: white;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title text-sm">Театр "Современник"</h3>
+                <p class="card-subtitle text-xs">Театр • 3.1 км</p>
+              </div>
+            </a>
+            <a href="card.html" class="card" style="min-width: 200px; flex-shrink: 0;">
+              <div class="card-image" style="height: 120px;">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+                <button class="card-favorite btn btn-ghost btn-icon-sm" style="color: white;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title text-sm">Ботанический сад</h3>
+                <p class="card-subtitle text-xs">Сад • 4.7 км</p>
+              </div>
+            </a>
+            <a href="card.html" class="card" style="min-width: 200px; flex-shrink: 0;">
+              <div class="card-image" style="height: 120px;">
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);"></div>
+                <button class="card-favorite btn btn-ghost btn-icon-sm" style="color: white;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title text-sm">Спа-центр "Оазис"</h3>
+                <p class="card-subtitle text-xs">Спа • 1.8 км</p>
+              </div>
+            </a>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom">
+      <div class="nav-bottom-inner">
+        <a href="index.html" class="nav-item active">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span class="nav-item-label">Главная</span>
+        </a>
+        <a href="places.html" class="nav-item">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+          <span class="nav-item-label">Поиск</span>
+        </a>
+        <a href="test.html" class="nav-item">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          </svg>
+          <span class="nav-item-label">Тест</span>
+        </a>
+        <a href="favorites.html" class="nav-item">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span class="nav-item-label">Избранное</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</body>
+</html>

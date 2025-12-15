@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faces & Places - Настройки</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="page">
+    <div class="container">
+
+      <!-- Header -->
+      <header class="page-header">
+        <a href="index.html" class="back-btn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+          <span>Назад</span>
+        </a>
+        <button class="btn btn-primary btn-sm">Сохранить</button>
+      </header>
+
+      <div class="page-content">
+
+        <!-- Profile Section -->
+        <section class="section">
+          <h1 class="heading-3 mb-lg">Настройки</h1>
+
+          <div class="card p-lg mb-lg">
+            <div class="flex items-center gap-md">
+              <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 600;">
+                А
+              </div>
+              <div class="flex-1">
+                <h3 class="heading-4">Алексей Иванов</h3>
+                <p class="text-muted text-sm">alexey@email.com</p>
+              </div>
+              <button class="btn btn-ghost btn-icon-sm">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                  <path d="m15 5 4 4"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Preferences Section -->
+        <section class="section">
+          <h2 class="section-title mb-md">Предпочтения</h2>
+
+          <div class="card">
+            <!-- Location -->
+            <div class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
+              <div class="list-item-icon" style="background: rgba(255, 107, 107, 0.15); color: var(--color-accent-primary);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div class="list-item-content">
+                <div class="font-weight: 500;">Местоположение</div>
+                <div class="text-sm text-muted">Москва, Россия</div>
+              </div>
+              <div class="list-item-action">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Radius -->
+            <div class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
+              <div class="list-item-icon" style="background: rgba(78, 205, 196, 0.15); color: var(--color-accent-secondary);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </div>
+              <div class="list-item-content">
+                <div class="font-weight: 500;">Радиус поиска</div>
+                <div class="text-sm text-muted">5 км</div>
+              </div>
+              <div class="list-item-action">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Budget -->
+            <div class="list-item">
+              <div class="list-item-icon" style="background: rgba(255, 230, 109, 0.3); color: #d4a000;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="1" x2="12" y2="23"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </div>
+              <div class="list-item-content">
+                <div class="font-weight: 500;">Бюджет</div>
+                <div class="text-sm text-muted">Средний</div>
+              </div>
+              <div class="list-item-action">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Interests -->
+        <section class="section">
+          <h2 class="section-title mb-md">Интересы</h2>
+          <p class="text-muted text-sm mb-md">Выберите категории, которые вам интересны</p>
+
+          <div class="tags" style="gap: var(--space-sm);">
+            <button class="tag tag-accent">🍽️ Рестораны</button>
+            <button class="tag tag-teal">🎭 Театры</button>
+            <button class="tag">🎬 Кино</button>
+            <button class="tag tag-purple">🌳 Природа</button>
+            <button class="tag">🎮 Развлечения</button>
+            <button class="tag tag-accent">💆 Спа</button>
+            <button class="tag">🏃 Спорт</button>
+            <button class="tag tag-teal">🎨 Музеи</button>
+            <button class="tag">🎵 Концерты</button>
+            <button class="tag">🛍️ Шопинг</button>
+          </div>
+        </section>
+
+        <!-- Notifications Section -->
+        <section class="section">
+          <h2 class="section-title mb-md">Уведомления</h2>
+
+          <div class="card">
+            <div class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
+              <div class="list-item-content">
+                <div style="font-weight: 500;">Push-уведомления</div>
+                <div class="text-sm text-muted">Новые рекомендации</div>
+              </div>
+              <div class="list-item-action">
+                <!-- Toggle switch -->
+                <div style="width: 48px; height: 28px; background: var(--color-accent-secondary); border-radius: 14px; position: relative;">
+                  <div style="width: 24px; height: 24px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; box-shadow: var(--shadow-sm);"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="list-item">
+              <div class="list-item-content">
+                <div style="font-weight: 500;">Email-рассылка</div>
+                <div class="text-sm text-muted">Еженедельные подборки</div>
+              </div>
+              <div class="list-item-action">
+                <!-- Toggle switch off -->
+                <div style="width: 48px; height: 28px; background: var(--color-bg-secondary); border-radius: 14px; position: relative;">
+                  <div style="width: 24px; height: 24px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px; box-shadow: var(--shadow-sm);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Other -->
+        <section class="section">
+          <h2 class="section-title mb-md">Другое</h2>
+
+          <div class="card">
+            <a href="#" class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
+              <div class="list-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </div>
+              <div class="list-item-content">Помощь</div>
+              <div class="list-item-action">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </div>
+            </a>
+
+            <a href="#" class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
+              <div class="list-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10 9 9 9 8 9"/>
+                </svg>
+              </div>
+              <div class="list-item-content">Условия использования</div>
+              <div class="list-item-action">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </div>
+            </a>
+
+            <a href="#" class="list-item">
+              <div class="list-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+              <div class="list-item-content">Политика конфиденциальности</div>
+              <div class="list-item-action">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- Logout -->
+        <section class="section">
+          <button class="btn btn-secondary btn-full" style="color: var(--color-accent-primary);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Выйти из аккаунта
+          </button>
+        </section>
+
+        <!-- App version -->
+        <p class="text-center text-muted text-sm mt-lg mb-lg">
+          Версия 1.0.0
+        </p>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>
