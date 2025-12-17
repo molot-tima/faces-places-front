@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Faces & Places - Вход</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,17 +10,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="page relative overflow-hidden">
-    <!-- Decorative blobs -->
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
+  <!-- Animated background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
 
+  <div class="page">
     <div class="container">
-      <div class="page-content flex flex-col justify-center" style="min-height: 100vh;">
+      <div class="page-content flex flex-col justify-center" style="min-height: 100vh; min-height: 100dvh;">
 
         <!-- Logo & Intro -->
-        <div class="text-center mb-2xl">
+        <div class="text-center mb-2xl animate-fade-in">
           <div class="logo justify-center mb-lg">
             <div class="logo-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -38,7 +41,7 @@
         </div>
 
         <!-- Auth Form -->
-        <div class="card p-lg">
+        <div class="glass glass-strong p-lg animate-slide-up">
           <!-- Tabs -->
           <div class="flex gap-sm mb-lg">
             <button class="btn btn-primary flex-1">Вход</button>

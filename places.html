@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Faces & Places - Места</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,6 +10,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Animated background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
   <div class="page has-bottom-nav">
     <div class="container">
 
@@ -79,12 +86,12 @@
         </div>
 
         <!-- Places Grid -->
-        <div class="list">
+        <div class="list stagger-children">
           <!-- Place 1 -->
           <a href="card.html" class="card">
             <div class="card-image">
               <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
-              <span class="card-badge">Популярное</span>
+              <span class="card-badge card-badge-accent">Популярное</span>
               <button class="card-favorite btn btn-ghost btn-icon-sm" style="color: white;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -107,7 +114,7 @@
           <a href="card.html" class="card">
             <div class="card-image">
               <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
-              <button class="card-favorite btn btn-ghost btn-icon-sm" style="color: white;">
+              <button class="card-favorite btn btn-icon-sm" style="background: var(--color-accent-primary); color: white;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                 </svg>
@@ -151,7 +158,7 @@
           <a href="card.html" class="card">
             <div class="card-image">
               <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
-              <span class="card-badge" style="background: var(--color-accent-secondary);">Новое</span>
+              <span class="card-badge" style="background: var(--gradient-secondary);">Новое</span>
               <button class="card-favorite btn btn-ghost btn-icon-sm" style="color: white;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>

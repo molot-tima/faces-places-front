@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Faces & Places - Избранное</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,6 +10,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Animated background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
   <div class="page has-bottom-nav">
     <div class="container">
 
@@ -23,12 +30,12 @@
 
         <!-- Saved places -->
         <section class="section">
-          <div class="list">
+          <div class="list stagger-children">
             <!-- Favorite 1 -->
             <a href="card.html" class="card">
               <div class="card-image">
                 <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
-                <button class="card-favorite btn btn-icon-sm" style="background: var(--color-accent-primary); color: white;">
+                <button class="card-favorite btn btn-icon-sm" style="background: var(--color-accent-primary); color: white; box-shadow: var(--glow-primary);">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                   </svg>
@@ -50,7 +57,7 @@
                     <span class="tag tag-purple text-xs">Искусство</span>
                     <span class="tag tag-teal text-xs">Уютно</span>
                   </div>
-                  <span class="text-xs text-muted">Добавлено 2 дня назад</span>
+                  <span class="text-xs text-muted">2 дня назад</span>
                 </div>
               </div>
             </a>
@@ -59,7 +66,7 @@
             <a href="card.html" class="card">
               <div class="card-image">
                 <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
-                <button class="card-favorite btn btn-icon-sm" style="background: var(--color-accent-primary); color: white;">
+                <button class="card-favorite btn btn-icon-sm" style="background: var(--color-accent-primary); color: white; box-shadow: var(--glow-primary);">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                   </svg>
@@ -81,7 +88,7 @@
                     <span class="tag tag-accent text-xs">Природа</span>
                     <span class="tag text-xs">Бесплатно</span>
                   </div>
-                  <span class="text-xs text-muted">Добавлено 5 дней назад</span>
+                  <span class="text-xs text-muted">5 дней назад</span>
                 </div>
               </div>
             </a>
@@ -90,7 +97,7 @@
             <a href="card.html" class="card">
               <div class="card-image">
                 <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);"></div>
-                <button class="card-favorite btn btn-icon-sm" style="background: var(--color-accent-primary); color: white;">
+                <button class="card-favorite btn btn-icon-sm" style="background: var(--color-accent-primary); color: white; box-shadow: var(--glow-primary);">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                   </svg>
@@ -112,7 +119,7 @@
                     <span class="tag tag-accent text-xs">Природа</span>
                     <span class="tag tag-teal text-xs">Тихо</span>
                   </div>
-                  <span class="text-xs text-muted">Добавлено 1 неделю назад</span>
+                  <span class="text-xs text-muted">1 неделю назад</span>
                 </div>
               </div>
             </a>
@@ -121,7 +128,7 @@
 
         <!-- Tip -->
         <section class="section">
-          <div class="card p-md" style="background: rgba(255, 230, 109, 0.15); border: 1px solid rgba(255, 230, 109, 0.4);">
+          <div class="glass p-md" style="background: linear-gradient(135deg, rgba(255, 217, 61, 0.15) 0%, rgba(255, 107, 157, 0.1) 100%);">
             <div class="flex gap-md items-center">
               <div style="font-size: 24px;">💡</div>
               <p class="text-sm">

@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Faces & Places - Настройки</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,6 +10,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Animated background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
   <div class="page">
     <div class="container">
 
@@ -30,9 +37,9 @@
         <section class="section">
           <h1 class="heading-3 mb-lg">Настройки</h1>
 
-          <div class="card p-lg mb-lg">
+          <div class="glass glass-strong p-lg mb-lg">
             <div class="flex items-center gap-md">
-              <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 600;">
+              <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 600; box-shadow: var(--glow-primary);">
                 А
               </div>
               <div class="flex-1">
@@ -53,17 +60,17 @@
         <section class="section">
           <h2 class="section-title mb-md">Предпочтения</h2>
 
-          <div class="card">
+          <div class="glass">
             <!-- Location -->
-            <div class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
-              <div class="list-item-icon" style="background: rgba(255, 107, 107, 0.15); color: var(--color-accent-primary);">
+            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
+              <div class="list-item-icon" style="background: rgba(255, 107, 157, 0.2); color: var(--color-accent-primary);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                   <circle cx="12" cy="10" r="3"/>
                 </svg>
               </div>
               <div class="list-item-content">
-                <div class="font-weight: 500;">Местоположение</div>
+                <div style="font-weight: 500;">Местоположение</div>
                 <div class="text-sm text-muted">Москва, Россия</div>
               </div>
               <div class="list-item-action">
@@ -74,15 +81,15 @@
             </div>
 
             <!-- Radius -->
-            <div class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
-              <div class="list-item-icon" style="background: rgba(78, 205, 196, 0.15); color: var(--color-accent-secondary);">
+            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light);">
+              <div class="list-item-icon" style="background: rgba(78, 205, 196, 0.2); color: var(--color-accent-secondary);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10"/>
                   <circle cx="12" cy="12" r="3"/>
                 </svg>
               </div>
               <div class="list-item-content">
-                <div class="font-weight: 500;">Радиус поиска</div>
+                <div style="font-weight: 500;">Радиус поиска</div>
                 <div class="text-sm text-muted">5 км</div>
               </div>
               <div class="list-item-action">
@@ -93,15 +100,15 @@
             </div>
 
             <!-- Budget -->
-            <div class="list-item">
-              <div class="list-item-icon" style="background: rgba(255, 230, 109, 0.3); color: #d4a000;">
+            <div class="list-item" style="border-radius: 0 0 var(--radius-lg) var(--radius-lg);">
+              <div class="list-item-icon" style="background: rgba(255, 217, 61, 0.2); color: var(--color-accent-tertiary);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <line x1="12" y1="1" x2="12" y2="23"/>
                   <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                 </svg>
               </div>
               <div class="list-item-content">
-                <div class="font-weight: 500;">Бюджет</div>
+                <div style="font-weight: 500;">Бюджет</div>
                 <div class="text-sm text-muted">Средний</div>
               </div>
               <div class="list-item-action">
@@ -118,7 +125,7 @@
           <h2 class="section-title mb-md">Интересы</h2>
           <p class="text-muted text-sm mb-md">Выберите категории, которые вам интересны</p>
 
-          <div class="tags" style="gap: var(--space-sm);">
+          <div class="tags flex-wrap" style="gap: var(--space-sm);">
             <button class="tag tag-accent">🍽️ Рестораны</button>
             <button class="tag tag-teal">🎭 Театры</button>
             <button class="tag">🎬 Кино</button>
@@ -136,30 +143,24 @@
         <section class="section">
           <h2 class="section-title mb-md">Уведомления</h2>
 
-          <div class="card">
-            <div class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
+          <div class="glass">
+            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
               <div class="list-item-content">
                 <div style="font-weight: 500;">Push-уведомления</div>
                 <div class="text-sm text-muted">Новые рекомендации</div>
               </div>
               <div class="list-item-action">
-                <!-- Toggle switch -->
-                <div style="width: 48px; height: 28px; background: var(--color-accent-secondary); border-radius: 14px; position: relative;">
-                  <div style="width: 24px; height: 24px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; box-shadow: var(--shadow-sm);"></div>
-                </div>
+                <div class="toggle active"></div>
               </div>
             </div>
 
-            <div class="list-item">
+            <div class="list-item" style="border-radius: 0 0 var(--radius-lg) var(--radius-lg);">
               <div class="list-item-content">
                 <div style="font-weight: 500;">Email-рассылка</div>
                 <div class="text-sm text-muted">Еженедельные подборки</div>
               </div>
               <div class="list-item-action">
-                <!-- Toggle switch off -->
-                <div style="width: 48px; height: 28px; background: var(--color-bg-secondary); border-radius: 14px; position: relative;">
-                  <div style="width: 24px; height: 24px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px; box-shadow: var(--shadow-sm);"></div>
-                </div>
+                <div class="toggle"></div>
               </div>
             </div>
           </div>
@@ -169,8 +170,8 @@
         <section class="section">
           <h2 class="section-title mb-md">Другое</h2>
 
-          <div class="card">
-            <a href="#" class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
+          <div class="glass">
+            <a href="#" class="list-item" style="border-bottom: 1px solid var(--glass-border-light); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
               <div class="list-item-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10"/>
@@ -186,7 +187,7 @@
               </div>
             </a>
 
-            <a href="#" class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
+            <a href="#" class="list-item" style="border-bottom: 1px solid var(--glass-border-light);">
               <div class="list-item-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -204,7 +205,7 @@
               </div>
             </a>
 
-            <a href="#" class="list-item">
+            <a href="#" class="list-item" style="border-radius: 0 0 var(--radius-lg) var(--radius-lg);">
               <div class="list-item-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
