@@ -3,11 +3,266 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Faces & Places - Ваша подборка</title>
+  <title>Faces & Places - Ваш выбор</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Selection page specific styles */
+    .selection-header {
+      text-align: center;
+      padding: var(--space-lg) 0;
+    }
+
+    .selection-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: var(--space-xs);
+      background: linear-gradient(135deg, var(--color-accent-primary) 0%, var(--color-accent-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .selection-subtitle {
+      color: var(--color-text-muted);
+      font-size: 1rem;
+    }
+
+    /* Pick cards container */
+    .pick-cards {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+      padding: var(--space-md) 0;
+    }
+
+    /* Individual pick card */
+    .pick-card {
+      position: relative;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .pick-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl), 0 0 40px rgba(255, 107, 157, 0.15);
+    }
+
+    /* Card number badge */
+    .pick-card-number {
+      position: absolute;
+      top: var(--space-md);
+      left: var(--space-md);
+      width: 32px;
+      height: 32px;
+      background: var(--glass-bg-strong);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.875rem;
+      z-index: 10;
+    }
+
+    /* Match percentage */
+    .pick-card-match {
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--gradient-secondary);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: white;
+      z-index: 10;
+    }
+
+    /* Card image area */
+    .pick-card-image {
+      height: 140px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pick-card-image-bg {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .pick-card-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60%;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+    }
+
+    /* Card content */
+    .pick-card-content {
+      padding: var(--space-md);
+    }
+
+    .pick-card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: var(--space-xs);
+    }
+
+    .pick-card-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      margin-bottom: var(--space-sm);
+    }
+
+    .pick-card-tags {
+      display: flex;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-md);
+    }
+
+    /* Card actions */
+    .pick-card-actions {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    /* Choose button - the "winner" CTA */
+    .btn-choose {
+      flex: 1;
+      background: var(--gradient-primary);
+      color: white;
+      font-weight: 600;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-lg);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(255, 107, 157, 0.3);
+    }
+
+    .btn-choose:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 30px rgba(255, 107, 157, 0.4);
+    }
+
+    .btn-choose svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Swap button */
+    .btn-swap {
+      width: 48px;
+      height: 48px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--color-text-muted);
+    }
+
+    .btn-swap:hover {
+      background: var(--glass-bg-strong);
+      color: var(--color-accent-secondary);
+      border-color: var(--color-accent-secondary);
+    }
+
+    .btn-swap svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Details link */
+    .pick-card-details {
+      position: absolute;
+      bottom: var(--space-md);
+      right: var(--space-md);
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      z-index: 10;
+    }
+
+    .pick-card-details:hover {
+      color: var(--color-accent-primary);
+    }
+
+    /* Redo section */
+    .redo-section {
+      text-align: center;
+      padding: var(--space-xl) 0;
+    }
+
+    .redo-hint {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      margin-bottom: var(--space-md);
+    }
+
+    /* Swipe indicator hint */
+    .swap-hint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      margin-top: var(--space-md);
+      opacity: 0.7;
+    }
+
+    .swap-hint svg {
+      width: 16px;
+      height: 16px;
+      animation: bounce-x 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce-x {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(4px); }
+    }
+
+    /* Trophy animation for chosen card */
+    @keyframes trophy-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .trophy-icon {
+      animation: trophy-pulse 0.6s ease-in-out;
+    }
+  </style>
 </head>
 <body>
   <!-- Animated background orbs -->
@@ -18,7 +273,7 @@
     <div class="orb orb-4"></div>
   </div>
 
-  <div class="page has-bottom-nav">
+  <div class="page">
     <div class="container">
 
       <!-- Header -->
@@ -29,232 +284,175 @@
           </svg>
           <span>К тесту</span>
         </a>
-        <button class="btn btn-ghost btn-icon-sm">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="18" cy="5" r="3"/>
-            <circle cx="6" cy="12" r="3"/>
-            <circle cx="18" cy="19" r="3"/>
-            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-          </svg>
-        </button>
       </header>
 
       <div class="page-content">
 
-        <!-- Success Banner -->
-        <section class="section animate-slide-up">
-          <div class="glass glass-strong p-lg text-center" style="background: linear-gradient(135deg, rgba(78, 205, 196, 0.3) 0%, rgba(96, 165, 250, 0.3) 100%);">
-            <div style="width: 64px; height: 64px; background: var(--gradient-secondary); border-radius: 50%; margin: 0 auto var(--space-md); display: flex; align-items: center; justify-content: center; box-shadow: var(--glow-secondary);">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
+        <!-- Selection Header -->
+        <div class="selection-header animate-fade-in">
+          <h1 class="selection-title">Выберите победителя!</h1>
+          <p class="selection-subtitle">Три идеальных события для вас</p>
+        </div>
+
+        <!-- Pick Cards -->
+        <div class="pick-cards stagger-children">
+
+          <!-- Card 1 - Theatre -->
+          <div class="pick-card">
+            <div class="pick-card-number">1</div>
+            <div class="pick-card-match">98%</div>
+            <div class="pick-card-image">
+              <div class="pick-card-image-bg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+            </div>
+            <div class="pick-card-content">
+              <h3 class="pick-card-title">Мастер и Маргарита</h3>
+              <div class="pick-card-meta">
+                <span>🎭 Театр</span>
+                <span>•</span>
+                <span>21 дек, 19:00</span>
+                <span>•</span>
+                <span>от 1500 ₽</span>
+              </div>
+              <div class="pick-card-tags">
+                <span class="tag tag-accent text-xs">Драма</span>
+                <span class="tag tag-purple text-xs">Классика</span>
+                <span class="tag text-xs">3 часа</span>
+              </div>
+              <div class="pick-card-actions">
+                <a href="#booking" class="btn-choose">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  Это моё!
+                </a>
+                <button class="btn-swap" title="Показать другое">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10"/>
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <a href="card.html" class="pick-card-details">
+              Подробнее
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m9 18 6-6-6-6"/>
               </svg>
-            </div>
-            <h2 class="heading-3 mb-sm">Тест пройден!</h2>
-            <p class="text-muted">Мы подобрали для вас 8 событий на основе ваших предпочтений</p>
-          </div>
-        </section>
-
-        <!-- Your Profile Summary -->
-        <section class="section">
-          <h2 class="section-title mb-md">Ваш профиль</h2>
-          <div class="glass p-md">
-            <div class="tags">
-              <span class="tag tag-accent">🎭 Драма</span>
-              <span class="tag tag-teal">😂 Комедии</span>
-              <span class="tag tag-purple">📖 Классика</span>
-              <span class="tag">🎤 Концерты</span>
-            </div>
-            <div class="divider"></div>
-            <div class="flex justify-between text-sm">
-              <span class="text-muted">Атмосфера</span>
-              <span>Камерная</span>
-            </div>
-            <div class="flex justify-between text-sm mt-sm">
-              <span class="text-muted">Бюджет</span>
-              <span>До 3000 ₽</span>
-            </div>
-            <div class="flex justify-between text-sm mt-sm">
-              <span class="text-muted">Время</span>
-              <span>Вечерние события</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- Personalized Recommendations -->
-        <section class="section">
-          <div class="section-header">
-            <h2 class="section-title">Для вас</h2>
-            <span class="text-muted text-sm">8 событий</span>
-          </div>
-
-          <div class="list stagger-children">
-            <!-- Match 1 - Theatre -->
-            <a href="card.html" class="card">
-              <div class="card-image">
-                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
-                <span class="card-badge" style="background: var(--gradient-secondary);">98% совпадение</span>
-                <button class="card-favorite btn btn-ghost btn-icon-sm" style="color: white;">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                  </svg>
-                </button>
-                <div class="card-image-overlay">
-                  <h3 class="card-title">Мастер и Маргарита</h3>
-                  <div class="flex items-center gap-sm text-sm" style="opacity: 0.9;">
-                    <span>🎭 Театр</span>
-                    <span>•</span>
-                    <span>21 дек, 19:00</span>
-                    <span>•</span>
-                    <span>от 1500 ₽</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="tags">
-                  <span class="tag tag-accent text-xs">Драма</span>
-                  <span class="tag tag-purple text-xs">Классика</span>
-                  <span class="tag text-xs">3 часа</span>
-                </div>
-              </div>
-            </a>
-
-            <!-- Match 2 - Stand-up -->
-            <a href="card.html" class="card">
-              <div class="card-image">
-                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);"></div>
-                <span class="card-badge" style="background: var(--gradient-secondary);">95% совпадение</span>
-                <button class="card-favorite btn btn-icon-sm" style="background: var(--color-accent-primary); color: white;">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                  </svg>
-                </button>
-                <div class="card-image-overlay">
-                  <h3 class="card-title">Stand Up: Открытый микрофон</h3>
-                  <div class="flex items-center gap-sm text-sm" style="opacity: 0.9;">
-                    <span>🎙️ Стендап</span>
-                    <span>•</span>
-                    <span>22 дек, 21:00</span>
-                    <span>•</span>
-                    <span>от 800 ₽</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="tags">
-                  <span class="tag tag-teal text-xs">Комедия</span>
-                  <span class="tag text-xs">2 часа</span>
-                </div>
-              </div>
-            </a>
-
-            <!-- Match 3 - Concert -->
-            <a href="card.html" class="card">
-              <div class="card-image">
-                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f472b6 0%, #fb7185 100%);"></div>
-                <span class="card-badge" style="background: var(--gradient-secondary);">92% совпадение</span>
-                <button class="card-favorite btn btn-ghost btn-icon-sm" style="color: white;">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                  </svg>
-                </button>
-                <div class="card-image-overlay">
-                  <h3 class="card-title">Вечер джаза</h3>
-                  <div class="flex items-center gap-sm text-sm" style="opacity: 0.9;">
-                    <span>🎤 Концерт</span>
-                    <span>•</span>
-                    <span>23 дек, 20:00</span>
-                    <span>•</span>
-                    <span>от 1200 ₽</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="tags">
-                  <span class="tag tag-accent text-xs">Джаз</span>
-                  <span class="tag text-xs">Камерный зал</span>
-                </div>
-              </div>
-            </a>
-
-            <!-- Match 4 - Quest -->
-            <a href="card.html" class="card">
-              <div class="card-image">
-                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #4ade80 0%, #22d3ee 100%);"></div>
-                <span class="card-badge card-badge-accent">88% совпадение</span>
-                <button class="card-favorite btn btn-ghost btn-icon-sm" style="color: white;">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                  </svg>
-                </button>
-                <div class="card-image-overlay">
-                  <h3 class="card-title">Квест "Тайна старого дома"</h3>
-                  <div class="flex items-center gap-sm text-sm" style="opacity: 0.9;">
-                    <span>🔐 Квест</span>
-                    <span>•</span>
-                    <span>60 мин</span>
-                    <span>•</span>
-                    <span>от 2500 ₽</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="tags">
-                  <span class="tag tag-purple text-xs">Детектив</span>
-                  <span class="tag text-xs">2-4 чел</span>
-                </div>
-              </div>
             </a>
           </div>
-        </section>
 
-        <!-- Retake test -->
-        <section class="section text-center">
+          <!-- Card 2 - Stand-up -->
+          <div class="pick-card">
+            <div class="pick-card-number">2</div>
+            <div class="pick-card-match">95%</div>
+            <div class="pick-card-image">
+              <div class="pick-card-image-bg" style="background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);"></div>
+            </div>
+            <div class="pick-card-content">
+              <h3 class="pick-card-title">Stand Up: Открытый микрофон</h3>
+              <div class="pick-card-meta">
+                <span>🎙️ Стендап</span>
+                <span>•</span>
+                <span>22 дек, 21:00</span>
+                <span>•</span>
+                <span>от 800 ₽</span>
+              </div>
+              <div class="pick-card-tags">
+                <span class="tag tag-teal text-xs">Комедия</span>
+                <span class="tag text-xs">2 часа</span>
+                <span class="tag text-xs">18+</span>
+              </div>
+              <div class="pick-card-actions">
+                <a href="#booking" class="btn-choose">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  Это моё!
+                </a>
+                <button class="btn-swap" title="Показать другое">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10"/>
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <a href="card.html" class="pick-card-details">
+              Подробнее
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Card 3 - Concert -->
+          <div class="pick-card">
+            <div class="pick-card-number">3</div>
+            <div class="pick-card-match">92%</div>
+            <div class="pick-card-image">
+              <div class="pick-card-image-bg" style="background: linear-gradient(135deg, #f472b6 0%, #fb7185 100%);"></div>
+            </div>
+            <div class="pick-card-content">
+              <h3 class="pick-card-title">Вечер джаза</h3>
+              <div class="pick-card-meta">
+                <span>🎤 Концерт</span>
+                <span>•</span>
+                <span>23 дек, 20:00</span>
+                <span>•</span>
+                <span>от 1200 ₽</span>
+              </div>
+              <div class="pick-card-tags">
+                <span class="tag tag-accent text-xs">Джаз</span>
+                <span class="tag text-xs">Камерный зал</span>
+              </div>
+              <div class="pick-card-actions">
+                <a href="#booking" class="btn-choose">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  Это моё!
+                </a>
+                <button class="btn-swap" title="Показать другое">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10"/>
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <a href="card.html" class="pick-card-details">
+              Подробнее
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Swap Hint -->
+        <div class="swap-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+          Не нравится? Поменяйте на другой вариант
+        </div>
+
+        <!-- Redo Test Section -->
+        <div class="redo-section">
+          <p class="redo-hint">Ничего не подошло?</p>
           <a href="test.html" class="btn btn-ghost">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="23 4 23 10 17 10"/>
-              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+              <polyline points="1 4 1 10 7 10"/>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
             </svg>
             Пройти тест заново
           </a>
-        </section>
+        </div>
 
       </div>
     </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <div class="nav-bottom-inner">
-        <a href="index.html" class="nav-item">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-          <span class="nav-item-label">Главная</span>
-        </a>
-        <a href="places.html" class="nav-item">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="3" y1="10" x2="21" y2="10"/>
-          </svg>
-          <span class="nav-item-label">Афиша</span>
-        </a>
-        <a href="test.html" class="nav-item active">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-          </svg>
-          <span class="nav-item-label">Тест</span>
-        </a>
-        <a href="favorites.html" class="nav-item">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-          </svg>
-          <span class="nav-item-label">Избранное</span>
-        </a>
-      </div>
-    </nav>
   </div>
 </body>
 </html>
