@@ -45,7 +45,7 @@
         <!-- Greeting -->
         <section class="section">
           <h1 class="heading-3 mb-sm">Привет, Алексей!</h1>
-          <p class="text-muted">Куда отправимся сегодня?</p>
+          <p class="text-muted">Какое событие выберем сегодня?</p>
         </section>
 
         <!-- Search -->
@@ -57,7 +57,7 @@
                 <path d="m21 21-4.35-4.35"/>
               </svg>
             </span>
-            <input type="text" placeholder="Поиск мест..." readonly>
+            <input type="text" placeholder="Поиск событий..." readonly>
           </a>
         </section>
 
@@ -68,7 +68,7 @@
               <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
             </svg>
             <span class="flex flex-col items-center">
-              <span style="font-size: 1.25rem;">Пройдите тест</span>
+              <span style="font-size: 1.25rem;">Подберём события для вас</span>
               <span style="font-size: 0.875rem; opacity: 0.9; font-weight: 400;">5 минут • 10 вопросов</span>
             </span>
           </a>
@@ -77,8 +77,8 @@
         <!-- Collections Mosaic (Categories + Favorites + Popular) -->
         <section class="section">
           <div class="section-header">
-            <h2 class="section-title">Коллекции</h2>
-            <a href="places.html" class="section-link">Все места</a>
+            <h2 class="section-title">События</h2>
+            <a href="places.html" class="section-link">Вся афиша</a>
           </div>
 
           <div class="mosaic-grid stagger-children">
@@ -89,82 +89,82 @@
                 <div class="mosaic-icon">❤️</div>
                 <div>
                   <div class="mosaic-title">Избранное</div>
-                  <div class="mosaic-count">3 места</div>
+                  <div class="mosaic-count">3 события</div>
                 </div>
               </div>
             </a>
 
-            <!-- Restaurants -->
-            <a href="places.html" class="mosaic-item">
-              <div class="mosaic-bg" style="background: linear-gradient(135deg, #ff9a56 0%, #ff6b6b 100%);"></div>
-              <div class="mosaic-content">
-                <div class="mosaic-icon">🍽️</div>
-                <div class="mosaic-title">Рестораны</div>
-                <div class="mosaic-count">24 места</div>
-              </div>
-            </a>
-
-            <!-- Culture -->
-            <a href="places.html" class="mosaic-item">
+            <!-- Theatre -->
+            <a href="places.html?category=theatre" class="mosaic-item">
               <div class="mosaic-bg" style="background: linear-gradient(135deg, #a78bfa 0%, #818cf8 100%);"></div>
               <div class="mosaic-content">
                 <div class="mosaic-icon">🎭</div>
-                <div class="mosaic-title">Культура</div>
-                <div class="mosaic-count">18 мест</div>
+                <div class="mosaic-title">Театр</div>
+                <div class="mosaic-count">24 спектакля</div>
+              </div>
+            </a>
+
+            <!-- Cinema -->
+            <a href="places.html?category=cinema" class="mosaic-item">
+              <div class="mosaic-bg" style="background: linear-gradient(135deg, #ff9a56 0%, #ff6b6b 100%);"></div>
+              <div class="mosaic-content">
+                <div class="mosaic-icon">🎬</div>
+                <div class="mosaic-title">Кино</div>
+                <div class="mosaic-count">18 фильмов</div>
               </div>
             </a>
 
             <!-- Popular - Wide card -->
-            <a href="places.html" class="mosaic-item mosaic-item-wide mosaic-item-popular">
+            <a href="places.html?filter=popular" class="mosaic-item mosaic-item-wide mosaic-item-popular">
               <div class="mosaic-bg" style="background: linear-gradient(135deg, rgba(78,205,196,0.5) 0%, rgba(96,165,250,0.5) 100%);"></div>
               <div class="mosaic-content" style="display: flex; align-items: center; gap: var(--space-md); background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 100%);">
                 <div class="mosaic-icon" style="margin-bottom: 0;">🔥</div>
                 <div>
                   <div class="mosaic-title">Популярное</div>
-                  <div class="mosaic-count">Топ-10 мест недели</div>
+                  <div class="mosaic-count">Топ-10 событий недели</div>
                 </div>
               </div>
             </a>
 
-            <!-- Nature - Tall card -->
-            <a href="places.html" class="mosaic-item mosaic-item-tall">
+            <!-- Quests - Tall card -->
+            <a href="places.html?category=quest" class="mosaic-item mosaic-item-tall">
               <div class="mosaic-bg" style="background: linear-gradient(135deg, #4ade80 0%, #22d3ee 100%);"></div>
               <div class="mosaic-content" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);">
-                <div class="mosaic-icon">🌳</div>
+                <div class="mosaic-icon">🔐</div>
                 <div>
-                  <div class="mosaic-title">Природа</div>
-                  <div class="mosaic-count">32 места</div>
+                  <div class="mosaic-title">Квесты</div>
+                  <div class="mosaic-count">32 квеста</div>
                 </div>
               </div>
             </a>
 
-            <!-- Entertainment -->
-            <a href="places.html" class="mosaic-item">
+            <!-- Concerts -->
+            <a href="places.html?category=concert" class="mosaic-item">
               <div class="mosaic-bg" style="background: linear-gradient(135deg, #f472b6 0%, #fb7185 100%);"></div>
               <div class="mosaic-content">
-                <div class="mosaic-icon">🎮</div>
-                <div class="mosaic-title">Развлечения</div>
-                <div class="mosaic-count">15 мест</div>
+                <div class="mosaic-icon">🎤</div>
+                <div class="mosaic-title">Концерты</div>
+                <div class="mosaic-count">15 событий</div>
               </div>
             </a>
 
-            <!-- Spa & Relax -->
-            <a href="places.html" class="mosaic-item">
-              <div class="mosaic-bg" style="background: linear-gradient(135deg, #67e8f9 0%, #a5b4fc 100%);"></div>
-              <div class="mosaic-content">
-                <div class="mosaic-icon">💆</div>
-                <div class="mosaic-title">Спа & Релакс</div>
-                <div class="mosaic-count">8 мест</div>
-              </div>
-            </a>
-
-            <!-- Sports -->
-            <a href="places.html" class="mosaic-item">
+            <!-- Stand-up -->
+            <a href="places.html?category=standup" class="mosaic-item">
               <div class="mosaic-bg" style="background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);"></div>
               <div class="mosaic-content">
-                <div class="mosaic-icon">🏃</div>
-                <div class="mosaic-title">Спорт</div>
-                <div class="mosaic-count">12 мест</div>
+                <div class="mosaic-icon">🎙️</div>
+                <div class="mosaic-title">Стендап</div>
+                <div class="mosaic-count">8 шоу</div>
+              </div>
+            </a>
+
+            <!-- Exhibitions -->
+            <a href="places.html?category=exhibition" class="mosaic-item">
+              <div class="mosaic-bg" style="background: linear-gradient(135deg, #67e8f9 0%, #a5b4fc 100%);"></div>
+              <div class="mosaic-content">
+                <div class="mosaic-icon">🖼️</div>
+                <div class="mosaic-title">Выставки</div>
+                <div class="mosaic-count">12 выставок</div>
               </div>
             </a>
           </div>
@@ -182,10 +182,11 @@
                 <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
               </div>
               <div class="card-body">
-                <h3 class="card-title">Арт-кафе "Муза"</h3>
-                <p class="card-subtitle">Кафе • 1.2 км</p>
+                <h3 class="card-title">Мастер и Маргарита</h3>
+                <p class="card-subtitle">Театр • 21 декабря, 19:00</p>
                 <div class="tags mt-sm">
                   <span class="tag tag-accent text-xs">Для вас</span>
+                  <span class="tag text-xs">от 1500 ₽</span>
                 </div>
               </div>
             </a>
@@ -194,10 +195,11 @@
                 <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
               </div>
               <div class="card-body">
-                <h3 class="card-title">Парк "Зелёная роща"</h3>
-                <p class="card-subtitle">Парк • 2.5 км</p>
+                <h3 class="card-title">Квест "Тайна старого дома"</h3>
+                <p class="card-subtitle">Квест • 60 мин • 2-4 чел</p>
                 <div class="tags mt-sm">
-                  <span class="tag tag-teal text-xs">Природа</span>
+                  <span class="tag tag-teal text-xs">Хоррор</span>
+                  <span class="tag text-xs">от 2500 ₽</span>
                 </div>
               </div>
             </a>
@@ -219,10 +221,12 @@
         </a>
         <a href="places.html" class="nav-item">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="m21 21-4.35-4.35"/>
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
           </svg>
-          <span class="nav-item-label">Поиск</span>
+          <span class="nav-item-label">Афиша</span>
         </a>
         <a href="test.html" class="nav-item">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
