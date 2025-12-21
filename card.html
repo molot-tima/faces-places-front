@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Faces & Places - Арт-кафе "Муза"</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Faces & Places - Мастер и Маргарита</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,7 @@
   <style>
     .card-hero {
       position: relative;
-      height: 280px;
+      height: 300px;
       margin: 0 calc(var(--space-md) * -1);
     }
     .card-hero-image {
@@ -28,7 +28,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 100%);
     }
     .card-hero-actions {
       display: flex;
@@ -46,16 +46,32 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.4);
+      backdrop-filter: blur(4px);
     }
     .gallery-dot.active {
       background: white;
       width: 24px;
       border-radius: 4px;
     }
+    .price-tag {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-accent-secondary);
+    }
+    .price-label {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
   </style>
 </head>
 <body>
+  <!-- Animated background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
   <div class="page">
     <div class="container">
 
@@ -63,13 +79,13 @@
       <div class="card-hero">
         <div class="card-hero-image"></div>
         <div class="card-hero-overlay">
-          <a href="places.html" class="btn btn-icon" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); color: white;">
+          <a href="places.html" class="btn btn-icon glass" style="color: white;">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="m15 18-6-6 6-6"/>
             </svg>
           </a>
           <div class="card-hero-actions">
-            <button class="btn btn-icon" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); color: white;">
+            <button class="btn btn-icon glass" style="color: white;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="18" cy="5" r="3"/>
                 <circle cx="6" cy="12" r="3"/>
@@ -78,7 +94,7 @@
                 <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
               </svg>
             </button>
-            <button class="btn btn-icon" style="background: var(--color-accent-primary); color: white;">
+            <button class="btn btn-icon" style="background: var(--color-accent-primary); color: white; box-shadow: var(--glow-primary);">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
@@ -99,36 +115,54 @@
         <!-- Title & Rating -->
         <section class="section">
           <div class="flex items-center gap-sm mb-sm">
-            <span class="tag tag-accent text-xs">95% совпадение</span>
-            <span class="tag tag-teal text-xs">Для вас</span>
+            <span class="tag tag-teal text-xs">95% совпадение</span>
+            <span class="tag tag-accent text-xs">Для вас</span>
           </div>
-          <h1 class="heading-2 mb-sm">Арт-кафе "Муза"</h1>
+          <h1 class="heading-2 mb-sm">Мастер и Маргарита</h1>
           <div class="flex items-center gap-md text-muted">
             <div class="flex items-center gap-xs">
               <span style="color: #FFD700;">⭐</span>
-              <span style="color: var(--color-text-primary); font-weight: 600;">4.8</span>
-              <span>(234 отзыва)</span>
+              <span style="color: var(--color-text-primary); font-weight: 600;">4.9</span>
+              <span>(312 отзывов)</span>
             </div>
             <span>•</span>
-            <span>Кафе</span>
-            <span>•</span>
-            <span>$$</span>
+            <span>🎭 Театр</span>
           </div>
         </section>
 
         <!-- Quick Info -->
         <section class="section">
-          <div class="card">
-            <div class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
-              <div class="list-item-icon" style="background: rgba(255, 107, 107, 0.15); color: var(--color-accent-primary);">
+          <div class="glass">
+            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
+              <div class="list-item-icon" style="background: rgba(255, 107, 157, 0.2); color: var(--color-accent-primary);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+              <div class="list-item-content">
+                <div style="font-weight: 500;">21 декабря, суббота</div>
+                <div class="text-sm text-muted">19:00 — 22:00</div>
+              </div>
+              <div class="list-item-action">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light);">
+              <div class="list-item-icon" style="background: rgba(78, 205, 196, 0.2); color: var(--color-accent-secondary);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                   <circle cx="12" cy="10" r="3"/>
                 </svg>
               </div>
               <div class="list-item-content">
-                <div style="font-weight: 500;">ул. Пушкина, 15</div>
-                <div class="text-sm text-muted">1.2 км от вас</div>
+                <div style="font-weight: 500;">Театр им. Вахтангова</div>
+                <div class="text-sm text-muted">ул. Арбат, 26 • 2.3 км</div>
               </div>
               <div class="list-item-action">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -137,83 +171,74 @@
               </div>
             </div>
 
-            <div class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
-              <div class="list-item-icon" style="background: rgba(78, 205, 196, 0.15); color: var(--color-accent-secondary);">
+            <div class="list-item" style="border-radius: 0 0 var(--radius-lg) var(--radius-lg);">
+              <div class="list-item-icon" style="background: rgba(167, 139, 250, 0.2); color: var(--color-accent-purple);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10"/>
                   <polyline points="12 6 12 12 16 14"/>
                 </svg>
               </div>
               <div class="list-item-content">
-                <div style="font-weight: 500;">Открыто до 23:00</div>
-                <div class="text-sm text-muted">Пн-Вс: 10:00 - 23:00</div>
-              </div>
-              <div class="list-item-action">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="m9 18 6-6-6-6"/>
-                </svg>
+                <div style="font-weight: 500;">3 часа</div>
+                <div class="text-sm text-muted">с одним антрактом</div>
               </div>
             </div>
+          </div>
+        </section>
 
-            <div class="list-item">
-              <div class="list-item-icon" style="background: rgba(167, 139, 250, 0.15); color: var(--color-accent-purple);">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-              </div>
-              <div class="list-item-content">
-                <div style="font-weight: 500;">+7 (495) 123-45-67</div>
-                <div class="text-sm text-muted">Позвонить</div>
-              </div>
-              <div class="list-item-action">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="m9 18 6-6-6-6"/>
-                </svg>
-              </div>
+        <!-- Price -->
+        <section class="section">
+          <div class="glass p-md flex justify-between items-center">
+            <div>
+              <div class="price-label">Билеты от</div>
+              <div class="price-tag">1 500 ₽</div>
+            </div>
+            <div class="text-right">
+              <div class="text-sm text-muted">Осталось мест</div>
+              <div style="font-weight: 600; color: var(--color-accent-primary);">23 из 450</div>
             </div>
           </div>
         </section>
 
         <!-- About -->
         <section class="section">
-          <h2 class="section-title mb-md">О месте</h2>
+          <h2 class="section-title mb-md">О спектакле</h2>
           <p class="text-muted" style="line-height: 1.7;">
-            Арт-кафе "Муза" — это уютное пространство, где искусство встречается с гастрономией. Здесь вы найдёте авторские блюда, вдохновлённые шедеврами мировой живописи, а интерьер украшают работы местных художников.
+            Легендарная постановка по роману Михаила Булгакова в новой интерпретации режиссёра Юрия Бутусова. Мистическая история о визите Сатаны в Москву, о любви Мастера и Маргариты переплетается с библейским сюжетом о Понтии Пилате.
           </p>
           <p class="text-muted mt-md" style="line-height: 1.7;">
-            Идеальное место для тех, кто ценит творческую атмосферу и хочет провести время в окружении прекрасного.
+            В главных ролях: Сергей Маковецкий, Юлия Рутберг, Виктор Добронравов.
           </p>
         </section>
 
         <!-- Tags -->
         <section class="section">
-          <h2 class="section-title mb-md">Особенности</h2>
-          <div class="tags">
-            <span class="tag">☕ Кофе</span>
-            <span class="tag">🍰 Десерты</span>
-            <span class="tag">🎨 Искусство</span>
-            <span class="tag">📚 Книги</span>
-            <span class="tag">🌿 Веранда</span>
-            <span class="tag">📶 Wi-Fi</span>
-            <span class="tag">💳 Оплата картой</span>
+          <h2 class="section-title mb-md">Жанры и особенности</h2>
+          <div class="tags flex-wrap">
+            <span class="tag">🎭 Драма</span>
+            <span class="tag">📖 Классика</span>
+            <span class="tag">✨ Мистика</span>
+            <span class="tag">❤️ Романтика</span>
+            <span class="tag">18+</span>
+            <span class="tag">🏆 Премия "Золотая маска"</span>
           </div>
         </section>
 
         <!-- Why it matches -->
         <section class="section">
           <h2 class="section-title mb-md">Почему подходит вам</h2>
-          <div class="card p-md" style="background: rgba(78, 205, 196, 0.1); border: 1px solid rgba(78, 205, 196, 0.3);">
+          <div class="glass p-md" style="background: linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(96, 165, 250, 0.15) 100%);">
             <div class="flex gap-md">
-              <div style="width: 40px; height: 40px; background: var(--color-accent-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0;">
+              <div style="width: 40px; height: 40px; background: var(--gradient-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; box-shadow: var(--glow-secondary);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
               </div>
               <div>
                 <p class="text-sm" style="line-height: 1.6;">
-                  <strong>Спокойная атмосфера</strong> — идеально для тех, кто предпочитает уединение.<br>
-                  <strong>Искусство</strong> — соответствует вашему интересу к культуре.<br>
-                  <strong>Средний бюджет</strong> — в рамках ваших предпочтений.
+                  <strong>Ваш любимый жанр</strong> — драма с элементами мистики.<br>
+                  <strong>Классика литературы</strong> — вы отмечали интерес к русской классике.<br>
+                  <strong>Вечернее время</strong> — подходит под ваш ритм жизни.
                 </p>
               </div>
             </div>
@@ -224,19 +249,19 @@
         <section class="section">
           <div class="section-header">
             <h2 class="section-title">Отзывы</h2>
-            <a href="#" class="section-link">Все 234</a>
+            <a href="#" class="section-link">Все 312</a>
           </div>
 
           <div class="list">
             <!-- Review 1 -->
-            <div class="card p-md">
+            <div class="glass p-md">
               <div class="flex items-center gap-md mb-md">
                 <div style="width: 40px; height: 40px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
-                  М
+                  Е
                 </div>
                 <div class="flex-1">
-                  <div style="font-weight: 500;">Мария К.</div>
-                  <div class="text-sm text-muted">2 дня назад</div>
+                  <div style="font-weight: 500;">Екатерина М.</div>
+                  <div class="text-sm text-muted">посетила 15 декабря</div>
                 </div>
                 <div class="flex items-center gap-xs">
                   <span style="color: #FFD700;">⭐</span>
@@ -244,27 +269,27 @@
                 </div>
               </div>
               <p class="text-sm text-muted" style="line-height: 1.6;">
-                Потрясающее место! Атмосфера невероятная, а кофе — один из лучших в городе. Обязательно попробуйте чизкейк "Моне" — это что-то!
+                Невероятная постановка! Маковецкий в роли Воланда — это что-то невероятное. 3 часа пролетели незаметно. Обязательно идите!
               </p>
             </div>
 
             <!-- Review 2 -->
-            <div class="card p-md">
+            <div class="glass p-md">
               <div class="flex items-center gap-md mb-md">
                 <div style="width: 40px; height: 40px; background: var(--gradient-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
-                  А
+                  Д
                 </div>
                 <div class="flex-1">
-                  <div style="font-weight: 500;">Андрей П.</div>
-                  <div class="text-sm text-muted">1 неделю назад</div>
+                  <div style="font-weight: 500;">Дмитрий В.</div>
+                  <div class="text-sm text-muted">посетил 10 декабря</div>
                 </div>
                 <div class="flex items-center gap-xs">
                   <span style="color: #FFD700;">⭐</span>
-                  <span style="font-weight: 600;">4</span>
+                  <span style="font-weight: 600;">5</span>
                 </div>
               </div>
               <p class="text-sm text-muted" style="line-height: 1.6;">
-                Хорошее место для работы или чтения. Персонал приветливый, не торопят. Единственный минус — в выходные бывает шумно.
+                Лучшая интерпретация романа, которую я видел. Декорации, свет, музыка — всё на высшем уровне. Берите билеты в партер, оно того стоит.
               </p>
             </div>
           </div>
@@ -276,18 +301,22 @@
       </div>
 
       <!-- Bottom Actions -->
-      <div style="position: fixed; bottom: 0; left: 0; right: 0; background: var(--color-bg-card); border-top: 1px solid var(--color-bg-secondary); padding: var(--space-md); padding-bottom: calc(var(--space-md) + env(safe-area-inset-bottom, 0px));">
-        <div class="container" style="padding: 0;">
-          <div class="flex gap-md">
-            <a href="index.html" class="btn btn-secondary flex-1">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-              </svg>
-              Позвонить
-            </a>
-            <a href="#" class="btn btn-primary flex-1">
-              Забронировать
-            </a>
+      <div style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;">
+        <div class="glass glass-strong" style="border-radius: 0; border-top: 1px solid var(--glass-border); padding: var(--space-md); padding-bottom: calc(var(--space-md) + env(safe-area-inset-bottom, 0px));">
+          <div class="container" style="padding: 0;">
+            <div class="flex gap-md">
+              <a href="#" class="btn btn-secondary flex-1">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="3" y1="9" x2="21" y2="9"/>
+                  <line x1="9" y1="21" x2="9" y2="9"/>
+                </svg>
+                Выбрать места
+              </a>
+              <a href="#" class="btn btn-primary flex-1">
+                Купить билет
+              </a>
+            </div>
           </div>
         </div>
       </div>

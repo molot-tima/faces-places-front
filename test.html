@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Faces & Places - Тест</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,6 +10,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Animated background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+
   <div class="page">
     <div class="container">
 
@@ -56,47 +64,47 @@
 
         <!-- Question -->
         <section class="section">
-          <h1 class="heading-2 mb-md">Как вы обычно проводите выходные?</h1>
+          <h1 class="heading-2 mb-md">Какой жанр событий вам ближе?</h1>
           <p class="text-muted mb-xl">Выберите один вариант ответа</p>
 
           <!-- Options -->
-          <div class="list gap-md">
+          <div class="list gap-md stagger-children">
             <div class="option-card">
               <div class="flex items-center gap-md">
-                <div class="option-card-icon" style="margin-bottom: 0;">🏠</div>
+                <div class="option-card-icon" style="margin-bottom: 0;">🎭</div>
                 <div>
-                  <div style="font-weight: 500;">Дома в уюте</div>
-                  <div class="text-sm text-muted">Книги, фильмы, отдых</div>
+                  <div style="font-weight: 500;">Драма и классика</div>
+                  <div class="text-sm text-muted">Театр, опера, балет</div>
                 </div>
               </div>
             </div>
 
             <div class="option-card selected">
               <div class="flex items-center gap-md">
-                <div class="option-card-icon" style="margin-bottom: 0; background: rgba(255, 107, 107, 0.15);">🌳</div>
+                <div class="option-card-icon" style="margin-bottom: 0; background: rgba(255, 107, 157, 0.2);">😂</div>
                 <div>
-                  <div style="font-weight: 500;">На природе</div>
-                  <div class="text-sm text-muted">Парки, прогулки, пикники</div>
+                  <div style="font-weight: 500;">Комедии и развлечения</div>
+                  <div class="text-sm text-muted">Стендап, комедийные шоу</div>
                 </div>
               </div>
             </div>
 
             <div class="option-card">
               <div class="flex items-center gap-md">
-                <div class="option-card-icon" style="margin-bottom: 0;">🎭</div>
+                <div class="option-card-icon" style="margin-bottom: 0;">🔐</div>
                 <div>
-                  <div style="font-weight: 500;">Культурная программа</div>
-                  <div class="text-sm text-muted">Театры, выставки, концерты</div>
+                  <div style="font-weight: 500;">Квесты и приключения</div>
+                  <div class="text-sm text-muted">Загадки, командные игры</div>
                 </div>
               </div>
             </div>
 
             <div class="option-card">
               <div class="flex items-center gap-md">
-                <div class="option-card-icon" style="margin-bottom: 0;">🎉</div>
+                <div class="option-card-icon" style="margin-bottom: 0;">🎤</div>
                 <div>
-                  <div style="font-weight: 500;">Активно и весело</div>
-                  <div class="text-sm text-muted">Спорт, вечеринки, друзья</div>
+                  <div style="font-weight: 500;">Музыка и концерты</div>
+                  <div class="text-sm text-muted">Живые выступления, фестивали</div>
                 </div>
               </div>
             </div>

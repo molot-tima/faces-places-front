@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Faces & Places - Настройки</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,6 +10,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Animated background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
   <div class="page">
     <div class="container">
 
@@ -30,9 +37,9 @@
         <section class="section">
           <h1 class="heading-3 mb-lg">Настройки</h1>
 
-          <div class="card p-lg mb-lg">
+          <div class="glass glass-strong p-lg mb-lg">
             <div class="flex items-center gap-md">
-              <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 600;">
+              <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 600; box-shadow: var(--glow-primary);">
                 А
               </div>
               <div class="flex-1">
@@ -53,17 +60,17 @@
         <section class="section">
           <h2 class="section-title mb-md">Предпочтения</h2>
 
-          <div class="card">
+          <div class="glass">
             <!-- Location -->
-            <div class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
-              <div class="list-item-icon" style="background: rgba(255, 107, 107, 0.15); color: var(--color-accent-primary);">
+            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
+              <div class="list-item-icon" style="background: rgba(255, 107, 157, 0.2); color: var(--color-accent-primary);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                   <circle cx="12" cy="10" r="3"/>
                 </svg>
               </div>
               <div class="list-item-content">
-                <div class="font-weight: 500;">Местоположение</div>
+                <div style="font-weight: 500;">Местоположение</div>
                 <div class="text-sm text-muted">Москва, Россия</div>
               </div>
               <div class="list-item-action">
@@ -74,15 +81,15 @@
             </div>
 
             <!-- Radius -->
-            <div class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
-              <div class="list-item-icon" style="background: rgba(78, 205, 196, 0.15); color: var(--color-accent-secondary);">
+            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light);">
+              <div class="list-item-icon" style="background: rgba(78, 205, 196, 0.2); color: var(--color-accent-secondary);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10"/>
                   <circle cx="12" cy="12" r="3"/>
                 </svg>
               </div>
               <div class="list-item-content">
-                <div class="font-weight: 500;">Радиус поиска</div>
+                <div style="font-weight: 500;">Радиус поиска</div>
                 <div class="text-sm text-muted">5 км</div>
               </div>
               <div class="list-item-action">
@@ -93,15 +100,15 @@
             </div>
 
             <!-- Budget -->
-            <div class="list-item">
-              <div class="list-item-icon" style="background: rgba(255, 230, 109, 0.3); color: #d4a000;">
+            <div class="list-item" style="border-radius: 0 0 var(--radius-lg) var(--radius-lg);">
+              <div class="list-item-icon" style="background: rgba(255, 217, 61, 0.2); color: var(--color-accent-tertiary);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <line x1="12" y1="1" x2="12" y2="23"/>
                   <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                 </svg>
               </div>
               <div class="list-item-content">
-                <div class="font-weight: 500;">Бюджет</div>
+                <div style="font-weight: 500;">Бюджет</div>
                 <div class="text-sm text-muted">Средний</div>
               </div>
               <div class="list-item-action">
@@ -116,19 +123,24 @@
         <!-- Interests -->
         <section class="section">
           <h2 class="section-title mb-md">Интересы</h2>
-          <p class="text-muted text-sm mb-md">Выберите категории, которые вам интересны</p>
 
-          <div class="tags" style="gap: var(--space-sm);">
-            <button class="tag tag-accent">🍽️ Рестораны</button>
-            <button class="tag tag-teal">🎭 Театры</button>
-            <button class="tag">🎬 Кино</button>
-            <button class="tag tag-purple">🌳 Природа</button>
-            <button class="tag">🎮 Развлечения</button>
-            <button class="tag tag-accent">💆 Спа</button>
-            <button class="tag">🏃 Спорт</button>
-            <button class="tag tag-teal">🎨 Музеи</button>
-            <button class="tag">🎵 Концерты</button>
-            <button class="tag">🛍️ Шопинг</button>
+          <div class="glass">
+            <button class="list-item" id="openPreferencesBtn" style="border-radius: var(--radius-lg); width: 100%; text-align: left; background: transparent; border: none; cursor: pointer;">
+              <div class="list-item-icon" style="background: rgba(167, 139, 250, 0.2); color: var(--color-accent-purple);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              </div>
+              <div class="list-item-content">
+                <div style="font-weight: 500;">Мои предпочтения</div>
+                <div class="text-sm text-muted">Театр, Кино, Концерты и ещё 2</div>
+              </div>
+              <div class="list-item-action">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </div>
+            </button>
           </div>
         </section>
 
@@ -136,30 +148,24 @@
         <section class="section">
           <h2 class="section-title mb-md">Уведомления</h2>
 
-          <div class="card">
-            <div class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
+          <div class="glass">
+            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
               <div class="list-item-content">
                 <div style="font-weight: 500;">Push-уведомления</div>
                 <div class="text-sm text-muted">Новые рекомендации</div>
               </div>
               <div class="list-item-action">
-                <!-- Toggle switch -->
-                <div style="width: 48px; height: 28px; background: var(--color-accent-secondary); border-radius: 14px; position: relative;">
-                  <div style="width: 24px; height: 24px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 2px; box-shadow: var(--shadow-sm);"></div>
-                </div>
+                <div class="toggle active"></div>
               </div>
             </div>
 
-            <div class="list-item">
+            <div class="list-item" style="border-radius: 0 0 var(--radius-lg) var(--radius-lg);">
               <div class="list-item-content">
                 <div style="font-weight: 500;">Email-рассылка</div>
                 <div class="text-sm text-muted">Еженедельные подборки</div>
               </div>
               <div class="list-item-action">
-                <!-- Toggle switch off -->
-                <div style="width: 48px; height: 28px; background: var(--color-bg-secondary); border-radius: 14px; position: relative;">
-                  <div style="width: 24px; height: 24px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px; box-shadow: var(--shadow-sm);"></div>
-                </div>
+                <div class="toggle"></div>
               </div>
             </div>
           </div>
@@ -169,8 +175,8 @@
         <section class="section">
           <h2 class="section-title mb-md">Другое</h2>
 
-          <div class="card">
-            <a href="#" class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
+          <div class="glass">
+            <a href="#" class="list-item" style="border-bottom: 1px solid var(--glass-border-light); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
               <div class="list-item-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10"/>
@@ -186,7 +192,7 @@
               </div>
             </a>
 
-            <a href="#" class="list-item" style="border-bottom: 1px solid var(--color-bg-secondary);">
+            <a href="#" class="list-item" style="border-bottom: 1px solid var(--glass-border-light);">
               <div class="list-item-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -204,7 +210,7 @@
               </div>
             </a>
 
-            <a href="#" class="list-item">
+            <a href="#" class="list-item" style="border-radius: 0 0 var(--radius-lg) var(--radius-lg);">
               <div class="list-item-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
@@ -241,5 +247,356 @@
       </div>
     </div>
   </div>
+  <!-- Preferences Modal -->
+  <div class="modal-overlay" id="preferencesModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Выберите интересы</h2>
+        <button class="modal-close" id="closePreferencesBtn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <p class="modal-subtitle">Выберите минимум 3 категории для персональных рекомендаций</p>
+
+      <div class="preferences-grid">
+        <button class="pref-card selected" data-category="theatre">
+          <div class="pref-card-icon" style="background: linear-gradient(135deg, #a78bfa 0%, #818cf8 100%);">🎭</div>
+          <span class="pref-card-label">Театр</span>
+          <div class="pref-card-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </button>
+
+        <button class="pref-card selected" data-category="cinema">
+          <div class="pref-card-icon" style="background: linear-gradient(135deg, #ff9a56 0%, #ff6b6b 100%);">🎬</div>
+          <span class="pref-card-label">Кино</span>
+          <div class="pref-card-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </button>
+
+        <button class="pref-card" data-category="quest">
+          <div class="pref-card-icon" style="background: linear-gradient(135deg, #4ade80 0%, #22d3ee 100%);">🔐</div>
+          <span class="pref-card-label">Квесты</span>
+          <div class="pref-card-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </button>
+
+        <button class="pref-card selected" data-category="concert">
+          <div class="pref-card-icon" style="background: linear-gradient(135deg, #f472b6 0%, #fb7185 100%);">🎤</div>
+          <span class="pref-card-label">Концерты</span>
+          <div class="pref-card-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </button>
+
+        <button class="pref-card selected" data-category="standup">
+          <div class="pref-card-icon" style="background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);">🎙️</div>
+          <span class="pref-card-label">Стендап</span>
+          <div class="pref-card-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </button>
+
+        <button class="pref-card selected" data-category="exhibition">
+          <div class="pref-card-icon" style="background: linear-gradient(135deg, #67e8f9 0%, #a5b4fc 100%);">🖼️</div>
+          <span class="pref-card-label">Выставки</span>
+          <div class="pref-card-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </button>
+
+        <button class="pref-card" data-category="festival">
+          <div class="pref-card-icon" style="background: linear-gradient(135deg, #fb7185 0%, #fbbf24 100%);">🎪</div>
+          <span class="pref-card-label">Фестивали</span>
+          <div class="pref-card-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </button>
+
+        <button class="pref-card" data-category="ballet">
+          <div class="pref-card-icon" style="background: linear-gradient(135deg, #f0abfc 0%, #c084fc 100%);">🩰</div>
+          <span class="pref-card-label">Балет</span>
+          <div class="pref-card-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </button>
+
+        <button class="pref-card" data-category="opera">
+          <div class="pref-card-icon" style="background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 100%);">🎼</div>
+          <span class="pref-card-label">Опера</span>
+          <div class="pref-card-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </button>
+
+        <button class="pref-card" data-category="club">
+          <div class="pref-card-icon" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);">🎸</div>
+          <span class="pref-card-label">Клубы</span>
+          <div class="pref-card-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </button>
+
+        <button class="pref-card" data-category="sport">
+          <div class="pref-card-icon" style="background: linear-gradient(135deg, #34d399 0%, #10b981 100%);">⚽</div>
+          <span class="pref-card-label">Спорт</span>
+          <div class="pref-card-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </button>
+
+        <button class="pref-card" data-category="lecture">
+          <div class="pref-card-icon" style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);">📚</div>
+          <span class="pref-card-label">Лекции</span>
+          <div class="pref-card-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </button>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary btn-full" id="savePreferencesBtn">
+          Сохранить (5 выбрано)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background: var(--glass-bg-strong);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: var(--space-lg);
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-xs);
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      width: 40px;
+      height: 40px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--color-text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: var(--glass-bg-strong);
+      color: var(--color-text);
+    }
+
+    .modal-subtitle {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      margin-bottom: var(--space-lg);
+    }
+
+    /* Preferences Grid - Spotify style */
+    .preferences-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+
+    .pref-card {
+      position: relative;
+      background: var(--glass-bg);
+      border: 2px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pref-card:hover {
+      background: var(--glass-bg-strong);
+      transform: scale(1.02);
+    }
+
+    .pref-card.selected {
+      border-color: var(--color-accent-primary);
+      background: rgba(255, 107, 157, 0.15);
+    }
+
+    .pref-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .pref-card-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .pref-card-check {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 20px;
+      height: 20px;
+      background: var(--color-accent-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.2s ease;
+    }
+
+    .pref-card-check svg {
+      width: 12px;
+      height: 12px;
+      color: white;
+    }
+
+    .pref-card.selected .pref-card-check {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .modal-footer {
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--glass-border-light);
+    }
+  </style>
+
+  <script>
+    // Modal functionality
+    const modal = document.getElementById('preferencesModal');
+    const openBtn = document.getElementById('openPreferencesBtn');
+    const closeBtn = document.getElementById('closePreferencesBtn');
+    const saveBtn = document.getElementById('savePreferencesBtn');
+    const prefCards = document.querySelectorAll('.pref-card');
+
+    openBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    prefCards.forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('selected');
+        updateSaveButton();
+      });
+    });
+
+    function updateSaveButton() {
+      const selectedCount = document.querySelectorAll('.pref-card.selected').length;
+      saveBtn.textContent = `Сохранить (${selectedCount} выбрано)`;
+      saveBtn.disabled = selectedCount < 3;
+    }
+
+    saveBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      // Here you would save preferences
+    });
+  </script>
 </body>
 </html>
