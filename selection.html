@@ -55,25 +55,6 @@
       box-shadow: var(--shadow-xl), 0 0 40px rgba(255, 107, 157, 0.15);
     }
 
-    /* Card number badge */
-    .pick-card-number {
-      position: absolute;
-      top: var(--space-md);
-      left: var(--space-md);
-      width: 32px;
-      height: 32px;
-      background: var(--glass-bg-strong);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--glass-border);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.875rem;
-      z-index: 10;
-    }
-
     /* Match percentage */
     .pick-card-match {
       position: absolute;
@@ -142,6 +123,7 @@
     .pick-card-actions {
       display: flex;
       gap: var(--space-sm);
+      padding: 0 var(--space-md) var(--space-md);
     }
 
     /* Choose button - the "winner" CTA */
@@ -199,23 +181,54 @@
       height: 20px;
     }
 
-    /* Details link */
-    .pick-card-details {
-      position: absolute;
-      bottom: var(--space-md);
-      right: var(--space-md);
+    /* Card link wrapper */
+    .pick-card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    /* Test results summary */
+    .test-results {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .test-results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-sm);
+    }
+
+    .test-results-title {
+      font-size: 0.875rem;
+      font-weight: 600;
       color: var(--color-text-muted);
+    }
+
+    .test-results-edit {
+      color: var(--color-accent-secondary);
       font-size: 0.75rem;
+      text-decoration: none;
       display: flex;
       align-items: center;
       gap: var(--space-xs);
-      text-decoration: none;
-      transition: color 0.2s ease;
-      z-index: 10;
     }
 
-    .pick-card-details:hover {
-      color: var(--color-accent-primary);
+    .test-results-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+
+    .test-results-tags .tag {
+      font-size: 0.75rem;
     }
 
     /* Redo section */
@@ -288,6 +301,26 @@
 
       <div class="page-content">
 
+        <!-- Test Results Summary -->
+        <div class="test-results animate-fade-in">
+          <div class="test-results-header">
+            <span class="test-results-title">Ваши предпочтения</span>
+            <a href="test.html" class="test-results-edit">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+              </svg>
+              Изменить
+            </a>
+          </div>
+          <div class="test-results-tags">
+            <span class="tag tag-accent">🎭 Драма</span>
+            <span class="tag tag-purple">🎤 Живая музыка</span>
+            <span class="tag tag-teal">😄 Комедия</span>
+            <span class="tag">🌙 Вечер</span>
+            <span class="tag">💰 до 2000 ₽</span>
+          </div>
+        </div>
+
         <!-- Selection Header -->
         <div class="selection-header animate-fade-in">
           <h1 class="selection-title">Выберите победителя!</h1>
@@ -299,133 +332,118 @@
 
           <!-- Card 1 - Theatre -->
           <div class="pick-card">
-            <div class="pick-card-number">1</div>
-            <div class="pick-card-match">98%</div>
-            <div class="pick-card-image">
-              <div class="pick-card-image-bg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
-            </div>
-            <div class="pick-card-content">
-              <h3 class="pick-card-title">Мастер и Маргарита</h3>
-              <div class="pick-card-meta">
-                <span>🎭 Театр</span>
-                <span>•</span>
-                <span>21 дек, 19:00</span>
-                <span>•</span>
-                <span>от 1500 ₽</span>
+            <a href="card.html" class="pick-card-link">
+              <div class="pick-card-match">98%</div>
+              <div class="pick-card-image">
+                <div class="pick-card-image-bg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
               </div>
-              <div class="pick-card-tags">
-                <span class="tag tag-accent text-xs">Драма</span>
-                <span class="tag tag-purple text-xs">Классика</span>
-                <span class="tag text-xs">3 часа</span>
+              <div class="pick-card-content">
+                <h3 class="pick-card-title">Мастер и Маргарита</h3>
+                <div class="pick-card-meta">
+                  <span>🎭 Театр</span>
+                  <span>•</span>
+                  <span>21 дек, 19:00</span>
+                  <span>•</span>
+                  <span>от 1500 ₽</span>
+                </div>
+                <div class="pick-card-tags">
+                  <span class="tag tag-accent text-xs">Драма</span>
+                  <span class="tag tag-purple text-xs">Классика</span>
+                  <span class="tag text-xs">3 часа</span>
+                </div>
               </div>
-              <div class="pick-card-actions">
-                <a href="#booking" class="btn-choose">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  Это моё!
-                </a>
-                <button class="btn-swap" title="Показать другое">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="23 4 23 10 17 10"/>
-                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <a href="card.html" class="pick-card-details">
-              Подробнее
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="m9 18 6-6-6-6"/>
-              </svg>
             </a>
+            <div class="pick-card-actions">
+              <a href="#booking" class="btn-choose">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Это моё!
+              </a>
+              <button class="btn-swap" title="Показать другое">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 4 23 10 17 10"/>
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                </svg>
+              </button>
+            </div>
           </div>
 
           <!-- Card 2 - Stand-up -->
           <div class="pick-card">
-            <div class="pick-card-number">2</div>
-            <div class="pick-card-match">95%</div>
-            <div class="pick-card-image">
-              <div class="pick-card-image-bg" style="background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);"></div>
-            </div>
-            <div class="pick-card-content">
-              <h3 class="pick-card-title">Stand Up: Открытый микрофон</h3>
-              <div class="pick-card-meta">
-                <span>🎙️ Стендап</span>
-                <span>•</span>
-                <span>22 дек, 21:00</span>
-                <span>•</span>
-                <span>от 800 ₽</span>
+            <a href="card.html" class="pick-card-link">
+              <div class="pick-card-match">95%</div>
+              <div class="pick-card-image">
+                <div class="pick-card-image-bg" style="background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);"></div>
               </div>
-              <div class="pick-card-tags">
-                <span class="tag tag-teal text-xs">Комедия</span>
-                <span class="tag text-xs">2 часа</span>
-                <span class="tag text-xs">18+</span>
+              <div class="pick-card-content">
+                <h3 class="pick-card-title">Stand Up: Открытый микрофон</h3>
+                <div class="pick-card-meta">
+                  <span>🎙️ Стендап</span>
+                  <span>•</span>
+                  <span>22 дек, 21:00</span>
+                  <span>•</span>
+                  <span>от 800 ₽</span>
+                </div>
+                <div class="pick-card-tags">
+                  <span class="tag tag-teal text-xs">Комедия</span>
+                  <span class="tag text-xs">2 часа</span>
+                  <span class="tag text-xs">18+</span>
+                </div>
               </div>
-              <div class="pick-card-actions">
-                <a href="#booking" class="btn-choose">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  Это моё!
-                </a>
-                <button class="btn-swap" title="Показать другое">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="23 4 23 10 17 10"/>
-                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <a href="card.html" class="pick-card-details">
-              Подробнее
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="m9 18 6-6-6-6"/>
-              </svg>
             </a>
+            <div class="pick-card-actions">
+              <a href="#booking" class="btn-choose">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Это моё!
+              </a>
+              <button class="btn-swap" title="Показать другое">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 4 23 10 17 10"/>
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                </svg>
+              </button>
+            </div>
           </div>
 
           <!-- Card 3 - Concert -->
           <div class="pick-card">
-            <div class="pick-card-number">3</div>
-            <div class="pick-card-match">92%</div>
-            <div class="pick-card-image">
-              <div class="pick-card-image-bg" style="background: linear-gradient(135deg, #f472b6 0%, #fb7185 100%);"></div>
-            </div>
-            <div class="pick-card-content">
-              <h3 class="pick-card-title">Вечер джаза</h3>
-              <div class="pick-card-meta">
-                <span>🎤 Концерт</span>
-                <span>•</span>
-                <span>23 дек, 20:00</span>
-                <span>•</span>
-                <span>от 1200 ₽</span>
+            <a href="card.html" class="pick-card-link">
+              <div class="pick-card-match">92%</div>
+              <div class="pick-card-image">
+                <div class="pick-card-image-bg" style="background: linear-gradient(135deg, #f472b6 0%, #fb7185 100%);"></div>
               </div>
-              <div class="pick-card-tags">
-                <span class="tag tag-accent text-xs">Джаз</span>
-                <span class="tag text-xs">Камерный зал</span>
+              <div class="pick-card-content">
+                <h3 class="pick-card-title">Вечер джаза</h3>
+                <div class="pick-card-meta">
+                  <span>🎤 Концерт</span>
+                  <span>•</span>
+                  <span>23 дек, 20:00</span>
+                  <span>•</span>
+                  <span>от 1200 ₽</span>
+                </div>
+                <div class="pick-card-tags">
+                  <span class="tag tag-accent text-xs">Джаз</span>
+                  <span class="tag text-xs">Камерный зал</span>
+                </div>
               </div>
-              <div class="pick-card-actions">
-                <a href="#booking" class="btn-choose">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  Это моё!
-                </a>
-                <button class="btn-swap" title="Показать другое">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="23 4 23 10 17 10"/>
-                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <a href="card.html" class="pick-card-details">
-              Подробнее
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="m9 18 6-6-6-6"/>
-              </svg>
             </a>
+            <div class="pick-card-actions">
+              <a href="#booking" class="btn-choose">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Это моё!
+              </a>
+              <button class="btn-swap" title="Показать другое">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 4 23 10 17 10"/>
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                </svg>
+              </button>
+            </div>
           </div>
 
         </div>
