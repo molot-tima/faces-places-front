@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Настройки интересов - Faces & Places</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Matter.js Physics Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+
+  <style>
+    /* Page specific styles */
+    .preferences-page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .preferences-header {
+      padding: var(--space-lg) var(--space-md);
+      padding-top: calc(env(safe-area-inset-top, 0px) + var(--space-lg));
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .back-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-full);
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur-glass);
+      border: 1px solid var(--glass-border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-primary);
+      transition: all var(--transition-fast);
+    }
+
+    .back-btn:active {
+      transform: scale(0.95);
+      background: var(--glass-bg-strong);
+    }
+
+    .page-title {
+      font-size: var(--font-size-xl);
+      font-weight: 600;
+    }
+
+    /* Main content area */
+    .preferences-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-lg);
+      text-align: center;
+    }
+
+    .preferences-intro {
+      max-width: 300px;
+      margin-bottom: var(--space-xl);
+    }
+
+    .preferences-intro h2 {
+      font-size: var(--font-size-2xl);
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+    }
+
+    .preferences-intro p {
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-sm);
+    }
+
+    .open-bubbles-btn {
+      padding: var(--space-md) var(--space-xl);
+      border-radius: var(--radius-full);
+      background: var(--gradient-primary);
+      color: white;
+      font-weight: 600;
+      font-size: var(--font-size-lg);
+      box-shadow: var(--glow-primary);
+      transition: all var(--transition-normal);
+    }
+
+    .open-bubbles-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* ===========================================
+       Bubble Modal Styles
+       =========================================== */
+
+    .bubble-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-normal);
+    }
+
+    .bubble-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .bubble-modal {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bubble-modal-header {
+      padding: var(--space-lg) var(--space-md);
+      padding-top: calc(env(safe-area-inset-top, 0px) + var(--space-lg));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 100%);
+      z-index: 10;
+    }
+
+    .bubble-modal-title {
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+    }
+
+    .bubble-modal-close {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur-glass);
+      border: 1px solid var(--glass-border-light);
+      color: var(--color-text-primary);
+      font-size: var(--font-size-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+    }
+
+    .bubble-modal-close:active {
+      transform: scale(0.95);
+    }
+
+    /* Bubble container - physics simulation area */
+    .bubble-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Individual bubble styles */
+    .bubble {
+      position: absolute;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: width var(--transition-bounce),
+                  height var(--transition-bounce),
+                  background var(--transition-fast),
+                  box-shadow var(--transition-fast);
+      will-change: transform;
+      overflow: hidden;
+    }
+
+    .bubble-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      z-index: 2;
+      padding: var(--space-xs);
+    }
+
+    .bubble-emoji {
+      font-size: 1.2em;
+      line-height: 1;
+    }
+
+    .bubble-name {
+      font-size: 0.65em;
+      font-weight: 600;
+      color: white;
+      text-align: center;
+      line-height: 1.1;
+      max-width: 90%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .bubble-state {
+      font-size: 0.8em;
+      opacity: 0.9;
+    }
+
+    .bubble-glow {
+      position: absolute;
+      inset: -50%;
+      opacity: 0.3;
+      filter: blur(30px);
+      z-index: 1;
+      transition: opacity var(--transition-fast);
+    }
+
+    .bubble:active .bubble-glow,
+    .bubble-pressed .bubble-glow {
+      opacity: 0.5;
+    }
+
+    .bubble.bubble-animating {
+      z-index: 100;
+    }
+
+    /* Bubble dragging state */
+    .bubble.bubble-dragging {
+      cursor: grabbing;
+      z-index: 200;
+      transform-origin: center center;
+    }
+
+    .bubble.bubble-dragging .bubble-glow {
+      opacity: 0.6;
+    }
+
+    .bubble:not(.bubble-dragging) {
+      cursor: grab;
+    }
+
+    /* Bubble states - color schemes */
+    .bubble-dislike {
+      background: linear-gradient(135deg, rgba(100, 100, 120, 0.4) 0%, rgba(80, 80, 100, 0.3) 100%);
+      border: 2px solid rgba(150, 150, 170, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3),
+                  inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .bubble-neutral {
+      background: linear-gradient(135deg, rgba(100, 165, 250, 0.4) 0%, rgba(139, 92, 246, 0.3) 100%);
+      border: 2px solid rgba(139, 92, 246, 0.4);
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2),
+                  inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .bubble-like {
+      background: linear-gradient(135deg, rgba(78, 205, 196, 0.5) 0%, rgba(96, 165, 250, 0.4) 100%);
+      border: 2px solid rgba(78, 205, 196, 0.5);
+      box-shadow: 0 4px 25px rgba(78, 205, 196, 0.3),
+                  inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    }
+
+    .bubble-strongly-like {
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.6) 0%, rgba(255, 217, 61, 0.4) 100%);
+      border: 2px solid rgba(255, 107, 157, 0.5);
+      box-shadow: 0 4px 30px rgba(255, 107, 157, 0.4),
+                  0 0 60px rgba(255, 107, 157, 0.2),
+                  inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    }
+
+    /* Footer with legend and save button */
+    .bubble-modal-footer {
+      padding: var(--space-md);
+      padding-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--space-md));
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+      z-index: 10;
+    }
+
+    .bubble-legend {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: var(--radius-full);
+    }
+
+    .legend-dot.dislike {
+      background: linear-gradient(135deg, #64647a 0%, #505064 100%);
+    }
+
+    .legend-dot.neutral {
+      background: linear-gradient(135deg, #60a5fa 0%, #8b5cf6 100%);
+    }
+
+    .legend-dot.like {
+      background: linear-gradient(135deg, #4ecdc4 0%, #60a5fa 100%);
+    }
+
+    .legend-dot.strongly-like {
+      background: linear-gradient(135deg, #ff6b9d 0%, #ffd93d 100%);
+    }
+
+    .save-preferences-btn {
+      width: 100%;
+      padding: var(--space-md);
+      border-radius: var(--radius-lg);
+      background: var(--gradient-primary);
+      color: white;
+      font-weight: 600;
+      font-size: var(--font-size-base);
+      box-shadow: var(--glow-primary);
+      transition: all var(--transition-normal);
+    }
+
+    .save-preferences-btn:active {
+      transform: scale(0.98);
+    }
+
+    .save-preferences-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Instruction toast */
+    .instruction-toast {
+      position: absolute;
+      bottom: 140px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--glass-bg-strong);
+      backdrop-filter: var(--blur-glass);
+      border: 1px solid var(--glass-border);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      white-space: nowrap;
+      opacity: 0;
+      animation: fadeInOut 4s ease-in-out forwards;
+      z-index: 5;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Main Page Content -->
+  <div class="preferences-page">
+    <header class="preferences-header">
+      <a href="settings.html" class="back-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </a>
+      <h1 class="page-title">Настройки интересов</h1>
+    </header>
+
+    <div class="preferences-content">
+      <div class="preferences-intro">
+        <h2>Расскажите о себе</h2>
+        <p>Нажмите на пузырьки, чтобы указать, насколько вам интересна каждая категория. Размер пузырька отражает ваш интерес!</p>
+      </div>
+      <button class="open-bubbles-btn" id="openBubblesBtn">
+        Настроить интересы
+      </button>
+    </div>
+  </div>
+
+  <!-- Bubble Modal -->
+  <div class="bubble-modal-overlay" id="bubbleModal">
+    <div class="bubble-modal">
+      <header class="bubble-modal-header">
+        <h2 class="bubble-modal-title">Ваши интересы</h2>
+        <button class="bubble-modal-close" id="closeBubbleModal">✕</button>
+      </header>
+
+      <div class="bubble-container" id="bubbleContainer">
+        <!-- Bubbles will be generated here by JavaScript -->
+        <div class="instruction-toast" id="instructionToast">
+          👆 Нажмите для смены интереса · Перетаскивайте пузырьки
+        </div>
+      </div>
+
+      <footer class="bubble-modal-footer">
+        <div class="bubble-legend">
+          <div class="legend-item">
+            <div class="legend-dot dislike"></div>
+            <span>Не интересно</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot neutral"></div>
+            <span>Нейтрально</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot like"></div>
+            <span>Нравится</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot strongly-like"></div>
+            <span>Обожаю!</span>
+          </div>
+        </div>
+        <button class="save-preferences-btn" id="savePreferencesBtn">
+          Сохранить настройки
+        </button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Physics modules -->
+  <script src="physics/bubble-physics.js"></script>
+  <script src="physics/bubble-manager.js"></script>
+
+  <script>
+    // Category data - matches existing categories in the app
+    const CATEGORIES = [
+      { id: 'theatre', name: 'Театр', emoji: '🎭', gradient: 'linear-gradient(135deg, #a78bfa 0%, #818cf8 100%)' },
+      { id: 'cinema', name: 'Кино', emoji: '🎬', gradient: 'linear-gradient(135deg, #ff9a56 0%, #ff6b6b 100%)' },
+      { id: 'quest', name: 'Квесты', emoji: '🔐', gradient: 'linear-gradient(135deg, #4ade80 0%, #22d3ee 100%)' },
+      { id: 'concert', name: 'Концерты', emoji: '🎤', gradient: 'linear-gradient(135deg, #f472b6 0%, #fb7185 100%)' },
+      { id: 'standup', name: 'Стендап', emoji: '🎙️', gradient: 'linear-gradient(135deg, #fbbf24 0%, #f97316 100%)' },
+      { id: 'exhibition', name: 'Выставки', emoji: '🖼️', gradient: 'linear-gradient(135deg, #67e8f9 0%, #a5b4fc 100%)' },
+      { id: 'festival', name: 'Фестивали', emoji: '🎪', gradient: 'linear-gradient(135deg, #fb7185 0%, #fbbf24 100%)' },
+      { id: 'ballet', name: 'Балет', emoji: '🩰', gradient: 'linear-gradient(135deg, #f0abfc 0%, #c084fc 100%)' },
+      { id: 'opera', name: 'Опера', emoji: '🎼', gradient: 'linear-gradient(135deg, #c4b5fd 0%, #a78bfa 100%)' },
+      { id: 'club', name: 'Клубы', emoji: '🎸', gradient: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)' },
+      { id: 'sport', name: 'Спорт', emoji: '⚽', gradient: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)' },
+      { id: 'lecture', name: 'Лекции', emoji: '📚', gradient: 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)' }
+    ];
+
+    // DOM Elements
+    const openBubblesBtn = document.getElementById('openBubblesBtn');
+    const bubbleModal = document.getElementById('bubbleModal');
+    const closeBubbleModal = document.getElementById('closeBubbleModal');
+    const bubbleContainer = document.getElementById('bubbleContainer');
+    const savePreferencesBtn = document.getElementById('savePreferencesBtn');
+    const instructionToast = document.getElementById('instructionToast');
+
+    // Physics and bubble manager instances
+    let physics = null;
+    let bubbleManager = null;
+
+    // Load saved preferences
+    function loadSavedPreferences() {
+      const saved = localStorage.getItem('categoryPreferences');
+      return saved ? JSON.parse(saved) : null;
+    }
+
+    // Save preferences
+    function savePreferences(preferences) {
+      localStorage.setItem('categoryPreferences', JSON.stringify(preferences));
+    }
+
+    // Initialize the bubble simulation
+    function initBubbleSimulation() {
+      // Clean up any existing simulation
+      if (physics) {
+        physics.destroy();
+      }
+      if (bubbleManager) {
+        bubbleManager.destroy();
+      }
+
+      // Clear container (except toast)
+      Array.from(bubbleContainer.children).forEach(child => {
+        if (child.id !== 'instructionToast') {
+          child.remove();
+        }
+      });
+
+      // Create physics engine
+      physics = new BubblePhysics(bubbleContainer, {
+        attractionStrength: 0.0006,
+        dampingFactor: 0.08,
+        collisionPadding: 6
+      });
+
+      // Create bubble manager
+      bubbleManager = new BubbleManager(bubbleContainer, physics, CATEGORIES, {
+        defaultState: 'NEUTRAL',
+        onStateChange: (categoryId, stateName, state) => {
+          console.log(`Category ${categoryId} changed to ${stateName}`);
+        }
+      });
+
+      // Load saved preferences
+      const savedPreferences = loadSavedPreferences();
+      if (savedPreferences) {
+        bubbleManager.loadPreferences(savedPreferences);
+      }
+
+      // Show instruction toast
+      instructionToast.style.animation = 'none';
+      instructionToast.offsetHeight; // Trigger reflow
+      instructionToast.style.animation = 'fadeInOut 4s ease-in-out forwards';
+    }
+
+    // Open modal
+    function openModal() {
+      bubbleModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      // Small delay before initializing physics for smoother animation
+      setTimeout(() => {
+        initBubbleSimulation();
+      }, 100);
+    }
+
+    // Close modal
+    function closeModal() {
+      bubbleModal.classList.remove('active');
+      document.body.style.overflow = '';
+
+      // Cleanup after animation
+      setTimeout(() => {
+        if (physics) {
+          physics.stop();
+        }
+      }, 300);
+    }
+
+    // Save and close
+    function saveAndClose() {
+      if (bubbleManager) {
+        const preferences = bubbleManager.getPreferences();
+        savePreferences(preferences);
+        console.log('Preferences saved:', preferences);
+      }
+      closeModal();
+    }
+
+    // Event listeners
+    openBubblesBtn.addEventListener('click', openModal);
+    closeBubbleModal.addEventListener('click', closeModal);
+    savePreferencesBtn.addEventListener('click', saveAndClose);
+
+    // Close on overlay click (outside modal content)
+    bubbleModal.addEventListener('click', (e) => {
+      if (e.target === bubbleModal) {
+        closeModal();
+      }
+    });
+
+    // Handle escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && bubbleModal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+      if (physics) {
+        physics.destroy();
+      }
+    });
+  </script>
+</body>
+</html>
