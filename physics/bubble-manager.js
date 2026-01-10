@@ -60,6 +60,15 @@ class BubbleManager {
     }
 
     init() {
+        // Setup physics drag end handler for click detection
+        this.physics.onDragEnd = (event) => {
+            if (event.isClick) {
+                // This was a click, not a drag - cycle state
+                this.cycleState(event.bubbleId);
+            }
+            // If it was a drag, do nothing - the bubble just gets released
+        };
+
         this.createBubbles();
     }
 
@@ -67,6 +76,8 @@ class BubbleManager {
      * Create bubble elements for all categories
      */
     createBubbles() {
+        const totalCount = this.categories.length;
+
         this.categories.forEach((category, index) => {
             const state = BubbleManager.STATES[this.options.defaultState];
             this.categoryStates.set(category.id, this.options.defaultState);
@@ -75,10 +86,8 @@ class BubbleManager {
             this.container.appendChild(bubble);
             this.categoryElements.set(category.id, bubble);
 
-            // Add to physics simulation with slight delay for visual effect
-            setTimeout(() => {
-                this.physics.addBubble(category.id, bubble, state.size);
-            }, index * 50);
+            // Add to physics simulation immediately with proper positioning
+            this.physics.addBubble(category.id, bubble, state.size, index, totalCount);
         });
     }
 
@@ -102,21 +111,8 @@ class BubbleManager {
             <div class="bubble-glow" style="background: ${category.gradient}"></div>
         `;
 
-        // Click handler for state cycling
-        bubble.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            this.cycleState(category.id);
-        });
-
-        // Add touch feedback
-        bubble.addEventListener('touchstart', () => {
-            bubble.classList.add('bubble-pressed');
-        }, { passive: true });
-
-        bubble.addEventListener('touchend', () => {
-            bubble.classList.remove('bubble-pressed');
-        }, { passive: true });
+        // Note: Click handling is now done through physics.onDragEnd
+        // This allows us to distinguish between clicks and drags
 
         return bubble;
     }
@@ -126,6 +122,8 @@ class BubbleManager {
      */
     cycleState(categoryId) {
         const currentStateName = this.categoryStates.get(categoryId);
+        if (!currentStateName) return;
+
         const currentIndex = BubbleManager.STATE_ORDER.indexOf(currentStateName);
         const nextIndex = (currentIndex + 1) % BubbleManager.STATE_ORDER.length;
         const nextStateName = BubbleManager.STATE_ORDER[nextIndex];

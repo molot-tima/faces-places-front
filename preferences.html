@@ -231,6 +231,21 @@
       z-index: 100;
     }
 
+    /* Bubble dragging state */
+    .bubble.bubble-dragging {
+      cursor: grabbing;
+      z-index: 200;
+      transform-origin: center center;
+    }
+
+    .bubble.bubble-dragging .bubble-glow {
+      opacity: 0.6;
+    }
+
+    .bubble:not(.bubble-dragging) {
+      cursor: grab;
+    }
+
     /* Bubble states - color schemes */
     .bubble-dislike {
       background: linear-gradient(135deg, rgba(100, 100, 120, 0.4) 0%, rgba(80, 80, 100, 0.3) 100%);
@@ -396,7 +411,7 @@
       <div class="bubble-container" id="bubbleContainer">
         <!-- Bubbles will be generated here by JavaScript -->
         <div class="instruction-toast" id="instructionToast">
-          👆 Нажимайте на пузырьки, чтобы менять интерес
+          👆 Нажмите для смены интереса · Перетаскивайте пузырьки
         </div>
       </div>
 

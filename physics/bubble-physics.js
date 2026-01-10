@@ -33,6 +33,15 @@ class BubblePhysics {
         this.animationId = null;
         this.centerX = 0;
         this.centerY = 0;
+        this.bubbleIndex = 0; // For spiral placement
+
+        // Drag state tracking
+        this.mouseConstraint = null;
+        this.isDragging = false;
+        this.dragStartTime = 0;
+        this.dragStartPos = { x: 0, y: 0 };
+        this.draggedBody = null;
+        this.onDragEnd = null; // Callback when drag ends
 
         this.init();
     }
@@ -53,6 +62,9 @@ class BubblePhysics {
 
         // Create boundary walls (invisible)
         this.createBoundaries();
+
+        // Setup mouse/touch drag
+        this.setupMouseConstraint();
 
         // Setup resize observer
         this.setupResizeObserver();
@@ -108,10 +120,132 @@ class BubblePhysics {
         this.World.add(this.world, this.boundaries);
     }
 
+    /**
+     * Setup mouse/touch drag constraint
+     */
+    setupMouseConstraint() {
+        // Create mouse
+        this.mouse = this.Mouse.create(this.container);
+
+        // Fix for high DPI displays
+        this.mouse.pixelRatio = window.devicePixelRatio || 1;
+
+        // Create mouse constraint
+        this.mouseConstraint = this.MouseConstraint.create(this.engine, {
+            mouse: this.mouse,
+            constraint: {
+                stiffness: 0.2,
+                damping: 0.3,
+                render: { visible: false }
+            }
+        });
+
+        this.World.add(this.world, this.mouseConstraint);
+
+        // Track drag start
+        this.Events.on(this.mouseConstraint, 'startdrag', (event) => {
+            this.isDragging = true;
+            this.dragStartTime = Date.now();
+            this.dragStartPos = { ...event.mouse.position };
+            this.draggedBody = event.body;
+
+            // Add dragging class to element
+            const bubbleData = this.getBubbleByBody(event.body);
+            if (bubbleData) {
+                bubbleData.element.classList.add('bubble-dragging');
+            }
+        });
+
+        // Track drag end
+        this.Events.on(this.mouseConstraint, 'enddrag', (event) => {
+            const dragDuration = Date.now() - this.dragStartTime;
+            const dragDistance = Math.sqrt(
+                Math.pow(event.mouse.position.x - this.dragStartPos.x, 2) +
+                Math.pow(event.mouse.position.y - this.dragStartPos.y, 2)
+            );
+
+            // Remove dragging class
+            const bubbleData = this.getBubbleByBody(event.body);
+            if (bubbleData) {
+                bubbleData.element.classList.remove('bubble-dragging');
+            }
+
+            // Determine if this was a click or a drag
+            // Click: short duration AND small movement
+            const isClick = dragDuration < 200 && dragDistance < 10;
+
+            if (this.onDragEnd) {
+                this.onDragEnd({
+                    body: event.body,
+                    isClick,
+                    isDrag: !isClick,
+                    bubbleId: event.body.label
+                });
+            }
+
+            this.isDragging = false;
+            this.draggedBody = null;
+        });
+
+        // Handle touch events for mobile
+        this.setupTouchHandling();
+    }
+
+    /**
+     * Setup touch event handling for mobile devices
+     */
+    setupTouchHandling() {
+        // Prevent default touch behavior to avoid scrolling
+        this.container.addEventListener('touchmove', (e) => {
+            if (this.isDragging) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    }
+
+    /**
+     * Get bubble data by physics body
+     */
+    getBubbleByBody(body) {
+        for (const [id, bubbleData] of this.bubbles) {
+            if (bubbleData.body === body) {
+                return bubbleData;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Calculate spiral position to avoid initial collisions
+     * Uses Fermat's spiral for even distribution
+     */
+    calculateSpiralPosition(index, totalCount, bubbleSize) {
+        // Golden angle in radians
+        const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
+        // Calculate position using Fermat's spiral
+        const angle = index * goldenAngle;
+
+        // Spacing based on bubble size with padding
+        const baseRadius = bubbleSize + 20;
+        const radius = baseRadius * Math.sqrt(index + 1);
+
+        // Calculate position relative to center
+        const x = this.centerX + radius * Math.cos(angle);
+        const y = this.centerY + radius * Math.sin(angle);
+
+        return { x, y };
+    }
+
     setupResizeObserver() {
         this.resizeObserver = new ResizeObserver(() => {
             this.updateDimensions();
             this.createBoundaries();
+
+            // Update mouse constraint for new dimensions
+            if (this.mouse) {
+                this.mouse.pixelRatio = window.devicePixelRatio || 1;
+            }
         });
         this.resizeObserver.observe(this.container);
     }
@@ -121,17 +255,16 @@ class BubblePhysics {
      * @param {string} id - Unique identifier for the bubble
      * @param {HTMLElement} element - DOM element representing the bubble
      * @param {number} size - Current size of the bubble
+     * @param {number} index - Index of this bubble (for positioning)
+     * @param {number} totalCount - Total number of bubbles
      */
-    addBubble(id, element, size) {
-        // Random position around center with some spread
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 50 + Math.random() * 100;
-        const x = this.centerX + Math.cos(angle) * distance;
-        const y = this.centerY + Math.sin(angle) * distance;
-
+    addBubble(id, element, size, index = 0, totalCount = 1) {
         const radius = size / 2;
 
-        const body = this.Bodies.circle(x, y, radius + this.options.collisionPadding, {
+        // Use spiral positioning to avoid collisions
+        const pos = this.calculateSpiralPosition(index, totalCount, size);
+
+        const body = this.Bodies.circle(pos.x, pos.y, radius + this.options.collisionPadding, {
             friction: 0.1,
             frictionAir: this.options.dampingFactor,
             restitution: 0.3,
@@ -203,6 +336,12 @@ class BubblePhysics {
     applyAttractionForces() {
         for (const [id, bubbleData] of this.bubbles) {
             const body = bubbleData.body;
+
+            // Don't apply attraction to dragged body
+            if (this.isDragging && body === this.draggedBody) {
+                continue;
+            }
+
             const pos = body.position;
 
             // Calculate direction to center
@@ -284,6 +423,12 @@ class BubblePhysics {
      */
     destroy() {
         this.stop();
+
+        // Remove mouse constraint
+        if (this.mouseConstraint) {
+            this.World.remove(this.world, this.mouseConstraint);
+        }
+
         this.World.clear(this.world);
         this.Engine.clear(this.engine);
         this.bubbles.clear();
