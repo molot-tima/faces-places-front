@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Faces & Places - Планирование</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Trip Test Specific Styles */
+
+    /* Screen container */
+    .test-screen {
+      display: none;
+      opacity: 0;
+      transition: opacity var(--transition-normal);
+    }
+
+    .test-screen.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Option card enhancements */
+    .option-card {
+      padding: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .option-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-md);
+      background: var(--glass-bg-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .option-card-content {
+      flex: 1;
+    }
+
+    .option-card-title {
+      font-weight: 600;
+      font-size: var(--font-size-base);
+      margin-bottom: 2px;
+    }
+
+    .option-card-subtitle {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .option-card.selected .option-card-icon {
+      background: rgba(255, 107, 157, 0.25);
+    }
+
+    /* Tag Cards Grid */
+    .tag-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    @media (min-width: 400px) {
+      .tag-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Tag Card */
+    .tag-card {
+      aspect-ratio: 1;
+      border-radius: var(--radius-lg);
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur-glass);
+      -webkit-backdrop-filter: var(--blur-glass);
+      border: 2px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      padding: var(--space-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tag-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--glass-highlight), transparent);
+      opacity: 0.5;
+    }
+
+    .tag-card-emoji {
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .tag-card-name {
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .tag-card-state {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+      position: absolute;
+      bottom: var(--space-sm);
+    }
+
+    .tag-card-indicator {
+      position: absolute;
+      top: var(--space-sm);
+      right: var(--space-sm);
+      font-size: 16px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all var(--transition-fast);
+    }
+
+    /* Tag Card States */
+    .tag-card[data-state="neutral"] {
+      background: var(--glass-bg);
+      border-color: var(--glass-border);
+    }
+
+    .tag-card[data-state="neutral"] .tag-card-indicator {
+      opacity: 0;
+    }
+
+    .tag-card[data-state="like"] {
+      background: linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(96, 165, 250, 0.1) 100%);
+      border-color: rgba(78, 205, 196, 0.5);
+      box-shadow: 0 4px 20px rgba(78, 205, 196, 0.15);
+    }
+
+    .tag-card[data-state="like"] .tag-card-indicator {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .tag-card[data-state="strongly_like"] {
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.2) 0%, rgba(255, 217, 61, 0.15) 100%);
+      border-color: rgba(255, 107, 157, 0.5);
+      box-shadow: 0 4px 25px rgba(255, 107, 157, 0.2),
+                  0 0 40px rgba(255, 107, 157, 0.1);
+    }
+
+    .tag-card[data-state="strongly_like"] .tag-card-indicator {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .tag-card[data-state="dislike"] {
+      background: linear-gradient(135deg, rgba(100, 100, 120, 0.15) 0%, rgba(80, 80, 100, 0.1) 100%);
+      border-color: rgba(150, 150, 170, 0.3);
+      opacity: 0.7;
+    }
+
+    .tag-card[data-state="dislike"] .tag-card-indicator {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .tag-card[data-state="dislike"] .tag-card-emoji {
+      filter: grayscale(0.5);
+    }
+
+    /* Tag card hover */
+    .tag-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .tag-card:active {
+      transform: scale(0.97);
+    }
+
+    /* Tag Legend */
+    .tag-legend {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+      flex-wrap: wrap;
+    }
+
+    .tag-legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+    }
+
+    .tag-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: var(--radius-full);
+    }
+
+    .tag-legend-dot.neutral {
+      background: var(--glass-bg-strong);
+      border: 1px solid var(--glass-border);
+    }
+
+    .tag-legend-dot.like {
+      background: linear-gradient(135deg, #4ecdc4 0%, #60a5fa 100%);
+    }
+
+    .tag-legend-dot.strongly-like {
+      background: linear-gradient(135deg, #ff6b9d 0%, #ffd93d 100%);
+    }
+
+    .tag-legend-dot.dislike {
+      background: linear-gradient(135deg, #64647a 0%, #505064 100%);
+    }
+
+    /* Custom date range picker styles */
+    .date-picker-container {
+      display: none;
+      margin-top: var(--space-md);
+      padding: var(--space-md);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+    }
+
+    .date-picker-container.visible {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .date-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .date-input-group label {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .date-input-group input[type="date"] {
+      padding: var(--space-md);
+      background: var(--glass-bg-strong);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      color: var(--color-text-primary);
+      font-size: var(--font-size-base);
+    }
+
+    .date-input-group input[type="date"]:focus {
+      outline: none;
+      border-color: var(--color-accent-primary);
+    }
+
+    /* Results preview card */
+    .results-preview {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-top: var(--space-lg);
+    }
+
+    .results-preview h4 {
+      font-size: var(--font-size-base);
+      font-weight: 600;
+      margin-bottom: var(--space-md);
+      color: var(--color-accent-primary);
+    }
+
+    .results-preview pre {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated background orbs -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+
+  <div class="page">
+    <div class="container">
+
+      <!-- Header -->
+      <header class="page-header">
+        <a href="index.html" class="back-btn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+          <span>Выйти</span>
+        </a>
+        <span class="text-muted text-sm" id="stepIndicator">Шаг 1 из 3</span>
+      </header>
+
+      <div class="page-content">
+
+        <!-- Progress -->
+        <section class="section">
+          <div class="progress-bar mb-lg">
+            <div class="progress-fill" id="progressFill" style="width: 33%;"></div>
+          </div>
+
+          <!-- Progress steps -->
+          <div class="progress-steps mb-xl">
+            <div class="progress-step active" id="step1Indicator">1</div>
+            <div class="progress-line" id="line1"></div>
+            <div class="progress-step" id="step2Indicator">2</div>
+            <div class="progress-line" id="line2"></div>
+            <div class="progress-step" id="step3Indicator">3</div>
+          </div>
+        </section>
+
+        <!-- Screen 1: Timing -->
+        <section class="test-screen active" id="screen1">
+          <h1 class="heading-2 mb-md">Когда идём?</h1>
+          <p class="text-muted mb-xl">Выберите удобный период</p>
+
+          <div class="list gap-md stagger-children" id="timingOptions">
+            <div class="option-card" data-value="today">
+              <div class="option-card-icon">📅</div>
+              <div class="option-card-content">
+                <div class="option-card-title">Сегодня</div>
+                <div class="option-card-subtitle">Найдём что-то на сегодня</div>
+              </div>
+            </div>
+
+            <div class="option-card" data-value="tomorrow">
+              <div class="option-card-icon">🌅</div>
+              <div class="option-card-content">
+                <div class="option-card-title">Завтра</div>
+                <div class="option-card-subtitle">Планируем на завтра</div>
+              </div>
+            </div>
+
+            <div class="option-card" data-value="week">
+              <div class="option-card-icon">📆</div>
+              <div class="option-card-content">
+                <div class="option-card-title">Ближайшие 7 дней</div>
+                <div class="option-card-subtitle">Гибкий выбор на неделю</div>
+              </div>
+            </div>
+
+            <div class="option-card" data-value="custom">
+              <div class="option-card-icon">🗓️</div>
+              <div class="option-card-content">
+                <div class="option-card-title">Выбрать даты</div>
+                <div class="option-card-subtitle">Укажите свой диапазон</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Custom date picker (hidden by default) -->
+          <div class="date-picker-container" id="customDatePicker">
+            <div class="date-input-group mb-md">
+              <label for="dateFrom">С какой даты</label>
+              <input type="date" id="dateFrom" name="dateFrom">
+            </div>
+            <div class="date-input-group">
+              <label for="dateTo">По какую дату</label>
+              <input type="date" id="dateTo" name="dateTo">
+            </div>
+          </div>
+        </section>
+
+        <!-- Screen 2: Budget -->
+        <section class="test-screen" id="screen2">
+          <h1 class="heading-2 mb-md">Какой бюджет на человека?</h1>
+          <p class="text-muted mb-xl">Выберите комфортную сумму</p>
+
+          <div class="list gap-md stagger-children" id="budgetOptions">
+            <div class="option-card" data-value="1000">
+              <div class="option-card-icon">💵</div>
+              <div class="option-card-content">
+                <div class="option-card-title">До 1 000 ₽</div>
+                <div class="option-card-subtitle">Бюджетные варианты</div>
+              </div>
+            </div>
+
+            <div class="option-card" data-value="3000">
+              <div class="option-card-icon">💰</div>
+              <div class="option-card-content">
+                <div class="option-card-title">До 3 000 ₽</div>
+                <div class="option-card-subtitle">Средний бюджет</div>
+              </div>
+            </div>
+
+            <div class="option-card" data-value="5000">
+              <div class="option-card-icon">💎</div>
+              <div class="option-card-content">
+                <div class="option-card-title">До 5 000 ₽</div>
+                <div class="option-card-subtitle">Расширенный выбор</div>
+              </div>
+            </div>
+
+            <div class="option-card" data-value="unlimited">
+              <div class="option-card-icon">✨</div>
+              <div class="option-card-content">
+                <div class="option-card-title">Не важно</div>
+                <div class="option-card-subtitle">Покажите лучшее!</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Screen 3: Tags -->
+        <section class="test-screen" id="screen3">
+          <h1 class="heading-2 mb-md">Что важно?</h1>
+          <p class="text-muted mb-md">Нажимайте, чтобы выбрать предпочтения</p>
+
+          <!-- Tag Legend -->
+          <div class="tag-legend">
+            <div class="tag-legend-item">
+              <div class="tag-legend-dot neutral"></div>
+              <span>Нейтрально</span>
+            </div>
+            <div class="tag-legend-item">
+              <div class="tag-legend-dot like"></div>
+              <span>Нравится</span>
+            </div>
+            <div class="tag-legend-item">
+              <div class="tag-legend-dot strongly-like"></div>
+              <span>Очень!</span>
+            </div>
+            <div class="tag-legend-item">
+              <div class="tag-legend-dot dislike"></div>
+              <span>Не хочу</span>
+            </div>
+          </div>
+
+          <div class="tag-cards-grid" id="tagCardsGrid">
+            <!-- Tag cards will be generated by JavaScript -->
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Bottom Actions -->
+      <div class="page-footer">
+        <div class="flex gap-md">
+          <button class="btn btn-secondary flex-1" id="backBtn" style="display: none;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+            Назад
+          </button>
+          <button class="btn btn-primary flex-1" id="nextBtn">
+            Далее
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // Trip Planning Test - Configuration
+    // ==========================================
+
+    // Tag data with state weights
+    const TAGS = [
+      { id: 'active', name: 'Активный', emoji: '🏃' },
+      { id: 'scenic', name: 'Красивые виды', emoji: '🌄' },
+      { id: 'self_development', name: 'Саморазвитие', emoji: '📚' },
+      { id: 'noisy', name: 'Шумный / весёлый', emoji: '🎉' },
+      { id: 'competitive', name: 'Соревнование', emoji: '🏆' },
+      { id: 'hands_on', name: 'Своими руками', emoji: '🛠️' },
+      { id: 'cozy', name: 'Домашний / уютный', emoji: '🏠' },
+      { id: 'new_experience', name: 'Попробовать новое', emoji: '🌟' },
+      { id: 'romantic', name: 'Романтический', emoji: '💕' }
+    ];
+
+    // Tag states with weights for backend
+    const TAG_STATES = {
+      neutral: { label: 'Нейтрально', indicator: '', weight: 0 },
+      like: { label: 'Нравится', indicator: '👍', weight: 1 },
+      strongly_like: { label: 'Очень!', indicator: '❤️', weight: 2 },
+      dislike: { label: 'Не хочу', indicator: '👎', weight: -1 }
+    };
+
+    const STATE_ORDER = ['neutral', 'like', 'strongly_like', 'dislike'];
+
+    // ==========================================
+    // State Management
+    // ==========================================
+
+    let currentScreen = 1;
+    const totalScreens = 3;
+
+    // Collected data
+    const tripData = {
+      timing: null,
+      customDateFrom: null,
+      customDateTo: null,
+      budget: null,
+      tags: {} // { tagId: stateId }
+    };
+
+    // Initialize tags with neutral state
+    TAGS.forEach(tag => {
+      tripData.tags[tag.id] = 'neutral';
+    });
+
+    // ==========================================
+    // DOM Elements
+    // ==========================================
+
+    const screens = [
+      document.getElementById('screen1'),
+      document.getElementById('screen2'),
+      document.getElementById('screen3')
+    ];
+
+    const stepIndicator = document.getElementById('stepIndicator');
+    const progressFill = document.getElementById('progressFill');
+    const stepIndicators = [
+      document.getElementById('step1Indicator'),
+      document.getElementById('step2Indicator'),
+      document.getElementById('step3Indicator')
+    ];
+    const progressLines = [
+      document.getElementById('line1'),
+      document.getElementById('line2')
+    ];
+
+    const backBtn = document.getElementById('backBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    const timingOptions = document.getElementById('timingOptions');
+    const customDatePicker = document.getElementById('customDatePicker');
+    const dateFrom = document.getElementById('dateFrom');
+    const dateTo = document.getElementById('dateTo');
+
+    const budgetOptions = document.getElementById('budgetOptions');
+    const tagCardsGrid = document.getElementById('tagCardsGrid');
+
+    // ==========================================
+    // Screen Navigation
+    // ==========================================
+
+    function goToScreen(screenNumber) {
+      // Validate screen bounds
+      if (screenNumber < 1 || screenNumber > totalScreens) return;
+
+      // Hide current screen
+      screens[currentScreen - 1].classList.remove('active');
+
+      // Show new screen
+      currentScreen = screenNumber;
+      screens[currentScreen - 1].classList.add('active');
+
+      // Update UI
+      updateProgress();
+      updateButtons();
+    }
+
+    function updateProgress() {
+      // Update step indicator text
+      stepIndicator.textContent = `Шаг ${currentScreen} из ${totalScreens}`;
+
+      // Update progress bar
+      const progress = (currentScreen / totalScreens) * 100;
+      progressFill.style.width = `${progress}%`;
+
+      // Update step indicators
+      stepIndicators.forEach((indicator, index) => {
+        const stepNum = index + 1;
+        indicator.classList.remove('active', 'completed');
+
+        if (stepNum < currentScreen) {
+          indicator.classList.add('completed');
+          indicator.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          `;
+        } else if (stepNum === currentScreen) {
+          indicator.classList.add('active');
+          indicator.textContent = stepNum;
+        } else {
+          indicator.textContent = stepNum;
+        }
+      });
+
+      // Update progress lines
+      progressLines.forEach((line, index) => {
+        if (index + 1 < currentScreen) {
+          line.classList.add('completed');
+        } else {
+          line.classList.remove('completed');
+        }
+      });
+    }
+
+    function updateButtons() {
+      // Show/hide back button
+      backBtn.style.display = currentScreen > 1 ? 'flex' : 'none';
+
+      // Update next button text
+      if (currentScreen === totalScreens) {
+        nextBtn.innerHTML = `
+          Готово
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        `;
+      } else {
+        nextBtn.innerHTML = `
+          Далее
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+        `;
+      }
+    }
+
+    function canProceed() {
+      switch (currentScreen) {
+        case 1:
+          // Must select timing
+          if (!tripData.timing) return false;
+          // If custom, must have dates
+          if (tripData.timing === 'custom') {
+            return tripData.customDateFrom && tripData.customDateTo;
+          }
+          return true;
+        case 2:
+          // Must select budget
+          return !!tripData.budget;
+        case 3:
+          // Tags are optional, can always proceed
+          return true;
+        default:
+          return false;
+      }
+    }
+
+    // ==========================================
+    // Option Card Selection (Screens 1 & 2)
+    // ==========================================
+
+    function setupOptionCards(container, dataKey) {
+      const cards = container.querySelectorAll('.option-card');
+
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          // Remove selected from all
+          cards.forEach(c => c.classList.remove('selected'));
+          // Add selected to clicked
+          card.classList.add('selected');
+          // Store value
+          tripData[dataKey] = card.dataset.value;
+
+          // Special handling for timing custom option
+          if (dataKey === 'timing') {
+            if (card.dataset.value === 'custom') {
+              customDatePicker.classList.add('visible');
+              // Set default dates
+              const today = new Date();
+              const nextWeek = new Date(today);
+              nextWeek.setDate(nextWeek.getDate() + 7);
+              dateFrom.value = today.toISOString().split('T')[0];
+              dateTo.value = nextWeek.toISOString().split('T')[0];
+              tripData.customDateFrom = dateFrom.value;
+              tripData.customDateTo = dateTo.value;
+            } else {
+              customDatePicker.classList.remove('visible');
+              tripData.customDateFrom = null;
+              tripData.customDateTo = null;
+            }
+          }
+
+          // Haptic feedback
+          if (navigator.vibrate) {
+            navigator.vibrate(10);
+          }
+        });
+      });
+    }
+
+    // ==========================================
+    // Tag Cards (Screen 3)
+    // ==========================================
+
+    function createTagCards() {
+      TAGS.forEach(tag => {
+        const card = document.createElement('div');
+        card.className = 'tag-card';
+        card.dataset.tagId = tag.id;
+        card.dataset.state = 'neutral';
+
+        card.innerHTML = `
+          <span class="tag-card-indicator"></span>
+          <span class="tag-card-emoji">${tag.emoji}</span>
+          <span class="tag-card-name">${tag.name}</span>
+        `;
+
+        card.addEventListener('click', () => cycleTagState(card, tag.id));
+
+        tagCardsGrid.appendChild(card);
+      });
+    }
+
+    function cycleTagState(card, tagId) {
+      const currentState = card.dataset.state;
+      const currentIndex = STATE_ORDER.indexOf(currentState);
+      const nextIndex = (currentIndex + 1) % STATE_ORDER.length;
+      const nextState = STATE_ORDER[nextIndex];
+
+      // Update card state
+      card.dataset.state = nextState;
+      tripData.tags[tagId] = nextState;
+
+      // Update indicator
+      const indicator = card.querySelector('.tag-card-indicator');
+      indicator.textContent = TAG_STATES[nextState].indicator;
+
+      // Haptic feedback
+      if (navigator.vibrate) {
+        navigator.vibrate(10);
+      }
+    }
+
+    // ==========================================
+    // Date Picker Handling
+    // ==========================================
+
+    function setupDatePickers() {
+      dateFrom.addEventListener('change', (e) => {
+        tripData.customDateFrom = e.target.value;
+        // Ensure dateTo is not before dateFrom
+        if (dateTo.value && dateTo.value < e.target.value) {
+          dateTo.value = e.target.value;
+          tripData.customDateTo = e.target.value;
+        }
+        dateTo.min = e.target.value;
+      });
+
+      dateTo.addEventListener('change', (e) => {
+        tripData.customDateTo = e.target.value;
+      });
+    }
+
+    // ==========================================
+    // Final Submission
+    // ==========================================
+
+    function prepareDataForBackend() {
+      // Convert tags to list with weights
+      const tagsWithWeights = Object.entries(tripData.tags).map(([tagId, stateId]) => ({
+        tagId: tagId,
+        weight: TAG_STATES[stateId].weight
+      }));
+
+      return {
+        timing: {
+          type: tripData.timing,
+          dateFrom: tripData.customDateFrom,
+          dateTo: tripData.customDateTo
+        },
+        budget: tripData.budget,
+        tags: tagsWithWeights
+      };
+    }
+
+    function submitTest() {
+      const backendData = prepareDataForBackend();
+
+      // For now, just log and save to localStorage
+      console.log('Trip Test Data for Backend:', backendData);
+      localStorage.setItem('tripTestData', JSON.stringify(backendData));
+
+      // Show results (for development)
+      alert('Данные сохранены!\n\n' + JSON.stringify(backendData, null, 2));
+
+      // In production, this would navigate to results page
+      // window.location.href = 'selection.html';
+    }
+
+    // ==========================================
+    // Event Listeners
+    // ==========================================
+
+    backBtn.addEventListener('click', () => {
+      if (currentScreen > 1) {
+        goToScreen(currentScreen - 1);
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (!canProceed()) {
+        // Visual feedback - shake the unselected options
+        if (navigator.vibrate) {
+          navigator.vibrate([50, 50, 50]);
+        }
+        return;
+      }
+
+      if (currentScreen < totalScreens) {
+        goToScreen(currentScreen + 1);
+      } else {
+        // Last screen - submit
+        submitTest();
+      }
+    });
+
+    // ==========================================
+    // Initialization
+    // ==========================================
+
+    function init() {
+      // Setup option cards for screens 1 and 2
+      setupOptionCards(timingOptions, 'timing');
+      setupOptionCards(budgetOptions, 'budget');
+
+      // Setup date pickers
+      setupDatePickers();
+
+      // Create tag cards for screen 3
+      createTagCards();
+
+      // Initial UI state
+      updateProgress();
+      updateButtons();
+
+      // Select "Today" by default
+      const todayOption = timingOptions.querySelector('[data-value="today"]');
+      if (todayOption) {
+        todayOption.click();
+      }
+    }
+
+    // Start
+    init();
+  </script>
+</body>
+</html>
