@@ -1,0 +1,197 @@
+openapi: "3.1.0"
+info:
+  title: "places_and_faces_back API"
+  description: "places_and_faces_back API"
+  version: "1.0.0"
+servers:
+  - url: "https://places_and_faces_back"
+paths:
+  /api/v1/events/registration/first-form:
+    post:
+      summary: "POST api/v1/events/registration/first-form"
+      operationId: "firstStep"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/FirstPreferencesPageResponseDto"
+  /api/v1/events/registration/fourth-form:
+    post:
+      summary: "POST api/v1/events/registration/fourth-form"
+      operationId: "fourthStep"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /api/v1/events/registration/second-form:
+    post:
+      summary: "POST api/v1/events/registration/second-form"
+      operationId: "secondStep"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SecondPreferencesPageResponseDto"
+  /api/v1/events/registration/third-form:
+    post:
+      summary: "POST api/v1/events/registration/third-form"
+      operationId: "thirdStep"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ThirdPreferencesPageResponseDto"
+  /api/v1/events/like/selection:
+    get:
+      summary: "GET api/v1/events/like/selection"
+      operationId: "getLikedEvents"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EventsSelectionPageDto"
+  /api/v1/events/like/{eventId}:
+    post:
+      summary: "POST api/v1/events/like/{eventId}"
+      operationId: "likeEvent"
+      parameters:
+        - name: "eventId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /api/v1/events/categorized/{categoryName}:
+    get:
+      summary: "GET api/v1/events/categorized/{categoryName}"
+      operationId: "getSpecialCategoryEvents"
+      parameters:
+        - name: "categoryName"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EventsSelectionPageDto"
+  /api/v1/events/{id}:
+    get:
+      summary: "GET api/v1/events/{id}"
+      operationId: "getEventCart"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: false
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/EventCartPageDto"
+components:
+  schemas:
+    CategoryDescriptionDto:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          nullable: true
+        description:
+          type: "string"
+          nullable: true
+        img:
+          type: "string"
+          nullable: true
+    FirstPreferencesPageResponseDto:
+      type: "object"
+      properties:
+        sessionId:
+          type: "string"
+          nullable: true
+        categories:
+          type: "array"
+          nullable: true
+          items:
+            $ref: "#/components/schemas/CategoryDescriptionDto"
+    SecondPreferencesPageResponseDto:
+      type: "object"
+      properties:
+        subCategories:
+          type: "array"
+          nullable: true
+          items:
+            $ref: "#/components/schemas/CategoryDescriptionDto"
+    EventCartDescriptionDto:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          nullable: true
+        name:
+          type: "string"
+          nullable: true
+        description:
+          type: "string"
+          nullable: true
+        startsFrom:
+          type: "string"
+          format: "date-time"
+          nullable: true
+        price:
+          type: "integer"
+          format: "int32"
+          nullable: true
+        categories:
+          type: "array"
+          nullable: true
+          items:
+            $ref: "#/components/schemas/CategoryDescriptionDto"
+        imgUrl:
+          type: "string"
+          nullable: true
+    ThirdPreferencesPageResponseDto:
+      type: "object"
+      properties:
+        carts:
+          type: "array"
+          nullable: true
+          items:
+            $ref: "#/components/schemas/EventCartDescriptionDto"
+    EventsSelectionPageDto:
+      type: "object"
+      properties:
+        selectionId:
+          type: "string"
+          nullable: true
+        offset:
+          type: "integer"
+          format: "int32"
+          nullable: true
+        carts:
+          type: "array"
+          nullable: true
+          items:
+            $ref: "#/components/schemas/EventCartDescriptionDto"
+    EventCartPageDto:
+      type: "object"
+      properties: { }
