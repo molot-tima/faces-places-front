@@ -9,16 +9,71 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    /* Card Hero & Gallery */
     .card-hero {
       position: relative;
       height: 300px;
       margin: 0 calc(var(--space-md) * -1);
+      overflow: hidden;
     }
-    .card-hero-image {
+    .gallery-container {
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      position: relative;
     }
+    .gallery-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.3s ease;
+    }
+    .gallery-slide {
+      min-width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      position: relative;
+      cursor: pointer;
+    }
+    .gallery-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Navigation zones for desktop */
+    .gallery-nav-zone {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 25%;
+      z-index: 5;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
+    .gallery-nav-zone:hover {
+      opacity: 1;
+    }
+    .gallery-nav-zone.prev {
+      left: 0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, transparent 100%);
+    }
+    .gallery-nav-zone.next {
+      right: 0;
+      background: linear-gradient(270deg, rgba(0,0,0,0.3) 0%, transparent 100%);
+    }
+    .gallery-nav-zone svg {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    .gallery-nav-zone.prev svg { left: var(--space-md); }
+    .gallery-nav-zone.next svg { right: var(--space-md); }
+
+    @media (max-width: 768px) {
+      .gallery-nav-zone { display: none; }
+    }
+
     .card-hero-overlay {
       position: absolute;
       top: 0;
@@ -29,6 +84,7 @@
       justify-content: space-between;
       align-items: flex-start;
       background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 100%);
+      z-index: 10;
     }
     .card-hero-actions {
       display: flex;
@@ -41,6 +97,7 @@
       transform: translateX(-50%);
       display: flex;
       gap: var(--space-xs);
+      z-index: 10;
     }
     .gallery-dot {
       width: 8px;
@@ -48,6 +105,8 @@
       border-radius: 50%;
       background: rgba(255,255,255,0.4);
       backdrop-filter: blur(4px);
+      transition: all var(--transition-fast);
+      cursor: pointer;
     }
     .gallery-dot.active {
       background: white;
@@ -63,6 +122,197 @@
       font-size: 0.875rem;
       color: var(--color-text-muted);
     }
+
+    /* Info list items - no hover, no arrows, proper radius */
+    .info-list-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      border-bottom: 1px solid var(--glass-border-light);
+    }
+    .info-list-item:first-child {
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .info-list-item:last-child {
+      border-bottom: none;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+    .info-list-item:only-child {
+      border-radius: var(--radius-lg);
+    }
+    .info-list-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .info-list-content {
+      flex: 1;
+    }
+
+    /* Like/Dislike Animation */
+    .like-btn {
+      position: relative;
+      transition: all var(--transition-fast);
+    }
+    .like-btn.liked {
+      background: var(--color-accent-primary);
+      color: white;
+      box-shadow: var(--glow-primary);
+    }
+    .like-btn .heart-particles {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      pointer-events: none;
+    }
+    .like-btn .heart-particle {
+      position: absolute;
+      font-size: 12px;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+    }
+    .like-btn.animating .heart-particle {
+      animation: heartBurst 0.6s ease-out forwards;
+    }
+    @keyframes heartBurst {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0);
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(1);
+      }
+    }
+    @keyframes heartPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    .like-btn.animating svg {
+      animation: heartPop 0.3s ease;
+    }
+
+    /* Reviews Section */
+    .reviews-container {
+      max-height: none;
+      overflow: visible;
+    }
+    .reviews-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .review-card {
+      padding: var(--space-md);
+    }
+    .load-more-btn {
+      margin-top: var(--space-md);
+    }
+    .reviews-loading {
+      text-align: center;
+      padding: var(--space-lg);
+      color: var(--color-text-muted);
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 100px;
+      right: var(--space-md);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--glass-bg-strong);
+      backdrop-filter: var(--blur-glass);
+      -webkit-backdrop-filter: var(--blur-glass);
+      border: 1px solid var(--glass-border);
+      color: var(--color-text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 99;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all var(--transition-fast);
+      pointer-events: none;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .back-to-top:hover {
+      background: var(--glass-bg-strong);
+      border-color: var(--color-accent-primary);
+      box-shadow: var(--glow-primary);
+    }
+
+    /* Fullscreen Gallery Modal */
+    .fullscreen-gallery {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .fullscreen-gallery.active {
+      display: flex;
+    }
+    .fullscreen-gallery .gallery-track {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .fullscreen-gallery .gallery-slide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+    }
+    .fullscreen-gallery .gallery-slide img {
+      max-width: 100%;
+      max-height: 100vh;
+      object-fit: contain;
+    }
+    .fullscreen-close {
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur-glass);
+      -webkit-backdrop-filter: var(--blur-glass);
+      border: 1px solid var(--glass-border);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .fullscreen-gallery .gallery-dots {
+      bottom: var(--space-xl);
+    }
+    .fullscreen-gallery .gallery-nav-zone {
+      display: block;
+      width: 15%;
+    }
   </style>
 </head>
 <body>
@@ -75,9 +325,35 @@
   <div class="page">
     <div class="container">
 
-      <!-- Hero Image -->
-      <div class="card-hero">
-        <div class="card-hero-image"></div>
+      <!-- Hero Image Gallery -->
+      <div class="card-hero" id="heroGallery">
+        <div class="gallery-container">
+          <div class="gallery-track" id="galleryTrack">
+            <div class="gallery-slide" data-index="0">
+              <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+            </div>
+            <div class="gallery-slide" data-index="1">
+              <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+            </div>
+            <div class="gallery-slide" data-index="2">
+              <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+            </div>
+            <div class="gallery-slide" data-index="3">
+              <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+            </div>
+          </div>
+          <!-- Desktop navigation zones -->
+          <div class="gallery-nav-zone prev" id="galleryPrev">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+          </div>
+          <div class="gallery-nav-zone next" id="galleryNext">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
+        </div>
         <div class="card-hero-overlay">
           <a href="places.html" class="btn btn-icon glass" style="color: white;">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -94,19 +370,27 @@
                 <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
               </svg>
             </button>
-            <button class="btn btn-icon" style="background: var(--color-accent-primary); color: white; box-shadow: var(--glow-primary);">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+            <button class="btn btn-icon like-btn" id="likeBtn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
+              <div class="heart-particles">
+                <span class="heart-particle" style="--tx: -20px; --ty: -30px;">❤️</span>
+                <span class="heart-particle" style="--tx: 20px; --ty: -30px;">❤️</span>
+                <span class="heart-particle" style="--tx: -30px; --ty: 0px;">❤️</span>
+                <span class="heart-particle" style="--tx: 30px; --ty: 0px;">❤️</span>
+                <span class="heart-particle" style="--tx: -15px; --ty: 25px;">❤️</span>
+                <span class="heart-particle" style="--tx: 15px; --ty: 25px;">❤️</span>
+              </div>
             </button>
           </div>
         </div>
         <!-- Gallery dots -->
-        <div class="gallery-dots">
-          <div class="gallery-dot active"></div>
-          <div class="gallery-dot"></div>
-          <div class="gallery-dot"></div>
-          <div class="gallery-dot"></div>
+        <div class="gallery-dots" id="galleryDots">
+          <div class="gallery-dot active" data-index="0"></div>
+          <div class="gallery-dot" data-index="1"></div>
+          <div class="gallery-dot" data-index="2"></div>
+          <div class="gallery-dot" data-index="3"></div>
         </div>
       </div>
 
@@ -133,8 +417,8 @@
         <!-- Quick Info -->
         <section class="section">
           <div class="glass">
-            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
-              <div class="list-item-icon" style="background: rgba(255, 107, 157, 0.2); color: var(--color-accent-primary);">
+            <div class="info-list-item">
+              <div class="info-list-icon" style="background: rgba(255, 107, 157, 0.2); color: var(--color-accent-primary);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                   <line x1="16" y1="2" x2="16" y2="6"/>
@@ -142,43 +426,33 @@
                   <line x1="3" y1="10" x2="21" y2="10"/>
                 </svg>
               </div>
-              <div class="list-item-content">
+              <div class="info-list-content">
                 <div style="font-weight: 500;">21 декабря, суббота</div>
                 <div class="text-sm text-muted">19:00 — 22:00</div>
               </div>
-              <div class="list-item-action">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="m9 18 6-6-6-6"/>
-                </svg>
-              </div>
             </div>
 
-            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light);">
-              <div class="list-item-icon" style="background: rgba(78, 205, 196, 0.2); color: var(--color-accent-secondary);">
+            <div class="info-list-item">
+              <div class="info-list-icon" style="background: rgba(78, 205, 196, 0.2); color: var(--color-accent-secondary);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                   <circle cx="12" cy="10" r="3"/>
                 </svg>
               </div>
-              <div class="list-item-content">
+              <div class="info-list-content">
                 <div style="font-weight: 500;">Театр им. Вахтангова</div>
                 <div class="text-sm text-muted">ул. Арбат, 26 • 2.3 км</div>
               </div>
-              <div class="list-item-action">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="m9 18 6-6-6-6"/>
-                </svg>
-              </div>
             </div>
 
-            <div class="list-item" style="border-radius: 0 0 var(--radius-lg) var(--radius-lg);">
-              <div class="list-item-icon" style="background: rgba(167, 139, 250, 0.2); color: var(--color-accent-purple);">
+            <div class="info-list-item">
+              <div class="info-list-icon" style="background: rgba(167, 139, 250, 0.2); color: var(--color-accent-purple);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10"/>
                   <polyline points="12 6 12 12 16 14"/>
                 </svg>
               </div>
-              <div class="list-item-content">
+              <div class="info-list-content">
                 <div style="font-weight: 500;">3 часа</div>
                 <div class="text-sm text-muted">с одним антрактом</div>
               </div>
@@ -246,53 +520,21 @@
         </section>
 
         <!-- Reviews -->
-        <section class="section">
-          <div class="section-header">
-            <h2 class="section-title">Отзывы</h2>
-            <a href="#" class="section-link">Все 312</a>
-          </div>
+        <section class="section" id="reviewsSection">
+          <h2 class="section-title mb-md">Отзывы</h2>
 
-          <div class="list">
-            <!-- Review 1 -->
-            <div class="glass p-md">
-              <div class="flex items-center gap-md mb-md">
-                <div style="width: 40px; height: 40px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
-                  Е
-                </div>
-                <div class="flex-1">
-                  <div style="font-weight: 500;">Екатерина М.</div>
-                  <div class="text-sm text-muted">посетила 15 декабря</div>
-                </div>
-                <div class="flex items-center gap-xs">
-                  <span style="color: #FFD700;">⭐</span>
-                  <span style="font-weight: 600;">5</span>
-                </div>
-              </div>
-              <p class="text-sm text-muted" style="line-height: 1.6;">
-                Невероятная постановка! Маковецкий в роли Воланда — это что-то невероятное. 3 часа пролетели незаметно. Обязательно идите!
-              </p>
+          <div class="reviews-container" id="reviewsContainer">
+            <div class="reviews-list" id="reviewsList">
+              <!-- Reviews will be loaded dynamically -->
             </div>
-
-            <!-- Review 2 -->
-            <div class="glass p-md">
-              <div class="flex items-center gap-md mb-md">
-                <div style="width: 40px; height: 40px; background: var(--gradient-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
-                  Д
-                </div>
-                <div class="flex-1">
-                  <div style="font-weight: 500;">Дмитрий В.</div>
-                  <div class="text-sm text-muted">посетил 10 декабря</div>
-                </div>
-                <div class="flex items-center gap-xs">
-                  <span style="color: #FFD700;">⭐</span>
-                  <span style="font-weight: 600;">5</span>
-                </div>
-              </div>
-              <p class="text-sm text-muted" style="line-height: 1.6;">
-                Лучшая интерпретация романа, которую я видел. Декорации, свет, музыка — всё на высшем уровне. Берите билеты в партер, оно того стоит.
-              </p>
+            <div class="reviews-loading" id="reviewsLoading" style="display: none;">
+              Загрузка отзывов...
             </div>
           </div>
+
+          <button class="btn btn-secondary btn-full load-more-btn" id="loadMoreBtn">
+            Показать все 312 отзывов
+          </button>
         </section>
 
         <!-- Spacer for bottom buttons -->
@@ -304,24 +546,414 @@
       <div style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;">
         <div class="glass glass-strong" style="border-radius: 0; border-top: 1px solid var(--glass-border); padding: var(--space-md); padding-bottom: calc(var(--space-md) + env(safe-area-inset-bottom, 0px));">
           <div class="container" style="padding: 0;">
-            <div class="flex gap-md">
-              <a href="#" class="btn btn-secondary flex-1">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                  <line x1="3" y1="9" x2="21" y2="9"/>
-                  <line x1="9" y1="21" x2="9" y2="9"/>
-                </svg>
-                Выбрать места
-              </a>
-              <a href="#" class="btn btn-primary flex-1">
-                Купить билет
-              </a>
-            </div>
+            <a href="#" class="btn btn-primary btn-full">
+              Купить билет
+            </a>
           </div>
         </div>
       </div>
 
     </div>
   </div>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="m18 15-6-6-6 6"/>
+    </svg>
+  </button>
+
+  <!-- Fullscreen Gallery Modal -->
+  <div class="fullscreen-gallery" id="fullscreenGallery">
+    <button class="fullscreen-close" id="fullscreenClose">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="gallery-container" style="width: 100%; height: 100%;">
+      <div class="gallery-track" id="fullscreenTrack">
+        <!-- Slides will be cloned here -->
+      </div>
+      <div class="gallery-nav-zone prev" id="fullscreenPrev">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+      </div>
+      <div class="gallery-nav-zone next" id="fullscreenNext">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m9 18 6-6-6-6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="gallery-dots" id="fullscreenDots">
+      <!-- Dots will be cloned here -->
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // Gallery Functionality
+    // ==========================================
+
+    const galleryTrack = document.getElementById('galleryTrack');
+    const galleryDots = document.getElementById('galleryDots');
+    const galleryPrev = document.getElementById('galleryPrev');
+    const galleryNext = document.getElementById('galleryNext');
+    const slides = galleryTrack.querySelectorAll('.gallery-slide');
+    const dots = galleryDots.querySelectorAll('.gallery-dot');
+    const totalSlides = slides.length;
+
+    let currentSlide = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isDragging = false;
+    let dragStartTime = 0;
+
+    function goToSlide(index) {
+      if (index < 0) index = totalSlides - 1;
+      if (index >= totalSlides) index = 0;
+
+      currentSlide = index;
+      galleryTrack.style.transform = `translateX(-${index * 100}%)`;
+
+      // Update dots
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+
+      // Also update fullscreen gallery if open
+      if (fullscreenGallery.classList.contains('active')) {
+        fullscreenTrack.style.transform = `translateX(-${index * 100}%)`;
+        fullscreenDots.querySelectorAll('.gallery-dot').forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+        });
+      }
+    }
+
+    // Desktop navigation
+    galleryPrev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goToSlide(currentSlide - 1);
+    });
+    galleryNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goToSlide(currentSlide + 1);
+    });
+
+    // Dot navigation
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        goToSlide(parseInt(dot.dataset.index));
+      });
+    });
+
+    // Touch/Swipe handling
+    galleryTrack.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      dragStartTime = Date.now();
+      isDragging = true;
+    }, { passive: true });
+
+    galleryTrack.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      touchEndX = e.touches[0].clientX;
+    }, { passive: true });
+
+    galleryTrack.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const deltaX = touchStartX - touchEndX;
+      const deltaTime = Date.now() - dragStartTime;
+
+      // If it was a quick tap (not a swipe), open fullscreen
+      if (Math.abs(deltaX) < 10 && deltaTime < 200) {
+        openFullscreen();
+        return;
+      }
+
+      // Swipe threshold
+      if (Math.abs(deltaX) > 50) {
+        if (deltaX > 0) {
+          goToSlide(currentSlide + 1);
+        } else {
+          goToSlide(currentSlide - 1);
+        }
+      }
+
+      touchStartX = 0;
+      touchEndX = 0;
+    });
+
+    // Click on center to open fullscreen (desktop)
+    slides.forEach(slide => {
+      slide.addEventListener('click', (e) => {
+        // Check if click was on nav zones
+        if (e.target.closest('.gallery-nav-zone')) return;
+        openFullscreen();
+      });
+    });
+
+    // ==========================================
+    // Fullscreen Gallery
+    // ==========================================
+
+    const fullscreenGallery = document.getElementById('fullscreenGallery');
+    const fullscreenClose = document.getElementById('fullscreenClose');
+    const fullscreenTrack = document.getElementById('fullscreenTrack');
+    const fullscreenDots = document.getElementById('fullscreenDots');
+    const fullscreenPrev = document.getElementById('fullscreenPrev');
+    const fullscreenNext = document.getElementById('fullscreenNext');
+
+    function openFullscreen() {
+      // Clone slides
+      fullscreenTrack.innerHTML = galleryTrack.innerHTML;
+      fullscreenDots.innerHTML = galleryDots.innerHTML;
+
+      // Set current position
+      fullscreenTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+      // Update dots
+      fullscreenDots.querySelectorAll('.gallery-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+        dot.addEventListener('click', () => goToSlide(parseInt(dot.dataset.index)));
+      });
+
+      fullscreenGallery.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeFullscreen() {
+      fullscreenGallery.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    fullscreenClose.addEventListener('click', closeFullscreen);
+    fullscreenGallery.addEventListener('click', (e) => {
+      if (e.target === fullscreenGallery) closeFullscreen();
+    });
+
+    fullscreenPrev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goToSlide(currentSlide - 1);
+    });
+    fullscreenNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goToSlide(currentSlide + 1);
+    });
+
+    // Fullscreen touch handling
+    let fsTouchStartX = 0;
+    let fsTouchEndX = 0;
+
+    fullscreenTrack.addEventListener('touchstart', (e) => {
+      fsTouchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    fullscreenTrack.addEventListener('touchmove', (e) => {
+      fsTouchEndX = e.touches[0].clientX;
+    }, { passive: true });
+
+    fullscreenTrack.addEventListener('touchend', () => {
+      const deltaX = fsTouchStartX - fsTouchEndX;
+      if (Math.abs(deltaX) > 50) {
+        if (deltaX > 0) {
+          goToSlide(currentSlide + 1);
+        } else {
+          goToSlide(currentSlide - 1);
+        }
+      }
+      fsTouchStartX = 0;
+      fsTouchEndX = 0;
+    });
+
+    // Escape key to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && fullscreenGallery.classList.contains('active')) {
+        closeFullscreen();
+      }
+    });
+
+    // ==========================================
+    // Like Button Animation
+    // ==========================================
+
+    const likeBtn = document.getElementById('likeBtn');
+    let isLiked = false;
+
+    likeBtn.addEventListener('click', () => {
+      isLiked = !isLiked;
+
+      if (isLiked) {
+        likeBtn.classList.add('liked', 'animating');
+        likeBtn.querySelector('svg').setAttribute('fill', 'currentColor');
+
+        // Haptic feedback
+        if (navigator.vibrate) {
+          navigator.vibrate(10);
+        }
+
+        // Remove animation class after animation completes
+        setTimeout(() => {
+          likeBtn.classList.remove('animating');
+        }, 600);
+      } else {
+        likeBtn.classList.remove('liked');
+        likeBtn.querySelector('svg').setAttribute('fill', 'none');
+      }
+    });
+
+    // ==========================================
+    // Reviews with Pagination
+    // ==========================================
+
+    const reviewsContainer = document.getElementById('reviewsContainer');
+    const reviewsList = document.getElementById('reviewsList');
+    const reviewsLoading = document.getElementById('reviewsLoading');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+    // Mock reviews data
+    const mockReviews = [];
+    const names = ['Екатерина М.', 'Дмитрий В.', 'Анна С.', 'Михаил К.', 'Ольга П.', 'Александр Н.', 'Мария Л.', 'Сергей Д.', 'Елена Р.', 'Павел Г.'];
+    const avatarColors = ['var(--gradient-primary)', 'var(--gradient-secondary)', 'var(--gradient-purple)'];
+    const comments = [
+      'Невероятная постановка! Маковецкий в роли Воланда — это что-то невероятное. 3 часа пролетели незаметно. Обязательно идите!',
+      'Лучшая интерпретация романа, которую я видел. Декорации, свет, музыка — всё на высшем уровне. Берите билеты в партер, оно того стоит.',
+      'Потрясающе! Актёры играют так, что мурашки по коже. Очень рекомендую!',
+      'Впечатления незабываемые. Обязательно вернусь ещё раз.',
+      'Великолепный спектакль! Режиссёрское решение очень интересное.',
+      'Было волшебно. Спасибо за прекрасный вечер!',
+      'Очень качественная постановка. Рекомендую всем любителям театра.',
+      'Атмосфера невероятная, игра актёров безупречная.',
+    ];
+
+    // Generate 312 mock reviews
+    for (let i = 0; i < 312; i++) {
+      mockReviews.push({
+        id: i,
+        name: names[i % names.length],
+        initial: names[i % names.length][0],
+        date: `${Math.floor(Math.random() * 28) + 1} декабря`,
+        rating: Math.random() > 0.2 ? 5 : 4,
+        comment: comments[i % comments.length],
+        avatarColor: avatarColors[i % avatarColors.length]
+      });
+    }
+
+    let loadedReviews = 0;
+    const reviewsPerPage = 50;
+    let isLoading = false;
+    let allReviewsLoaded = false;
+
+    function createReviewElement(review) {
+      const div = document.createElement('div');
+      div.className = 'glass review-card';
+      div.innerHTML = `
+        <div class="flex items-center gap-md mb-md">
+          <div style="width: 40px; height: 40px; background: ${review.avatarColor}; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
+            ${review.initial}
+          </div>
+          <div class="flex-1">
+            <div style="font-weight: 500;">${review.name}</div>
+            <div class="text-sm text-muted">посетил(а) ${review.date}</div>
+          </div>
+          <div class="flex items-center gap-xs">
+            <span style="color: #FFD700;">⭐</span>
+            <span style="font-weight: 600;">${review.rating}</span>
+          </div>
+        </div>
+        <p class="text-sm text-muted" style="line-height: 1.6;">
+          ${review.comment}
+        </p>
+      `;
+      return div;
+    }
+
+    function loadInitialReviews() {
+      // Load first 2 reviews initially
+      for (let i = 0; i < 2 && i < mockReviews.length; i++) {
+        reviewsList.appendChild(createReviewElement(mockReviews[i]));
+        loadedReviews++;
+      }
+    }
+
+    function loadMoreReviews() {
+      if (isLoading || allReviewsLoaded) return;
+
+      isLoading = true;
+      reviewsLoading.style.display = 'block';
+      loadMoreBtn.style.display = 'none';
+
+      // Simulate network delay
+      setTimeout(() => {
+        const startIndex = loadedReviews;
+        const endIndex = Math.min(startIndex + reviewsPerPage, mockReviews.length);
+
+        for (let i = startIndex; i < endIndex; i++) {
+          reviewsList.appendChild(createReviewElement(mockReviews[i]));
+          loadedReviews++;
+        }
+
+        isLoading = false;
+        reviewsLoading.style.display = 'none';
+
+        if (loadedReviews >= mockReviews.length) {
+          allReviewsLoaded = true;
+        }
+      }, 500);
+    }
+
+    // Initial load
+    loadInitialReviews();
+
+    // Load more button click
+    loadMoreBtn.addEventListener('click', () => {
+      loadMoreReviews();
+      loadMoreBtn.textContent = 'Загрузить ещё';
+    });
+
+    // Infinite scroll (after initial load more)
+    let infiniteScrollEnabled = false;
+
+    function enableInfiniteScroll() {
+      if (infiniteScrollEnabled) return;
+      infiniteScrollEnabled = true;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !isLoading && !allReviewsLoaded) {
+            loadMoreReviews();
+          }
+        });
+      }, { rootMargin: '200px' });
+
+      observer.observe(reviewsLoading);
+    }
+
+    // Enable infinite scroll after first "load more"
+    loadMoreBtn.addEventListener('click', enableInfiniteScroll, { once: true });
+
+    // ==========================================
+    // Back to Top Button
+    // ==========================================
+
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
 </body>
 </html>

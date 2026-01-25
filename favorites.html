@@ -8,6 +8,62 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Like button animation */
+    .card-favorite {
+      position: relative;
+      overflow: visible;
+    }
+    .card-favorite.liked {
+      background: var(--color-accent-primary) !important;
+      color: white !important;
+      box-shadow: var(--glow-primary);
+    }
+    .card-favorite.liked svg {
+      fill: currentColor;
+    }
+    .like-particles {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      pointer-events: none;
+    }
+    .like-particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-accent-primary);
+      animation: particle-burst 0.6s ease-out forwards;
+    }
+    @keyframes particle-burst {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(0);
+      }
+    }
+    /* Card removal animation */
+    .card.removing {
+      animation: card-remove 0.4s ease-out forwards;
+    }
+    @keyframes card-remove {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.8);
+        height: 0;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- Animated background orbs -->
@@ -175,5 +231,66 @@
       </div>
     </nav>
   </div>
+  <script>
+    // Like button functionality - removes from favorites
+    function setupLikeButtons() {
+      document.querySelectorAll('.card-favorite').forEach(btn => {
+        // All items in favorites start as liked
+        btn.classList.add('liked');
+
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const card = btn.closest('.card');
+
+          // Create scatter particles
+          createParticles(btn);
+
+          // Haptic feedback
+          if (navigator.vibrate) navigator.vibrate(10);
+
+          // Remove card with animation
+          setTimeout(() => {
+            card.classList.add('removing');
+            setTimeout(() => {
+              card.remove();
+              updateCount();
+            }, 400);
+          }, 200);
+        });
+      });
+    }
+
+    function createParticles(btn) {
+      const container = document.createElement('div');
+      container.className = 'like-particles';
+      btn.appendChild(container);
+
+      for (let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'like-particle';
+        const angle = (i / 8) * Math.PI * 2;
+        const distance = 25 + Math.random() * 15;
+        particle.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+        particle.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
+        container.appendChild(particle);
+      }
+
+      setTimeout(() => container.remove(), 600);
+    }
+
+    function updateCount() {
+      const count = document.querySelectorAll('.card').length;
+      const countEl = document.querySelector('.page-header .text-muted');
+      if (countEl) {
+        const word = count === 1 ? 'событие' : (count >= 2 && count <= 4 ? 'события' : 'событий');
+        countEl.textContent = `${count} ${word}`;
+      }
+    }
+
+    // Initialize
+    setupLikeButtons();
+  </script>
 </body>
 </html>

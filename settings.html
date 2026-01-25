@@ -8,6 +8,54 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Settings list items - matching card.html style */
+    .settings-list-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      border-bottom: 1px solid var(--glass-border-light);
+      text-decoration: none;
+      color: inherit;
+      transition: background var(--transition-fast);
+    }
+    .settings-list-item:first-child {
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .settings-list-item:last-child {
+      border-bottom: none;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+    .settings-list-item:only-child {
+      border-radius: var(--radius-lg);
+    }
+    .settings-list-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .settings-list-content {
+      flex: 1;
+    }
+    .settings-list-content .title {
+      font-weight: 500;
+    }
+    .settings-list-content .subtitle {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+    }
+    .settings-list-action {
+      color: var(--color-text-muted);
+    }
+    a.settings-list-item:hover {
+      background: var(--glass-bg);
+    }
+  </style>
 </head>
 <body>
   <!-- Animated background orbs -->
@@ -28,7 +76,6 @@
           </svg>
           <span>Назад</span>
         </a>
-        <button class="btn btn-primary btn-sm">Сохранить</button>
       </header>
 
       <div class="page-content">
@@ -61,81 +108,37 @@
           <h2 class="section-title mb-md">Предпочтения</h2>
 
           <div class="glass">
-            <!-- Location -->
-            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
-              <div class="list-item-icon" style="background: rgba(255, 107, 157, 0.2); color: var(--color-accent-primary);">
+            <!-- Interests -->
+            <a href="preferences.html" class="settings-list-item">
+              <div class="settings-list-icon" style="background: rgba(167, 139, 250, 0.2); color: var(--color-accent-purple);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                  <circle cx="12" cy="10" r="3"/>
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                 </svg>
               </div>
-              <div class="list-item-content">
-                <div style="font-weight: 500;">Местоположение</div>
-                <div class="text-sm text-muted">Москва, Россия</div>
+              <div class="settings-list-content">
+                <div class="title">Интересы</div>
+                <div class="subtitle">Настройте уровень интереса к категориям</div>
               </div>
-              <div class="list-item-action">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="m9 18 6-6-6-6"/>
-                </svg>
-              </div>
-            </div>
-
-            <!-- Radius -->
-            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light);">
-              <div class="list-item-icon" style="background: rgba(78, 205, 196, 0.2); color: var(--color-accent-secondary);">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <circle cx="12" cy="12" r="3"/>
-                </svg>
-              </div>
-              <div class="list-item-content">
-                <div style="font-weight: 500;">Радиус поиска</div>
-                <div class="text-sm text-muted">5 км</div>
-              </div>
-              <div class="list-item-action">
+              <div class="settings-list-action">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"/>
                 </svg>
               </div>
-            </div>
+            </a>
 
             <!-- Budget -->
-            <div class="list-item" style="border-radius: 0 0 var(--radius-lg) var(--radius-lg);">
-              <div class="list-item-icon" style="background: rgba(255, 217, 61, 0.2); color: var(--color-accent-tertiary);">
+            <a href="#" class="settings-list-item">
+              <div class="settings-list-icon" style="background: rgba(255, 217, 61, 0.2); color: var(--color-accent-tertiary);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <line x1="12" y1="1" x2="12" y2="23"/>
                   <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                 </svg>
               </div>
-              <div class="list-item-content">
-                <div style="font-weight: 500;">Бюджет</div>
-                <div class="text-sm text-muted">Средний</div>
+              <div class="settings-list-content">
+                <div class="title">Бюджет</div>
+                <div class="subtitle">Средний</div>
               </div>
-              <div class="list-item-action">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="m9 18 6-6-6-6"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Interests -->
-        <section class="section">
-          <h2 class="section-title mb-md">Интересы</h2>
-
-          <div class="glass">
-            <a href="preferences.html" class="list-item" style="border-radius: var(--radius-lg); display: flex;">
-              <div class="list-item-icon" style="background: rgba(167, 139, 250, 0.2); color: var(--color-accent-purple);">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                </svg>
-              </div>
-              <div class="list-item-content">
-                <div style="font-weight: 500;">Мои предпочтения</div>
-                <div class="text-sm text-muted">Настройте уровень интереса к категориям</div>
-              </div>
-              <div class="list-item-action">
+              <div class="settings-list-action">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"/>
                 </svg>
@@ -149,22 +152,12 @@
           <h2 class="section-title mb-md">Уведомления</h2>
 
           <div class="glass">
-            <div class="list-item" style="border-bottom: 1px solid var(--glass-border-light); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
-              <div class="list-item-content">
-                <div style="font-weight: 500;">Push-уведомления</div>
-                <div class="text-sm text-muted">Новые рекомендации</div>
+            <div class="settings-list-item">
+              <div class="settings-list-content">
+                <div class="title">Email-рассылка</div>
+                <div class="subtitle">Еженедельные подборки</div>
               </div>
-              <div class="list-item-action">
-                <div class="toggle active"></div>
-              </div>
-            </div>
-
-            <div class="list-item" style="border-radius: 0 0 var(--radius-lg) var(--radius-lg);">
-              <div class="list-item-content">
-                <div style="font-weight: 500;">Email-рассылка</div>
-                <div class="text-sm text-muted">Еженедельные подборки</div>
-              </div>
-              <div class="list-item-action">
+              <div class="settings-list-action">
                 <div class="toggle"></div>
               </div>
             </div>
@@ -176,24 +169,26 @@
           <h2 class="section-title mb-md">Другое</h2>
 
           <div class="glass">
-            <a href="#" class="list-item" style="border-bottom: 1px solid var(--glass-border-light); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
-              <div class="list-item-icon">
+            <a href="#" class="settings-list-item">
+              <div class="settings-list-icon" style="background: var(--glass-bg-strong);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10"/>
                   <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
                   <line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
               </div>
-              <div class="list-item-content">Помощь</div>
-              <div class="list-item-action">
+              <div class="settings-list-content">
+                <div class="title">Помощь</div>
+              </div>
+              <div class="settings-list-action">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"/>
                 </svg>
               </div>
             </a>
 
-            <a href="#" class="list-item" style="border-bottom: 1px solid var(--glass-border-light);">
-              <div class="list-item-icon">
+            <a href="#" class="settings-list-item">
+              <div class="settings-list-icon" style="background: var(--glass-bg-strong);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                   <polyline points="14 2 14 8 20 8"/>
@@ -202,23 +197,27 @@
                   <polyline points="10 9 9 9 8 9"/>
                 </svg>
               </div>
-              <div class="list-item-content">Условия использования</div>
-              <div class="list-item-action">
+              <div class="settings-list-content">
+                <div class="title">Условия использования</div>
+              </div>
+              <div class="settings-list-action">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"/>
                 </svg>
               </div>
             </a>
 
-            <a href="#" class="list-item" style="border-radius: 0 0 var(--radius-lg) var(--radius-lg);">
-              <div class="list-item-icon">
+            <a href="#" class="settings-list-item">
+              <div class="settings-list-icon" style="background: var(--glass-bg-strong);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
                   <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                 </svg>
               </div>
-              <div class="list-item-content">Политика конфиденциальности</div>
-              <div class="list-item-action">
+              <div class="settings-list-content">
+                <div class="title">Политика конфиденциальности</div>
+              </div>
+              <div class="settings-list-action">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="m9 18 6-6-6-6"/>
                 </svg>
