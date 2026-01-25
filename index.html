@@ -32,12 +32,21 @@
           </div>
           <span>Faces & Places</span>
         </div>
-        <a href="settings.html" class="btn btn-ghost btn-icon-sm">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-          </svg>
-        </a>
+        <div class="flex items-center gap-sm">
+          <button class="btn btn-ghost btn-sm" id="cityBtn" style="font-size: 0.875rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span id="currentCity">Москва</span>
+          </button>
+          <a href="settings.html" class="btn btn-ghost btn-icon-sm">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </a>
+        </div>
       </header>
 
       <div class="page-content">
@@ -63,25 +72,13 @@
 
         <!-- CTA: Take the test - STANDOUT -->
         <section class="section">
-          <a href="test.html" class="btn btn-cta btn-full mb-md">
+          <a href="test.html" class="btn btn-cta btn-full">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
             </svg>
             <span class="flex flex-col items-center">
               <span style="font-size: 1.25rem;">Подберём события для вас</span>
-              <span style="font-size: 0.875rem; opacity: 0.9; font-weight: 400;">5 минут • 10 вопросов</span>
-            </span>
-          </a>
-          <a href="trip-test.html" class="btn btn-accent btn-full">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-              <line x1="16" y1="2" x2="16" y2="6"/>
-              <line x1="8" y1="2" x2="8" y2="6"/>
-              <line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-            <span class="flex flex-col items-center">
-              <span style="font-size: 1.1rem;">Быстрый подбор</span>
-              <span style="font-size: 0.8rem; opacity: 0.9; font-weight: 400;">Дата • Бюджет • Предпочтения</span>
+              <span style="font-size: 0.875rem; opacity: 0.9; font-weight: 400;">Дата • Бюджет • Предпочтения</span>
             </span>
           </a>
         </section>
@@ -219,5 +216,145 @@
       </div>
     </nav>
   </div>
+
+  <!-- City Selection Modal -->
+  <div class="modal-overlay" id="cityModal" style="display: none;">
+    <div class="modal-content glass glass-strong" style="max-width: 360px; width: 90%; padding: var(--space-lg); border-radius: var(--radius-xl);">
+      <div class="flex justify-between items-center mb-lg">
+        <h3 class="heading-4">Выберите город</h3>
+        <button class="btn btn-ghost btn-icon-sm" id="closeCityModal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="list gap-sm mb-lg">
+        <button class="city-option selected" data-city="Москва">
+          <span class="city-name">Москва</span>
+          <svg class="city-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="glass-light p-md" style="border-radius: var(--radius-md); text-align: center;">
+        <p class="text-sm text-muted" style="line-height: 1.5;">
+          Скоро мы добавим другие города. Следите за обновлениями!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity var(--transition-normal);
+    }
+    .modal-overlay.visible {
+      opacity: 1;
+    }
+    .modal-content {
+      transform: scale(0.95) translateY(10px);
+      transition: transform var(--transition-normal);
+    }
+    .modal-overlay.visible .modal-content {
+      transform: scale(1) translateY(0);
+    }
+    .city-option {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      color: var(--color-text-primary);
+      font-size: var(--font-size-base);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .city-option:hover {
+      background: var(--glass-bg-strong);
+    }
+    .city-option.selected {
+      border-color: var(--color-accent-primary);
+      background: rgba(255, 107, 157, 0.1);
+    }
+    .city-check {
+      color: var(--color-accent-primary);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
+    .city-option.selected .city-check {
+      opacity: 1;
+    }
+  </style>
+
+  <script>
+    // City Modal functionality
+    const cityBtn = document.getElementById('cityBtn');
+    const cityModal = document.getElementById('cityModal');
+    const closeCityModal = document.getElementById('closeCityModal');
+    const currentCityEl = document.getElementById('currentCity');
+    const cityOptions = document.querySelectorAll('.city-option');
+
+    function openModal() {
+      cityModal.style.display = 'flex';
+      requestAnimationFrame(() => {
+        cityModal.classList.add('visible');
+      });
+    }
+
+    function closeModal() {
+      cityModal.classList.remove('visible');
+      setTimeout(() => {
+        cityModal.style.display = 'none';
+      }, 300);
+    }
+
+    cityBtn.addEventListener('click', openModal);
+    closeCityModal.addEventListener('click', closeModal);
+
+    cityModal.addEventListener('click', (e) => {
+      if (e.target === cityModal) {
+        closeModal();
+      }
+    });
+
+    cityOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        cityOptions.forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+        currentCityEl.textContent = option.dataset.city;
+        localStorage.setItem('selectedCity', option.dataset.city);
+        closeModal();
+      });
+    });
+
+    // Load saved city
+    const savedCity = localStorage.getItem('selectedCity');
+    if (savedCity) {
+      currentCityEl.textContent = savedCity;
+      cityOptions.forEach(o => {
+        o.classList.toggle('selected', o.dataset.city === savedCity);
+      });
+    }
+  </script>
 </body>
 </html>
