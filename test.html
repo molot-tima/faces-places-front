@@ -63,6 +63,153 @@
       background: rgba(255, 107, 157, 0.25);
     }
 
+    /* Calendar Styles */
+    .calendar {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+    }
+
+    .calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-md);
+    }
+
+    .calendar-title {
+      font-weight: 600;
+      font-size: var(--font-size-lg);
+    }
+
+    .calendar-nav {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .calendar-nav button {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background: var(--glass-bg-strong);
+      border: 1px solid var(--glass-border);
+      color: var(--color-text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .calendar-nav button:hover {
+      background: var(--glass-bg);
+      border-color: var(--color-accent-primary);
+    }
+
+    .calendar-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      margin-bottom: var(--space-xs);
+    }
+
+    .calendar-weekday {
+      text-align: center;
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+      padding: var(--space-xs);
+      font-weight: 500;
+    }
+
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-sm);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      position: relative;
+    }
+
+    .calendar-day:hover:not(.disabled):not(.empty) {
+      background: var(--glass-bg-strong);
+    }
+
+    .calendar-day.empty {
+      cursor: default;
+    }
+
+    .calendar-day.disabled {
+      color: var(--color-text-muted);
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .calendar-day.today {
+      font-weight: 600;
+      color: var(--color-accent-secondary);
+    }
+
+    .calendar-day.start-date,
+    .calendar-day.end-date {
+      background: var(--gradient-primary);
+      color: white;
+      font-weight: 600;
+    }
+
+    .calendar-day.in-range {
+      background: rgba(255, 107, 157, 0.2);
+      border-radius: 0;
+    }
+
+    .calendar-day.start-date {
+      border-radius: var(--radius-md) 0 0 var(--radius-md);
+    }
+
+    .calendar-day.end-date {
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+
+    .calendar-day.start-date.end-date {
+      border-radius: var(--radius-md);
+    }
+
+    /* Selected range display */
+    .selected-range {
+      margin-top: var(--space-md);
+      padding: var(--space-md);
+      background: var(--glass-bg-strong);
+      border-radius: var(--radius-md);
+      text-align: center;
+    }
+
+    .selected-range-label {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-xs);
+    }
+
+    .selected-range-dates {
+      font-weight: 600;
+      color: var(--color-accent-primary);
+    }
+
+    .calendar-hint {
+      text-align: center;
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+      margin-top: var(--space-sm);
+    }
+
     /* Tag Cards Grid */
     .tag-cards-grid {
       display: grid;
@@ -232,46 +379,6 @@
     .tag-legend-dot.dislike {
       background: linear-gradient(135deg, #64647a 0%, #505064 100%);
     }
-
-    /* Custom date range picker styles */
-    .date-picker-container {
-      display: none;
-      margin-top: var(--space-md);
-      padding: var(--space-md);
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-    }
-
-    .date-picker-container.visible {
-      display: block;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .date-input-group {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-sm);
-    }
-
-    .date-input-group label {
-      font-size: var(--font-size-sm);
-      color: var(--color-text-secondary);
-    }
-
-    .date-input-group input[type="date"] {
-      padding: var(--space-md);
-      background: var(--glass-bg-strong);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-md);
-      color: var(--color-text-primary);
-      font-size: var(--font-size-base);
-    }
-
-    .date-input-group input[type="date"]:focus {
-      outline: none;
-      border-color: var(--color-accent-primary);
-    }
   </style>
 </head>
 <body>
@@ -315,56 +422,46 @@
           </div>
         </section>
 
-        <!-- Screen 1: Timing -->
+        <!-- Screen 1: Date Selection Calendar -->
         <section class="test-screen active" id="screen1">
           <h1 class="heading-2 mb-md">Когда идём?</h1>
-          <p class="text-muted mb-xl">Выберите удобный период</p>
+          <p class="text-muted mb-lg">Выберите дату или диапазон дат</p>
 
-          <div class="list gap-md stagger-children" id="timingOptions">
-            <div class="option-card" data-value="today">
-              <div class="option-card-icon">📅</div>
-              <div class="option-card-content">
-                <div class="option-card-title">Сегодня</div>
-                <div class="option-card-subtitle">Найдём что-то на сегодня</div>
-              </div>
+          <div class="calendar" id="calendar">
+            <div class="calendar-header">
+              <button class="calendar-nav-btn" id="prevMonth">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m15 18-6-6 6-6"/>
+                </svg>
+              </button>
+              <span class="calendar-title" id="calendarTitle">Январь 2026</span>
+              <button class="calendar-nav-btn" id="nextMonth">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </button>
             </div>
-
-            <div class="option-card" data-value="tomorrow">
-              <div class="option-card-icon">🌅</div>
-              <div class="option-card-content">
-                <div class="option-card-title">Завтра</div>
-                <div class="option-card-subtitle">Планируем на завтра</div>
-              </div>
+            <div class="calendar-nav" style="display: none;"></div>
+            <div class="calendar-weekdays">
+              <div class="calendar-weekday">Пн</div>
+              <div class="calendar-weekday">Вт</div>
+              <div class="calendar-weekday">Ср</div>
+              <div class="calendar-weekday">Чт</div>
+              <div class="calendar-weekday">Пт</div>
+              <div class="calendar-weekday">Сб</div>
+              <div class="calendar-weekday">Вс</div>
             </div>
-
-            <div class="option-card" data-value="week">
-              <div class="option-card-icon">📆</div>
-              <div class="option-card-content">
-                <div class="option-card-title">Ближайшие 7 дней</div>
-                <div class="option-card-subtitle">Гибкий выбор на неделю</div>
-              </div>
-            </div>
-
-            <div class="option-card" data-value="custom">
-              <div class="option-card-icon">🗓️</div>
-              <div class="option-card-content">
-                <div class="option-card-title">Выбрать даты</div>
-                <div class="option-card-subtitle">Укажите свой диапазон</div>
-              </div>
+            <div class="calendar-days" id="calendarDays">
+              <!-- Days will be generated by JavaScript -->
             </div>
           </div>
 
-          <!-- Custom date picker (hidden by default) -->
-          <div class="date-picker-container" id="customDatePicker">
-            <div class="date-input-group mb-md">
-              <label for="dateFrom">С какой даты</label>
-              <input type="date" id="dateFrom" name="dateFrom">
-            </div>
-            <div class="date-input-group">
-              <label for="dateTo">По какую дату</label>
-              <input type="date" id="dateTo" name="dateTo">
-            </div>
+          <div class="selected-range" id="selectedRange" style="display: none;">
+            <div class="selected-range-label">Выбранные даты:</div>
+            <div class="selected-range-dates" id="selectedDatesText"></div>
           </div>
+
+          <p class="calendar-hint">Нажмите для выбора даты начала, затем даты окончания</p>
         </section>
 
         <!-- Screen 2: Budget -->
@@ -488,6 +585,9 @@
 
     const STATE_ORDER = ['neutral', 'like', 'strongly_like', 'dislike'];
 
+    const MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+                    'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+
     // ==========================================
     // State Management
     // ==========================================
@@ -497,9 +597,8 @@
 
     // Collected data
     const testData = {
-      timing: null,
-      customDateFrom: null,
-      customDateTo: null,
+      dateFrom: null,
+      dateTo: null,
       budget: null,
       tags: {} // { tagId: stateId }
     };
@@ -508,6 +607,13 @@
     TAGS.forEach(tag => {
       testData.tags[tag.id] = 'neutral';
     });
+
+    // Calendar state
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    let startDate = null;
+    let endDate = null;
+    let selectionState = 0; // 0 = waiting for start, 1 = waiting for end, 2 = complete
 
     // ==========================================
     // DOM Elements
@@ -534,13 +640,133 @@
     const backBtn = document.getElementById('backBtn');
     const nextBtn = document.getElementById('nextBtn');
 
-    const timingOptions = document.getElementById('timingOptions');
-    const customDatePicker = document.getElementById('customDatePicker');
-    const dateFrom = document.getElementById('dateFrom');
-    const dateTo = document.getElementById('dateTo');
+    const calendarDays = document.getElementById('calendarDays');
+    const calendarTitle = document.getElementById('calendarTitle');
+    const prevMonthBtn = document.getElementById('prevMonth');
+    const nextMonthBtn = document.getElementById('nextMonth');
+    const selectedRange = document.getElementById('selectedRange');
+    const selectedDatesText = document.getElementById('selectedDatesText');
 
     const budgetOptions = document.getElementById('budgetOptions');
     const tagCardsGrid = document.getElementById('tagCardsGrid');
+
+    // ==========================================
+    // Calendar Functions
+    // ==========================================
+
+    function renderCalendar() {
+      const firstDay = new Date(currentYear, currentMonth, 1);
+      const lastDay = new Date(currentYear, currentMonth + 1, 0);
+      const startDayOfWeek = (firstDay.getDay() + 6) % 7; // Monday = 0
+      const daysInMonth = lastDay.getDate();
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      calendarTitle.textContent = `${MONTHS[currentMonth]} ${currentYear}`;
+      calendarDays.innerHTML = '';
+
+      // Empty cells before first day
+      for (let i = 0; i < startDayOfWeek; i++) {
+        const emptyDay = document.createElement('div');
+        emptyDay.className = 'calendar-day empty';
+        calendarDays.appendChild(emptyDay);
+      }
+
+      // Days of month
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayEl = document.createElement('div');
+        dayEl.className = 'calendar-day';
+        dayEl.textContent = day;
+
+        const date = new Date(currentYear, currentMonth, day);
+        date.setHours(0, 0, 0, 0);
+
+        // Check if past date
+        if (date < today) {
+          dayEl.classList.add('disabled');
+        } else {
+          // Check if today
+          if (date.getTime() === today.getTime()) {
+            dayEl.classList.add('today');
+          }
+
+          // Check if in range
+          if (startDate && endDate) {
+            if (date.getTime() === startDate.getTime()) {
+              dayEl.classList.add('start-date');
+            }
+            if (date.getTime() === endDate.getTime()) {
+              dayEl.classList.add('end-date');
+            }
+            if (date > startDate && date < endDate) {
+              dayEl.classList.add('in-range');
+            }
+          } else if (startDate && date.getTime() === startDate.getTime()) {
+            dayEl.classList.add('start-date', 'end-date');
+          }
+
+          dayEl.addEventListener('click', () => handleDateClick(date));
+        }
+
+        calendarDays.appendChild(dayEl);
+      }
+    }
+
+    function handleDateClick(date) {
+      if (selectionState === 0) {
+        // First click - set start date
+        startDate = date;
+        endDate = null;
+        selectionState = 1;
+      } else if (selectionState === 1) {
+        // Second click - set end date
+        if (date < startDate) {
+          // If clicked date is before start, swap
+          endDate = startDate;
+          startDate = date;
+        } else {
+          endDate = date;
+        }
+        selectionState = 2;
+      } else {
+        // Third click - reset and set new start
+        startDate = date;
+        endDate = null;
+        selectionState = 1;
+      }
+
+      updateSelectedRange();
+      renderCalendar();
+
+      // Haptic feedback
+      if (navigator.vibrate) {
+        navigator.vibrate(10);
+      }
+    }
+
+    function updateSelectedRange() {
+      if (startDate) {
+        selectedRange.style.display = 'block';
+
+        const formatDate = (d) => {
+          return `${d.getDate()} ${MONTHS[d.getMonth()].toLowerCase().slice(0, 3)}`;
+        };
+
+        if (endDate && startDate.getTime() !== endDate.getTime()) {
+          selectedDatesText.textContent = `${formatDate(startDate)} — ${formatDate(endDate)}`;
+        } else {
+          selectedDatesText.textContent = formatDate(startDate);
+        }
+
+        // Update test data
+        testData.dateFrom = startDate.toISOString().split('T')[0];
+        testData.dateTo = endDate ? endDate.toISOString().split('T')[0] : testData.dateFrom;
+      } else {
+        selectedRange.style.display = 'none';
+        testData.dateFrom = null;
+        testData.dateTo = null;
+      }
+    }
 
     // ==========================================
     // Screen Navigation
@@ -625,13 +851,8 @@
     function canProceed() {
       switch (currentScreen) {
         case 1:
-          // Must select timing
-          if (!testData.timing) return false;
-          // If custom, must have dates
-          if (testData.timing === 'custom') {
-            return testData.customDateFrom && testData.customDateTo;
-          }
-          return true;
+          // Must select at least start date
+          return !!testData.dateFrom;
         case 2:
           // Must select budget
           return !!testData.budget;
@@ -644,7 +865,7 @@
     }
 
     // ==========================================
-    // Option Card Selection (Screens 1 & 2)
+    // Option Card Selection (Screen 2)
     // ==========================================
 
     function setupOptionCards(container, dataKey) {
@@ -658,25 +879,6 @@
           card.classList.add('selected');
           // Store value
           testData[dataKey] = card.dataset.value;
-
-          // Special handling for timing custom option
-          if (dataKey === 'timing') {
-            if (card.dataset.value === 'custom') {
-              customDatePicker.classList.add('visible');
-              // Set default dates
-              const today = new Date();
-              const nextWeek = new Date(today);
-              nextWeek.setDate(nextWeek.getDate() + 7);
-              dateFrom.value = today.toISOString().split('T')[0];
-              dateTo.value = nextWeek.toISOString().split('T')[0];
-              testData.customDateFrom = dateFrom.value;
-              testData.customDateTo = dateTo.value;
-            } else {
-              customDatePicker.classList.remove('visible');
-              testData.customDateFrom = null;
-              testData.customDateTo = null;
-            }
-          }
 
           // Haptic feedback
           if (navigator.vibrate) {
@@ -730,26 +932,6 @@
     }
 
     // ==========================================
-    // Date Picker Handling
-    // ==========================================
-
-    function setupDatePickers() {
-      dateFrom.addEventListener('change', (e) => {
-        testData.customDateFrom = e.target.value;
-        // Ensure dateTo is not before dateFrom
-        if (dateTo.value && dateTo.value < e.target.value) {
-          dateTo.value = e.target.value;
-          testData.customDateTo = e.target.value;
-        }
-        dateTo.min = e.target.value;
-      });
-
-      dateTo.addEventListener('change', (e) => {
-        testData.customDateTo = e.target.value;
-      });
-    }
-
-    // ==========================================
     // Final Submission
     // ==========================================
 
@@ -762,9 +944,8 @@
 
       return {
         timing: {
-          type: testData.timing,
-          dateFrom: testData.customDateFrom,
-          dateTo: testData.customDateTo
+          dateFrom: testData.dateFrom,
+          dateTo: testData.dateTo
         },
         budget: testData.budget,
         tags: tagsWithWeights
@@ -809,17 +990,34 @@
       }
     });
 
+    prevMonthBtn.addEventListener('click', () => {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      renderCalendar();
+    });
+
+    nextMonthBtn.addEventListener('click', () => {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      renderCalendar();
+    });
+
     // ==========================================
     // Initialization
     // ==========================================
 
     function init() {
-      // Setup option cards for screens 1 and 2
-      setupOptionCards(timingOptions, 'timing');
-      setupOptionCards(budgetOptions, 'budget');
+      // Render calendar
+      renderCalendar();
 
-      // Setup date pickers
-      setupDatePickers();
+      // Setup option cards for screen 2
+      setupOptionCards(budgetOptions, 'budget');
 
       // Create tag cards for screen 3
       createTagCards();
@@ -827,12 +1025,6 @@
       // Initial UI state
       updateProgress();
       updateButtons();
-
-      // Select "Today" by default
-      const todayOption = timingOptions.querySelector('[data-value="today"]');
-      if (todayOption) {
-        todayOption.click();
-      }
     }
 
     // Start
