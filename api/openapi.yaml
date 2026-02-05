@@ -1,0 +1,1353 @@
+openapi: "3.1.0"
+info:
+  title: "Faces & Places API"
+  description: |
+    Backend API for Faces & Places - an event discovery and recommendation platform.
+
+    ## Authentication
+    All endpoints except /auth/* require a valid JWT token in the Authorization header.
+
+    ## Flow
+    1. User authenticates via /auth/login or /auth/register
+    2. User completes the preference test via /test/* endpoints
+    3. System generates personalized event recommendations
+    4. User browses events, adds to favorites, and purchases tickets
+  version: "1.0.0"
+  contact:
+    name: "Faces & Places Team"
+    email: "support@facesplaces.ru"
+
+servers:
+  - url: "https://api.facesplaces.ru/v1"
+    description: "Production server"
+  - url: "https://staging-api.facesplaces.ru/v1"
+    description: "Staging server"
+  - url: "http://localhost:8080/v1"
+    description: "Local development"
+
+tags:
+  - name: auth
+    description: Authentication and registration
+  - name: user
+    description: User profile and settings
+  - name: test
+    description: Preference test wizard (3 steps)
+  - name: events
+    description: Event discovery and details
+  - name: favorites
+    description: User's favorite events
+  - name: cities
+    description: City selection
+  - name: reviews
+    description: Event reviews
+
+paths:
+  # ============================================
+  # Authentication
+  # ============================================
+  /auth/register:
+    post:
+      tags: [auth]
+      summary: Register a new user
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: User already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/login:
+    post:
+      tags: [auth]
+      summary: User login
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/refresh:
+    post:
+      tags: [auth]
+      summary: Refresh access token
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        "200":
+          description: Token refreshed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid refresh token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/logout:
+    post:
+      tags: [auth]
+      summary: User logout
+      operationId: logoutUser
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Logged out successfully
+
+  # ============================================
+  # User Profile & Settings
+  # ============================================
+  /user/profile:
+    get:
+      tags: [user]
+      summary: Get current user profile
+      operationId: getUserProfile
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    patch:
+      tags: [user]
+      summary: Update user profile
+      operationId: updateUserProfile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProfileRequest"
+      responses:
+        "200":
+          description: Profile updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /user/settings:
+    get:
+      tags: [user]
+      summary: Get user settings
+      operationId: getUserSettings
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserSettings"
+
+    patch:
+      tags: [user]
+      summary: Update user settings
+      operationId: updateUserSettings
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSettingsRequest"
+      responses:
+        "200":
+          description: Settings updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserSettings"
+
+  /user/interests:
+    get:
+      tags: [user]
+      summary: Get user interests/preferences
+      operationId: getUserInterests
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User interests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInterests"
+
+    put:
+      tags: [user]
+      summary: Update user interests
+      operationId: updateUserInterests
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateInterestsRequest"
+      responses:
+        "200":
+          description: Interests updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInterests"
+
+  # ============================================
+  # Preference Test (3-Step Wizard)
+  # ============================================
+  /test/start:
+    post:
+      tags: [test]
+      summary: Start a new preference test session
+      operationId: startTest
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Test session created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TestSession"
+
+  /test/{sessionId}/step1:
+    post:
+      tags: [test]
+      summary: "Step 1: Submit timing preferences"
+      description: |
+        User selects when they want to go:
+        - today: Events for today only
+        - tomorrow: Events for tomorrow only
+        - week: Events for next 7 days
+        - custom: Custom date range (requires dateFrom and dateTo)
+      operationId: submitStep1
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/sessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Step1Request"
+      responses:
+        "200":
+          description: Step 1 completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StepResponse"
+        "400":
+          description: Invalid timing data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /test/{sessionId}/step2:
+    post:
+      tags: [test]
+      summary: "Step 2: Submit budget preferences"
+      description: |
+        User selects their budget per person:
+        - 1000: Up to 1,000 RUB
+        - 3000: Up to 3,000 RUB
+        - 5000: Up to 5,000 RUB
+        - unlimited: No budget limit
+      operationId: submitStep2
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/sessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Step2Request"
+      responses:
+        "200":
+          description: Step 2 completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StepResponse"
+        "400":
+          description: Invalid budget data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /test/{sessionId}/step3:
+    post:
+      tags: [test]
+      summary: "Step 3: Submit tag preferences"
+      description: |
+        User rates tags with different weights:
+        - neutral (0): No preference
+        - like (1): Interested
+        - strongly_like (2): Very interested
+        - dislike (-1): Not interested
+      operationId: submitStep3
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/sessionId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Step3Request"
+      responses:
+        "200":
+          description: Test completed, recommendations generated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TestResultResponse"
+        "400":
+          description: Invalid tags data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /test/tags:
+    get:
+      tags: [test]
+      summary: Get available tags for step 3
+      operationId: getAvailableTags
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of available tags
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tags:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Tag"
+
+  # ============================================
+  # Events
+  # ============================================
+  /events:
+    get:
+      tags: [events]
+      summary: Get events list with filters
+      operationId: getEvents
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: category
+          in: query
+          description: Filter by category
+          schema:
+            type: string
+            enum: [theatre, cinema, quest, concert, standup, exhibition]
+        - name: dateFrom
+          in: query
+          description: Start date (ISO 8601)
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          description: End date (ISO 8601)
+          schema:
+            type: string
+            format: date
+        - name: priceMin
+          in: query
+          description: Minimum price
+          schema:
+            type: integer
+            minimum: 0
+        - name: priceMax
+          in: query
+          description: Maximum price
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          description: Sort order
+          schema:
+            type: string
+            enum: [date_asc, date_desc, price_asc, price_desc, popularity]
+            default: date_asc
+        - name: page
+          in: query
+          description: Page number (1-indexed)
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Items per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+      responses:
+        "200":
+          description: Events list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventsListResponse"
+
+  /events/recommendations:
+    get:
+      tags: [events]
+      summary: Get personalized event recommendations
+      description: Returns events based on user's test results and preferences
+      operationId: getRecommendations
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+      responses:
+        "200":
+          description: Recommended events
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventsListResponse"
+
+  /events/popular:
+    get:
+      tags: [events]
+      summary: Get popular events
+      operationId: getPopularEvents
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+      responses:
+        "200":
+          description: Popular events
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventsListResponse"
+
+  /events/{eventId}:
+    get:
+      tags: [events]
+      summary: Get event details
+      operationId: getEventDetails
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/eventId"
+      responses:
+        "200":
+          description: Event details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventDetails"
+        "404":
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ============================================
+  # Favorites
+  # ============================================
+  /favorites:
+    get:
+      tags: [favorites]
+      summary: Get user's favorite events
+      operationId: getFavorites
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+      responses:
+        "200":
+          description: Favorite events
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FavoritesListResponse"
+
+  /favorites/{eventId}:
+    post:
+      tags: [favorites]
+      summary: Add event to favorites
+      operationId: addToFavorites
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/eventId"
+      responses:
+        "201":
+          description: Added to favorites
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Event added to favorites"
+                  favoritesCount:
+                    type: integer
+                    description: Total favorites count
+        "409":
+          description: Already in favorites
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    delete:
+      tags: [favorites]
+      summary: Remove event from favorites
+      operationId: removeFromFavorites
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/eventId"
+      responses:
+        "200":
+          description: Removed from favorites
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Event removed from favorites"
+                  favoritesCount:
+                    type: integer
+        "404":
+          description: Not in favorites
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ============================================
+  # Cities
+  # ============================================
+  /cities:
+    get:
+      tags: [cities]
+      summary: Get available cities
+      operationId: getCities
+      responses:
+        "200":
+          description: List of available cities
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cities:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/City"
+
+  /user/city:
+    get:
+      tags: [cities]
+      summary: Get user's selected city
+      operationId: getUserCity
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User's city
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/City"
+
+    put:
+      tags: [cities]
+      summary: Update user's city
+      operationId: updateUserCity
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [cityId]
+              properties:
+                cityId:
+                  type: string
+                  example: "moscow"
+      responses:
+        "200":
+          description: City updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/City"
+
+  # ============================================
+  # Reviews
+  # ============================================
+  /events/{eventId}/reviews:
+    get:
+      tags: [reviews]
+      summary: Get event reviews
+      operationId: getEventReviews
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/eventId"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 50
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [newest, oldest, rating_high, rating_low]
+            default: newest
+      responses:
+        "200":
+          description: Reviews list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReviewsListResponse"
+
+    post:
+      tags: [reviews]
+      summary: Add a review
+      operationId: addReview
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/eventId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReviewRequest"
+      responses:
+        "201":
+          description: Review created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
+        "400":
+          description: Invalid review data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ============================================
+  # Categories
+  # ============================================
+  /categories:
+    get:
+      tags: [events]
+      summary: Get all event categories
+      operationId: getCategories
+      responses:
+        "200":
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categories:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Category"
+
+# ============================================
+# Components
+# ============================================
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    sessionId:
+      name: sessionId
+      in: path
+      required: true
+      description: Test session ID
+      schema:
+        type: string
+        format: uuid
+
+    eventId:
+      name: eventId
+      in: path
+      required: true
+      description: Event ID
+      schema:
+        type: integer
+        format: int64
+
+  schemas:
+    # ============================================
+    # Auth Schemas
+    # ============================================
+    RegisterRequest:
+      type: object
+      required: [email, password, name]
+      properties:
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+        password:
+          type: string
+          format: password
+          minLength: 8
+          example: "securePass123"
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: "Алексей Иванов"
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token
+        refreshToken:
+          type: string
+          description: Refresh token for getting new access tokens
+        expiresIn:
+          type: integer
+          description: Access token expiration time in seconds
+          example: 3600
+        user:
+          $ref: "#/components/schemas/UserProfile"
+
+    # ============================================
+    # User Schemas
+    # ============================================
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+          example: "Алексей Иванов"
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        hasCompletedTest:
+          type: boolean
+          description: Whether user has completed the preference test
+
+    UpdateProfileRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+        avatar:
+          type: string
+          format: uri
+
+    UserSettings:
+      type: object
+      properties:
+        emailNotifications:
+          type: boolean
+          description: Weekly email digest
+          default: true
+        cityId:
+          type: string
+          example: "moscow"
+
+    UpdateSettingsRequest:
+      type: object
+      properties:
+        emailNotifications:
+          type: boolean
+        cityId:
+          type: string
+
+    UserInterests:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              categoryId:
+                type: string
+              interestLevel:
+                type: integer
+                minimum: -1
+                maximum: 2
+                description: "-1=dislike, 0=neutral, 1=like, 2=strongly_like"
+
+    UpdateInterestsRequest:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: object
+            required: [categoryId, interestLevel]
+            properties:
+              categoryId:
+                type: string
+              interestLevel:
+                type: integer
+                minimum: -1
+                maximum: 2
+
+    # ============================================
+    # Test Schemas
+    # ============================================
+    TestSession:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+        currentStep:
+          type: integer
+          minimum: 1
+          maximum: 3
+          default: 1
+
+    Step1Request:
+      type: object
+      required: [timing]
+      properties:
+        timing:
+          type: string
+          enum: [today, tomorrow, week, custom]
+          description: |
+            - today: Events for today
+            - tomorrow: Events for tomorrow
+            - week: Next 7 days
+            - custom: Custom date range
+        dateFrom:
+          type: string
+          format: date
+          description: Required when timing is 'custom'
+          example: "2026-02-10"
+        dateTo:
+          type: string
+          format: date
+          description: Required when timing is 'custom'
+          example: "2026-02-15"
+
+    Step2Request:
+      type: object
+      required: [budget]
+      properties:
+        budget:
+          type: string
+          enum: ["1000", "3000", "5000", "unlimited"]
+          description: |
+            Budget per person:
+            - 1000: Up to 1,000 RUB
+            - 3000: Up to 3,000 RUB
+            - 5000: Up to 5,000 RUB
+            - unlimited: No limit
+
+    Step3Request:
+      type: object
+      required: [tags]
+      properties:
+        tags:
+          type: array
+          items:
+            type: object
+            required: [tagId, weight]
+            properties:
+              tagId:
+                type: string
+                example: "active"
+              weight:
+                type: integer
+                enum: [-1, 0, 1, 2]
+                description: |
+                  - -1: Dislike
+                  - 0: Neutral
+                  - 1: Like
+                  - 2: Strongly like
+
+    StepResponse:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+        currentStep:
+          type: integer
+        nextStep:
+          type: integer
+          nullable: true
+        completed:
+          type: boolean
+
+    TestResultResponse:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+        completed:
+          type: boolean
+          default: true
+        recommendations:
+          type: array
+          items:
+            $ref: "#/components/schemas/EventCard"
+        totalRecommendations:
+          type: integer
+
+    Tag:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "active"
+        name:
+          type: string
+          example: "Активный"
+        emoji:
+          type: string
+          example: "🏃"
+        description:
+          type: string
+          nullable: true
+
+    # ============================================
+    # Event Schemas
+    # ============================================
+    EventCard:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+          example: "Мастер и Маргарита"
+        category:
+          $ref: "#/components/schemas/Category"
+        imageUrl:
+          type: string
+          format: uri
+        date:
+          type: string
+          format: date-time
+          nullable: true
+          description: Event date/time, null for permanent events
+        priceFrom:
+          type: integer
+          description: Minimum ticket price in RUB
+          example: 1500
+        isFavorite:
+          type: boolean
+          default: false
+        badge:
+          type: string
+          nullable: true
+          enum: [popular, soon, new, last_tickets]
+          description: Optional badge to display
+
+    EventDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          $ref: "#/components/schemas/Category"
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Array of image URLs for carousel
+        date:
+          type: string
+          format: date-time
+          nullable: true
+        duration:
+          type: integer
+          description: Duration in minutes
+          nullable: true
+        priceFrom:
+          type: integer
+        priceTo:
+          type: integer
+          nullable: true
+        venue:
+          $ref: "#/components/schemas/Venue"
+        rating:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 5
+          example: 4.8
+        reviewsCount:
+          type: integer
+        isFavorite:
+          type: boolean
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tag"
+        ticketUrl:
+          type: string
+          format: uri
+          description: URL to purchase tickets
+
+    EventsListResponse:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/EventCard"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+
+    FavoritesListResponse:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/EventCard"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+        totalCount:
+          type: integer
+          description: Total number of favorites
+
+    Venue:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: "Театр им. Вахтангова"
+        address:
+          type: string
+          example: "ул. Арбат, 26"
+        city:
+          type: string
+          example: "Москва"
+        coordinates:
+          type: object
+          properties:
+            lat:
+              type: number
+              format: double
+            lng:
+              type: number
+              format: double
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "theatre"
+        name:
+          type: string
+          example: "Театр"
+        emoji:
+          type: string
+          example: "🎭"
+        color:
+          type: string
+          description: HEX color for UI
+          example: "#a78bfa"
+
+    # ============================================
+    # City Schemas
+    # ============================================
+    City:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "moscow"
+        name:
+          type: string
+          example: "Москва"
+        isAvailable:
+          type: boolean
+          description: Whether the city is currently supported
+          default: true
+
+    # ============================================
+    # Review Schemas
+    # ============================================
+    Review:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        author:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+            avatar:
+              type: string
+              format: uri
+              nullable: true
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        text:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        isOwnReview:
+          type: boolean
+          description: Whether this review belongs to the current user
+
+    CreateReviewRequest:
+      type: object
+      required: [rating, text]
+      properties:
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        text:
+          type: string
+          minLength: 10
+          maxLength: 2000
+
+    ReviewsListResponse:
+      type: object
+      properties:
+        reviews:
+          type: array
+          items:
+            $ref: "#/components/schemas/Review"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+        averageRating:
+          type: number
+          format: float
+        totalCount:
+          type: integer
+
+    # ============================================
+    # Common Schemas
+    # ============================================
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 20
+        totalItems:
+          type: integer
+          example: 48
+        totalPages:
+          type: integer
+          example: 3
+        hasNext:
+          type: boolean
+        hasPrev:
+          type: boolean
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "VALIDATION_ERROR"
+            message:
+              type: string
+              example: "Invalid input data"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
