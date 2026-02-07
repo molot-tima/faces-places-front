@@ -1,0 +1,24 @@
+{
+  "name": "faces-places-mini-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "gen:api": "openapi-typescript places_and_faces_back-openapi.yaml -o src/api/generated.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "msw": "^2.7.0",
+    "openapi-typescript": "^7.6.1",
+    "typescript": "^5.7.0",
+    "vite": "^6.1.0"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}

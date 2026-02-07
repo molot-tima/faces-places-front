@@ -3,240 +3,195 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Faces & Places - Главная</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <title>Faces & Places</title>
+  <link rel="stylesheet" href="/css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <!-- Animated background orbs -->
-  <div class="bg-orbs">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-    <div class="orb orb-4"></div>
-  </div>
-
-  <div class="page has-bottom-nav">
-    <div class="container">
-
-      <!-- Header -->
-      <header class="page-header">
-        <div class="logo">
-          <div class="logo-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-          </div>
-          <span>Faces & Places</span>
-        </div>
-        <div class="flex items-center gap-sm">
-          <button class="btn btn-ghost btn-sm" id="cityBtn" style="font-size: 0.875rem;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-            <span id="currentCity">Москва</span>
-          </button>
-          <a href="settings.html" class="btn btn-ghost btn-icon-sm">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-            </svg>
-          </a>
-        </div>
-      </header>
-
-      <div class="page-content">
-
-        <!-- Greeting -->
-        <section class="section">
-          <h1 class="heading-3 mb-sm">Привет, Алексей!</h1>
-          <p class="text-muted">Какое событие выберем сегодня?</p>
-        </section>
-
-        <!-- CTA: Take the test - STANDOUT -->
-        <section class="section">
-          <a href="test.html" class="btn btn-cta btn-full">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-            </svg>
-            <span class="flex flex-col items-center">
-              <span style="font-size: 1.25rem;">Подберём события для вас</span>
-              <span style="font-size: 0.875rem; opacity: 0.9; font-weight: 400;">Дата • Бюджет • Предпочтения</span>
-            </span>
-          </a>
-        </section>
-
-      </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <div class="nav-bottom-inner">
-        <a href="index.html" class="nav-item active">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-          <span class="nav-item-label">Главная</span>
-        </a>
-        <a href="test.html" class="nav-item">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-          </svg>
-          <span class="nav-item-label">Тест</span>
-        </a>
-        <a href="favorites.html" class="nav-item">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-          </svg>
-          <span class="nav-item-label">Избранное</span>
-        </a>
-      </div>
-    </nav>
-  </div>
-
-  <!-- City Selection Modal -->
-  <div class="modal-overlay" id="cityModal" style="display: none;">
-    <div class="modal-content glass glass-strong" style="max-width: 360px; width: 90%; padding: var(--space-lg); border-radius: var(--radius-xl);">
-      <div class="flex justify-between items-center mb-lg">
-        <h3 class="heading-4">Выберите город</h3>
-        <button class="btn btn-ghost btn-icon-sm" id="closeCityModal">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"/>
-            <line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-      </div>
-
-      <div class="list gap-sm mb-lg">
-        <button class="city-option selected" data-city="Москва">
-          <span class="city-name">Москва</span>
-          <svg class="city-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-        </button>
-      </div>
-
-      <div class="glass-light p-md" style="border-radius: var(--radius-md); text-align: center;">
-        <p class="text-sm text-muted" style="line-height: 1.5;">
-          Скоро мы добавим другие города. Следите за обновлениями!
-        </p>
-      </div>
-    </div>
-  </div>
-
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    .modal-overlay {
+    /* Dev banner for non-Telegram environments */
+    .dev-banner {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity var(--transition-normal);
-    }
-    .modal-overlay.visible {
-      opacity: 1;
-    }
-    .modal-content {
-      transform: scale(0.95) translateY(10px);
-      transition: transform var(--transition-normal);
-    }
-    .modal-overlay.visible .modal-content {
-      transform: scale(1) translateY(0);
-    }
-    .city-option {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: var(--space-md);
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-md);
-      color: var(--color-text-primary);
-      font-size: var(--font-size-base);
+      z-index: 9999;
+      background: linear-gradient(90deg, #ff6b9d, #4ecdc4);
+      color: white;
+      text-align: center;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
       font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition-fast);
     }
-    .city-option:hover {
-      background: var(--glass-bg-strong);
+    .dev-banner + .bg-orbs + .page {
+      padding-top: 28px;
     }
-    .city-option.selected {
-      border-color: var(--color-accent-primary);
-      background: rgba(255, 107, 157, 0.1);
+
+    /* Loading states */
+    .skeleton {
+      background: linear-gradient(90deg, var(--glass-bg) 25%, var(--glass-bg-strong) 50%, var(--glass-bg) 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s infinite;
+      border-radius: var(--radius-md);
     }
-    .city-check {
-      color: var(--color-accent-primary);
-      opacity: 0;
-      transition: opacity var(--transition-fast);
+    @keyframes skeleton-loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
-    .city-option.selected .city-check {
-      opacity: 1;
+
+    /* Error state */
+    .error-state {
+      text-align: center;
+      padding: var(--space-2xl) var(--space-md);
     }
+    .error-state svg {
+      margin-bottom: var(--space-md);
+      opacity: 0.5;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: var(--space-2xl) var(--space-md);
+    }
+    .empty-state svg {
+      margin-bottom: var(--space-md);
+      opacity: 0.5;
+    }
+
+    /* Like button animation */
+    .card-favorite {
+      position: relative;
+      overflow: visible;
+    }
+    .card-favorite.liked {
+      background: var(--color-accent-primary) !important;
+      color: white !important;
+      box-shadow: var(--glow-primary);
+    }
+    .card-favorite.liked svg {
+      fill: currentColor;
+    }
+    .like-particles {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      pointer-events: none;
+    }
+    .like-particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-accent-primary);
+      animation: particle-burst 0.6s ease-out forwards;
+    }
+    @keyframes particle-burst {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+    }
+
+    /* Card removal animation */
+    .card.removing {
+      animation: card-remove 0.4s ease-out forwards;
+    }
+    @keyframes card-remove {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0.8); height: 0; margin: 0; padding: 0; }
+    }
+
+    /* Card hero & gallery (for event detail page) */
+    .card-hero {
+      position: relative;
+      height: 300px;
+      margin: 0 calc(var(--space-md) * -1);
+      overflow: hidden;
+    }
+    .gallery-container { width: 100%; height: 100%; position: relative; }
+    .gallery-track { display: flex; height: 100%; transition: transform 0.3s ease; }
+    .gallery-slide {
+      min-width: 100%; height: 100%;
+      position: relative; cursor: pointer;
+    }
+    .card-hero-overlay {
+      position: absolute; top: 0; left: 0; right: 0;
+      padding: var(--space-md);
+      display: flex; justify-content: space-between; align-items: flex-start;
+      background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 100%);
+      z-index: 10;
+    }
+    .card-hero-actions { display: flex; gap: var(--space-sm); }
+    .gallery-dots {
+      position: absolute; bottom: var(--space-md); left: 50%; transform: translateX(-50%);
+      display: flex; gap: var(--space-xs); z-index: 10;
+    }
+    .gallery-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      backdrop-filter: blur(4px); transition: all var(--transition-fast); cursor: pointer;
+    }
+    .gallery-dot.active { background: white; width: 24px; border-radius: 4px; }
+    .price-tag { font-size: 1.5rem; font-weight: 700; color: var(--color-accent-secondary); }
+    .price-label { font-size: 0.875rem; color: var(--color-text-muted); }
+    .info-list-item {
+      display: flex; align-items: center; gap: var(--space-md);
+      padding: var(--space-md); border-bottom: 1px solid var(--glass-border-light);
+    }
+    .info-list-item:first-child { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+    .info-list-item:last-child { border-bottom: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+    .info-list-icon {
+      width: 44px; height: 44px; border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .info-list-content { flex: 1; }
+
+    /* Like btn on detail page */
+    .like-btn { position: relative; transition: all var(--transition-fast); }
+    .like-btn.liked {
+      background: var(--color-accent-primary); color: white;
+      box-shadow: var(--glow-primary);
+    }
+    .like-btn .heart-particles { position: absolute; top: 50%; left: 50%; pointer-events: none; }
+    .like-btn .heart-particle {
+      position: absolute; font-size: 12px; opacity: 0; transform: translate(-50%, -50%);
+    }
+    .like-btn.animating .heart-particle { animation: heartBurst 0.6s ease-out forwards; }
+    @keyframes heartBurst {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(0); }
+      50% { opacity: 1; }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1); }
+    }
+    @keyframes heartPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    .like-btn.animating svg { animation: heartPop 0.3s ease; }
+
+    /* Date picker styles */
+    .date-picker-compact {
+      display: flex; gap: var(--space-sm); overflow-x: auto;
+      margin: 0 calc(var(--space-md) * -1); padding: 0 var(--space-md) var(--space-sm);
+      scrollbar-width: none;
+    }
+    .date-picker-compact::-webkit-scrollbar { display: none; }
+    .date-item {
+      display: flex; flex-direction: column; align-items: center;
+      padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md);
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      cursor: pointer; transition: all var(--transition-fast); flex-shrink: 0; min-width: 60px;
+    }
+    .date-item:hover { background: var(--glass-bg-strong); }
+    .date-item.selected { background: var(--gradient-primary); border-color: transparent; color: white; }
+    .date-item-day { font-size: var(--font-size-xs); opacity: 0.7; margin-bottom: 2px; }
+    .date-item-date { font-size: var(--font-size-lg); font-weight: 600; }
+    .date-item-month { font-size: var(--font-size-xs); opacity: 0.7; }
   </style>
-
-  <script>
-    // City Modal functionality
-    const cityBtn = document.getElementById('cityBtn');
-    const cityModal = document.getElementById('cityModal');
-    const closeCityModal = document.getElementById('closeCityModal');
-    const currentCityEl = document.getElementById('currentCity');
-    const cityOptions = document.querySelectorAll('.city-option');
-
-    function openModal() {
-      cityModal.style.display = 'flex';
-      requestAnimationFrame(() => {
-        cityModal.classList.add('visible');
-      });
-    }
-
-    function closeModal() {
-      cityModal.classList.remove('visible');
-      setTimeout(() => {
-        cityModal.style.display = 'none';
-      }, 300);
-    }
-
-    cityBtn.addEventListener('click', openModal);
-    closeCityModal.addEventListener('click', closeModal);
-
-    cityModal.addEventListener('click', (e) => {
-      if (e.target === cityModal) {
-        closeModal();
-      }
-    });
-
-    cityOptions.forEach(option => {
-      option.addEventListener('click', () => {
-        cityOptions.forEach(o => o.classList.remove('selected'));
-        option.classList.add('selected');
-        currentCityEl.textContent = option.dataset.city;
-        localStorage.setItem('selectedCity', option.dataset.city);
-        closeModal();
-      });
-    });
-
-    // Load saved city
-    const savedCity = localStorage.getItem('selectedCity');
-    if (savedCity) {
-      currentCityEl.textContent = savedCity;
-      cityOptions.forEach(o => {
-        o.classList.toggle('selected', o.dataset.city === savedCity);
-      });
-    }
-  </script>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
